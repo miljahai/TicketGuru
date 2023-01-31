@@ -1,6 +1,6 @@
-# Projektin nimi
+# TicketGuru
 
-Tiimi: Etunimi Sukunimi, Etunimi Sukunimi
+Tiimi: De Lorme Heli, Haiko Milja, Koivisto Janina, Pulli Topi, Sirviö Jukka-Pekka
 
 ## Johdanto
 
