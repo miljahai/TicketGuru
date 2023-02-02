@@ -7,9 +7,13 @@ Tiimi: De Lorme Heli, Haiko Milja, Koivisto Janina, Pulli Topi, Sirviö Jukka-Pe
 
 ## Johdanto
 
-Projektin tavoitteena on tuottaa lipputoimistolle TicketGuru-niminen web-sovellus, jolla asiakkaan henkilöstö voi hallinnoida tapahtumien lipunmyyntiä.
+Projektin aiheena on myyntipisteessä käytettävä lipunmyyntijärjestelmä. Asiakas on sovellukselle nimen TicketGuru.
 
-Järjestelmä toteutetaan palvelinpuolen osalta Javalla, Spring Boot -viitekehyksellä. Käyttöliittymä rakennetaan Reactilla. Tavoitteena on, että käyttöliittmä olisi käyettävissä kaikilla tavanomaisilla päätelaitteilla (puhelin, taulutietokone, PC).
+Asiakkaana on lipputoimisto, joka määrittelee tapahtumat, joihin lippuja myydään. Sovelluksella hallinnoidaan ja seurataan lipunmyyntiä. 
+
+Lippuja pitää voida myydä ja tulostaa ja lippujen on sisällettävä helposti tarkastettava koodi.
+
+Järjestelmä toteutetaan palvelinpuolen osalta Javalla, Spring Boot -viitekehyksellä. Käyttöliittymä rakennetaan Reactilla. Tavoitteena on, että käyttöliittmä olisi käyettävissä kaikilla tavanomaisilla päätelaitteilla (puhelin, taulutietokone, tietokone).
 
 > Johdantoon kirjoitetaan lyhyt, ytimekäs kuvaus siitä, mikä on projektin aihe,
 > kuka on asiakas (käyttäjä), mitä hän haluaa ja saa järjestelmältä, mitä
