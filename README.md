@@ -4,7 +4,12 @@ Tiimi: De Lorme Heli, Haiko Milja, Koivisto Janina, Pulli Topi, Sirviö Jukka-Pe
 
 ## Johdanto
 
-Johdantoon kirjoitetaan lyhyt, ytimekäs kuvaus siitä, mikä on projektin aihe,
+Projektin aiheena on myyntipisteessä käytettävä lipunmyyntijärjestelmä.
+Asiakkaana on lipputoimisto, joka määrittelee tapahtumat, joihin lippuja myydään. 
+
+Lippuja pitää voida myydä ja tulostaa ja lippujen on sisällettävä helposti tarkastettava koodi.
+
+// Johdantoon kirjoitetaan lyhyt, ytimekäs kuvaus siitä, mikä on projektin aihe,
 kuka on asiakas (käyttäjä), mitä hän haluaa ja saa järjestelmältä, mitä
 tekniikoita käytetään ja mitä konkreettisesti on valmiina, kun projekti päättyy.
 
@@ -12,7 +17,7 @@ tekniikoita käytetään ja mitä konkreettisesti on valmiina, kun projekti pä�
 -   Toteutus- ja toimintaympäristö lyhyesti:  
     -   Palvelinpuolen ratkaisut ja teknologiat (esim. palvelinteknologia, mikä tietokantajärjestelmä on käytössä)
     -   Käyttöliittymäratkaisut ja teknologiat (esim. päätelaitteet: puhelin,
-    täppäri, desktop)
+    täppäri, desktop) //
 
 ## Järjestelmän määrittely
 
