@@ -7,7 +7,7 @@ Tiimi: De Lorme Heli, Haiko Milja, Koivisto Janina, Pulli Topi, Sirviö Jukka-Pe
 
 ## Johdanto
 
-Projektin aiheena on myyntipisteessä käytettävä lipunmyyntijärjestelmä. Asiakas on sovellukselle nimen TicketGuru.
+Projektin aiheena on myyntipisteessä käytettävä lipunmyyntijärjestelmä. Asiakas on antanut sovellukselle nimen TicketGuru.
 
 Asiakkaana on lipputoimisto, joka määrittelee tapahtumat, joihin lippuja myydään. Sovelluksella hallinnoidaan ja seurataan lipunmyyntiä. 
 
@@ -33,6 +33,7 @@ johdantotekstiä...
 "Myyjä"  == henkilö, joka toimii asiakasrajapinnassa, syöttää ostoja/tilauksia sovellukseen
 "Tapahtumajärjestäjä" == henkilö, joka syöttää tapahtumatietoja sovellukseen
 "Pääkäyttäjä" == ?
+
 
 Myyntitapahtumassa asiakkaalla/lipunostajalla itsellään ei ole pääsyä järjestelmään. Ei verkkokauppaa.  
 
