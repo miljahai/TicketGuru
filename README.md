@@ -26,16 +26,17 @@ Järjestelmä toteutetaan palvelinpuolen osalta Javalla, Spring Boot -viitekehyk
 
 ## Järjestelmän määrittely
 
-johdantotekstiä...
+TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käyttötapauskaavioin ja käyttötapauksin. Määrittelyjä on tehty myös käyttäjätarinoina, jotka löytyvät Githubin Projectista. linkki? 
 
 ### Käyttäjäryhmät ja -roolit
 
-"Myyjä"  == henkilö, joka toimii asiakasrajapinnassa, syöttää ostoja/tilauksia sovellukseen
-"Tapahtumajärjestäjä" == henkilö, joka syöttää tapahtumatietoja sovellukseen
-"Pääkäyttäjä" == ?
+**Myyjä**  == henkilö, joka toimii asiakasrajapinnassa, syöttää ostoja/tilauksia sovellukseen.
 
+**Tapahtumajärjestäjä** == henkilö, joka syöttää tapahtumatietoja sovellukseen.
 
-Myyntitapahtumassa asiakkaalla/lipunostajalla itsellään ei ole pääsyä järjestelmään. Ei verkkokauppaa.  
+**Asiakas** == henkilö, joka ostaa lipun. Ei ole sovelluksen käyttäjä., koska myyntitapahtumassa asiakkalla ei ole pääsyä sovellukseen.
+
+**Pääkäyttäjä** == Sovelluksen pääkäyttäjä, joka voi lisätä, muokata ja poistaa käyttäjäoikeuksia.
 
 ### Käyttötapauskaavio
 
