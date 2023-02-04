@@ -28,7 +28,7 @@ Järjestelmä toteutetaan palvelinpuolen osalta Javalla, Spring Boot -viitekehyk
 
 ## Järjestelmän määrittely
 
-TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käyttötapauskaavioin ja käyttötapauksin. Määrittelyjä on tehty myös käyttäjätarinoina, jotka löytyvät Githubin Projectista. linkki? 
+TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käyttötapauskaavioin ja käyttötapauksin. Määrittelyjä on tehty myös käyttäjätarinoina, jotka löytyvät Githubin Projectista.
 
 ### Käyttäjäryhmät ja -roolit
 
