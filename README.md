@@ -19,29 +19,38 @@ Järjestelmä toteutetaan palvelinpuolen osalta Javalla, Spring Boot -viitekehyk
 
 ## Järjestelmän määrittely
 
-TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käyttötapauskaavioin ja käyttötapauksin. Määrittelyjä on tehty myös käyttäjätarinoina, jotka löytyvät Githubin Projectista. linkki? 
+TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käyttötapauskaavioin ja käyttötapauksin. Määrittelyjä on tehty myös käyttäjätarinoina, jotka löytyvät Githubin Projectista.
 
 ### Käyttäjäryhmät ja -roolit
 
-**Myyjä**  == henkilö, joka toimii asiakasrajapinnassa, syöttää ostoja/tilauksia sovellukseen.
+*Myyjä* = henkilö, joka toimii asiakasrajapinnassa, syöttää ostoja/tilauksia sovellukseen.
 
+<<<<<<< HEAD
 **Ylläpitäjä** == henkilö, joka syöttää tapahtumatietoja sovellukseen.
+=======
+*Tapahtumajärjestäjä* == henkilö, joka syöttää tapahtumatietoja sovellukseen.
+>>>>>>> 69afed3c464e290236b0f6cb83d482a3990cf99c
 
-**Asiakas** == henkilö, joka ostaa lipun. Ei ole sovelluksen käyttäjä., koska myyntitapahtumassa asiakkalla ei ole pääsyä sovellukseen.
+*Asiakas* = henkilö, joka ostaa lipun. Ei ole sovelluksen käyttäjä., koska myyntitapahtumassa asiakkalla ei ole pääsyä sovellukseen.
 
-**Pääkäyttäjä** == Sovelluksen pääkäyttäjä, joka voi lisätä, muokata ja poistaa käyttäjäoikeuksia.
+*Pääkäyttäjä* = Sovelluksen pääkäyttäjä, joka voi lisätä, muokata ja poistaa käyttäjäoikeuksia.
 
-**Tilaaja** == Lipputoimisto, joka on tilannut järjestelmän
+*Tilaaja* = Lipputoimisto, joka on tilannut järjestelmän
 
 ### Käyttötapauskaavio
 
-kuva!!!
+[Lucidchart: Käyttötapauskaavio](https://lucid.app/lucidchart/71f2e8a8-ce9b-40b4-b3ee-a7a8fe56947b/edit?viewport_loc=-23%2C54%2C2072%2C1035%2C0_0&invitationId=inv_9bd0a9fd-a896-43e9-8b23-7e40b79d7f51)
 
+<<<<<<< HEAD
 <img src ="images/usecase.jpeg" width="700" alt="Käyttötapauskaavio">
 
+=======
+>>>>>>> 69afed3c464e290236b0f6cb83d482a3990cf99c
 ### Käyttäjätarinat
 
-kuva!!!
+Käyttäjätarinat löytyvät projektista.
+
+https://github.com/users/miljahai/projects/1/views/1
 
 
 ## Käyttöliittymä
