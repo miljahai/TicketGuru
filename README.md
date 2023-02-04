@@ -17,15 +17,6 @@ Myytyjen lippujen määrää voidaan seurata raporteilta tapahtumakohtaisesti.
 
 Järjestelmä toteutetaan palvelinpuolen osalta Javalla, Spring Boot -viitekehyksellä. Käyttöliittymä rakennetaan Reactilla. Tavoitteena on, että käyttöliittmä olisi käyettävissä kaikilla tavanomaisilla päätelaitteilla (puhelin, taulutietokone, tietokone).
 
-> Johdantoon kirjoitetaan lyhyt, ytimekäs kuvaus siitä, mikä on projektin aihe,
-> kuka on asiakas (käyttäjä), mitä hän haluaa ja saa järjestelmältä, mitä
-> tekniikoita käytetään ja mitä konkreettisesti on valmiina, kun projekti päättyy.
-> 
-> -   Järjestelmän tarkoitus ja tiivis kuvaus siitä, mistä on kyse ja kenelle järjestelmä on tarkoitettu.
-> -   Toteutus- ja toimintaympäristö lyhyesti:  
->     -   Palvelinpuolen ratkaisut ja teknologiat (esim. palvelinteknologia, mikä tietokantajärjestelmä on käytössä)
->     -   Käyttöliittymäratkaisut ja teknologiat (esim. päätelaitteet: puhelin, täppäri, desktop)
-
 ## Järjestelmän määrittely
 
 TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käyttötapauskaavioin ja käyttötapauksin. Määrittelyjä on tehty myös käyttäjätarinoina, jotka löytyvät Githubin Projectista. linkki? 
@@ -34,7 +25,7 @@ TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käytt�
 
 **Myyjä**  == henkilö, joka toimii asiakasrajapinnassa, syöttää ostoja/tilauksia sovellukseen.
 
-**Tapahtumajärjestäjä** == henkilö, joka syöttää tapahtumatietoja sovellukseen.
+**Ylläpitäjä** == henkilö, joka syöttää tapahtumatietoja sovellukseen.
 
 **Asiakas** == henkilö, joka ostaa lipun. Ei ole sovelluksen käyttäjä., koska myyntitapahtumassa asiakkalla ei ole pääsyä sovellukseen.
 
@@ -46,19 +37,12 @@ TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käytt�
 
 kuva!!!
 
-### Käyttötapaukset
+<img src ="images/usecase.jpeg" width="700" alt="Käyttötapauskaavio">
+
+### Käyttäjätarinat
 
 kuva!!!
 
-> Määrittelyssä järjestelmää tarkastellaan käyttäjän näkökulmasta. Järjestelmän
-> toiminnot hahmotellaan käyttötapausten tai käyttäjätarinoiden kautta, ja kuvataan järjestelmän
-> käyttäjäryhmät.
-> 
-> -   Lyhyt kuvaus käyttäjäryhmistä (rooleista)
-> -   Käyttäjäroolit ja roolien tarvitsemat toiminnot, esim. käyttötapauskaaviona (use case diagram) tai käyttäjätarinoina.
-> -   Lyhyt kuvaus käyttötapauksista tai käyttäjätarinat
-> 
-> Kuvauksissa kannattaa harkita, mikä on toteuttajalle ja asiakkaalle oleellista tietoa ja keskittyä siihen.
 
 ## Käyttöliittymä
 
