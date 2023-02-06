@@ -49,9 +49,10 @@ https://github.com/users/miljahai/projects/1/views/1
 
 <img src="https://github.com/miljahai/TicketGuru/blob/develop/images/K%C3%A4ytt%C3%B6liittym%C3%A4kaavio.jpeg?raw=true" width="700" alt="käyttöliittymäkaavio">
 
-> Esitetään käyttöliittymän tärkeimmät (vain ne!) näkymät sekä niiden väliset siirtymät käyttöliittymäkaaviona. 
-> 
-> Jos näkymän tarkoitus ei ole itsestään selvä, se pitää kuvata lyhyesti.
+Käyttöliittymäkaaviossa on kuvattuna käyttäjätyypin tarkistus kirjautumisen yhteydessä. Pää/aloitussivun näkymä riippuu käyttäjän oikeuksista muokata tietoja ja tapahtumia. 
+Myyjällä ei pääsyä muiden tietoihin tai myyntiraportteihin. Vain pääkäyttäjä pääsee muokkaamaan tai lsiäämään käyttäjätietoja.
+
+Lippujen myyntitilanteessa avoimet kohteet listataan selattavaksi ja saatavuus tarkistetaan uudelleen ennen vahvistusta. 
 
 ## Tietokanta
 
