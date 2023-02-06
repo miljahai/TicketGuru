@@ -47,7 +47,7 @@ https://github.com/users/miljahai/projects/1/views/1
 
 ## Käyttöliittymä
 
-Kuva!!!
+<img src="https://github.com/miljahai/TicketGuru/blob/develop/images/K%C3%A4ytt%C3%B6liittym%C3%A4kaavio.jpeg?raw=true" width="700" alt="käyttöliittymäkaavio">
 
 > Esitetään käyttöliittymän tärkeimmät (vain ne!) näkymät sekä niiden väliset siirtymät käyttöliittymäkaaviona. 
 > 
