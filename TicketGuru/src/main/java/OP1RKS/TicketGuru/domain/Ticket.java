@@ -1,5 +1,7 @@
 package OP1RKS.TicketGuru.domain;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.Id;
 
 import jakarta.persistence.Entity;
@@ -8,8 +10,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name= "ticket")
+
+@SQLDelete(sql = "UPDATE ticket SET deleted = true WHERE ticket_id=?")
+@Where(clause="deleted=false")
 public class Ticket {
 	
 	@Id
