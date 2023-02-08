@@ -2,6 +2,8 @@ package OP1RKS.TicketGuru.domain;
 
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -37,6 +41,13 @@ public class EventRecord {
 	private LocalTime event_starttime, event_endtime;
 	
 	private boolean deleted;
+	
+	@ManyToMany
+	@JoinTable(
+			name ="event_ticket_type",
+			joinColumns = @JoinColumn(name = "tickettype_id"),
+			inverseJoinColumns = @JoinColumn(name = "eventrecord_id"))
+	Set<TicketType> eventTicketTypes;
 
 	public EventRecord(Long eventrecord_id, @Size(max = 100, message = "name is too long") String eventrecord_name,
 			Date event_date, LocalTime event_starttime, LocalTime event_endtime, boolean deleted) {
