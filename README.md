@@ -107,6 +107,18 @@ deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan,
 > avatar | int FK | Tilin avatar, viittaus [avatar](#Avatar)-tauluun
 > kayttaja | int FK | Viittaus käyttäjään [käyttäjä](#Kayttaja)-taulussa
 
+### _EventRecord_
+SalesEvent-taulu sisältää ostotapahtuman tiedot. SalesEventistä on OneToMany-viittaus SalesEventTickets-tauluun ja User-tauluun.
+
+Kenttä | Tyyppi | Kuvaus
+------ | ------ | ------
+salesevent_id | int PK | Ostotapahtuman id
+sale_date | date |  Ostotapahtuman päivämäärä
+sale_time | LocalTime | Ostotapahtuman tarkka aika
+price | double | Ostotapahtuman kokonaissumma
+user_id | int FK | Ostotapahtuman ostajan käyttäjä id
+deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
+
 > ## Tekninen kuvaus
 > 
 > Teknisessä kuvauksessa esitetään järjestelmän toteutuksen suunnittelussa tehdyt tekniset
