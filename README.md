@@ -107,7 +107,7 @@ deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan,
 > avatar | int FK | Tilin avatar, viittaus [avatar](#Avatar)-tauluun
 > kayttaja | int FK | Viittaus käyttäjään [käyttäjä](#Kayttaja)-taulussa
 
-### _EventRecord_
+### SalesEvent
 SalesEvent-taulu sisältää ostotapahtuman tiedot. SalesEventistä on OneToMany-viittaus SalesEventTickets-tauluun ja User-tauluun.
 
 Kenttä | Tyyppi | Kuvaus
