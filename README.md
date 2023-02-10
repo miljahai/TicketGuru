@@ -69,6 +69,26 @@ eventrecord_startdate | LocalTime | Tapahtuman aloitusaika
 eventrecord_enddate | LocalTime | Tapahtuman päättymisaika
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 
+### Ticket
+Ticket-taulu sisältää myytävät liput. Sisältää ManyToOne- viittaukset TicketType- ja EventRecord-tauluihin.
+
+Kenttä | Tyyppi | Kuvaus
+----- | ----- | -----
+ticket_id | int PK | Lipun id
+ticket_code | varchar(50) | Tarkistuskoodi
+price | double | Lipun hinta
+deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
+
+### TicketType
+TicketType-taulu sisältää lipputyypit. Sisältää OneToMany-viittauksen Ticket-tauluun ja ManyToMany-viittauksen EventRecord-tauluun.
+
+Kenttä | Tyyppi | Kuvaus
+----- | ----- | -----
+ticket_type_id | int PK | Lipputyypin id
+name | varchar(50) | Lipputyypin nimi
+price | double | Lipputyypin hinta
+deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
+
 > Järjestelmään säilöttävä ja siinä käsiteltävät tiedot ja niiden väliset suhteet
 > kuvataan käsitekaaviolla. Käsitemalliin sisältyy myös taulujen välisten viiteyhteyksien ja avainten
 > määritykset. Tietokanta kuvataan käyttäen jotain kuvausmenetelmää, joko ER-kaaviota ja UML-luokkakaaviota.
