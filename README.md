@@ -57,7 +57,7 @@ Lippujen myyntitilanteessa avoimet kohteet listataan selattavaksi ja saatavuus t
 ## Tietokanta
 
 
-### _EventRecord_
+### EventRecord
 EventRecord-taulu sisältää Tapahtumat, joille lippuja myydään. EventRecordista on OneToMany-viittaus Ticket-tauluun ja ManyToMany-viittaus TicketTypes-tauluun. Taulu on nimetty muotoon EventRecord, koska Event on varattu sana Javassa.
 
 Kenttä | Tyyppi | Kuvaus
@@ -68,6 +68,15 @@ eventrecord_date | date | Tapahtuman päivämäärä
 eventrecord_startdate | LocalTime | Tapahtuman aloitusaika
 eventrecord_enddate | LocalTime | Tapahtuman päättymisaika
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
+
+### EventRecordTicketTypes
+
+EventRecord- ja TicketType-taulun välinen aputaulu ManyToMany-riippuvuudelle.
+
+Kenttä | Tyyppi | Kuvaus
+------ | ------ | ------
+eventrecord_id | int PK | EvenRecordin eli Tapahtuman id
+ticket_type_id | int PK | TicketTypen eli Lipputyypin id
 
 ### Ticket
 Ticket-taulu sisältää myytävät liput. Sisältää ManyToOne- viittaukset TicketType- ja EventRecord-tauluihin.
