@@ -23,7 +23,7 @@ TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käytt�
 
 ### Käyttäjäryhmät ja -roolit
 
-*Myyjä* = henkilö, joka toimii asiakasrajapinnassa, syöttää ostoja/tilauksia sovellukseen.
+*Myyjä* = henkilö, joka toimii asiakasrajapinnassa, syöttää ostoja/tilauksia sovellukseen. Pystyy myös tarkistamaan lipun.
 
 *Ylläpitäjä* = henkilö, joka syöttää tapahtumatietoja sovellukseen.
 
