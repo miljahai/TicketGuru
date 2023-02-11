@@ -37,7 +37,7 @@ TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käytt�
 
 [Lucidchart: Käyttötapauskaavio](https://lucid.app/lucidchart/71f2e8a8-ce9b-40b4-b3ee-a7a8fe56947b/edit?viewport_loc=-23%2C54%2C2072%2C1035%2C0_0&invitationId=inv_9bd0a9fd-a896-43e9-8b23-7e40b79d7f51)
 
-<img src ="images/usecase.jpeg" width="700" alt="Käyttötapauskaavio">
+<img src ="images/usecases.png" width="700" alt="Käyttötapauskaavio">
 
 ### Käyttäjätarinat
 
