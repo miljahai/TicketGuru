@@ -33,7 +33,7 @@ public class SalesEvent {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
-	private UserId userId;
+	private User user;
 	
 	private Date sale_date;
 	private LocalTime sale_time;
@@ -44,25 +44,24 @@ public class SalesEvent {
 		super();
 	}
 
-
-	public SalesEvent(Long salesevent_id, SalesEvent salesEvent, UserId userId, Date sale_date, LocalTime sale_time,
+	public SalesEvent(Long salesevent_id, SalesEvent salesEvent, User user, Date sale_date, LocalTime sale_time,
 			double price, boolean deleted) {
 		super();
 		this.salesevent_id = salesevent_id;
 		this.salesEvent = salesEvent;
-		this.userId = userId;
+		this.user = user;
 		this.sale_date = sale_date;
 		this.sale_time = sale_time;
 		this.price = price;
 		this.deleted = deleted;
 	}
 
-	public UserId getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(UserId userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Date getSale_date() {
