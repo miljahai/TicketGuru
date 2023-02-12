@@ -56,6 +56,12 @@ Lippujen myyntitilanteessa avoimet kohteet listataan selattavaksi ja saatavuus t
 
 ## Tietokanta
 
+### Tietokantamalli
+
+<img src="https://github.com/miljahai/TicketGuru/blob/develop/images/tietokantamalli.jpg?raw=true" width="700" alt="Tietokantamalli">
+
+
+
 
 ### EventRecord
 EventRecord-taulu sisältää Tapahtumat, joille lippuja myydään. EventRecordista on OneToMany-viittaus Ticket-tauluun ja ManyToMany-viittaus TicketTypes-tauluun. Taulu on nimetty muotoon EventRecord, koska Event on varattu sana Javassa.
@@ -75,7 +81,7 @@ EventRecord- ja TicketType-taulun välinen aputaulu ManyToMany-riippuvuudelle.
 
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
-eventrecord_id | int PK | EvenRecordin eli Tapahtuman id
+eventrecord_id | int PK | EventRecordin eli Tapahtuman id
 ticket_type_id | int PK | TicketTypen eli Lipputyypin id
 
 ### Ticket
