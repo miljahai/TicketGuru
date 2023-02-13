@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "salesevent")
-@SQLDelete(sql = "UPDATE salesevent SET deleted = true WHERE eventrecord_id=?")
+@SQLDelete(sql = "UPDATE salesevent SET deleted = true WHERE salesevent_id=?")
 @Where(clause ="deleted=false")
 
 public class SalesEvent {
