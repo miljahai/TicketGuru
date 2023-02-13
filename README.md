@@ -104,24 +104,6 @@ name | varchar(50) | Lipputyypin nimi
 price | double | Lipputyypin hinta
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 
-> Järjestelmään säilöttävä ja siinä käsiteltävät tiedot ja niiden väliset suhteet
-> kuvataan käsitekaaviolla. Käsitemalliin sisältyy myös taulujen välisten viiteyhteyksien ja avainten
-> määritykset. Tietokanta kuvataan käyttäen jotain kuvausmenetelmää, joko ER-kaaviota ja UML-luokkakaaviota.
-> 
-> Lisäksi kukin järjestelmän tietoelementti ja sen attribuutit kuvataan
-> tietohakemistossa. Tietohakemisto tarkoittaa yksinkertaisesti vain jokaisen elementin (taulun) ja niiden
-> attribuuttien (kentät/sarakkeet) listausta ja lyhyttä kuvausta esim. tähän tyyliin:
-> 
-> ### _Tilit_
-> _Tilit-taulu sisältää käyttäjätilit. Käyttäjällä voi olla monta tiliä. Tili kuuluu aina vain yhdelle käyttäjälle._
->
-> Kenttä | Tyyppi | Kuvaus
-> ------ | ------ | ------
-> id | int PK | Tilin id
-> nimimerkki | varchar(30) |  Tilin nimimerkki
-> avatar | int FK | Tilin avatar, viittaus [avatar](#Avatar)-tauluun
-> kayttaja | int FK | Viittaus käyttäjään [käyttäjä](#Kayttaja)-taulussa
-
 ### SalesEvent
 SalesEvent-taulu sisältää ostotapahtuman tiedot. SalesEventistä on OneToMany-viittaus SalesEventTickets-tauluun ja User-tauluun.
 
@@ -133,6 +115,27 @@ sale_time | LocalTime | Ostotapahtuman tarkka aika
 price | double | Ostotapahtuman kokonaissumma
 user_id | int FK | Ostotapahtuman ostajan käyttäjä id
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
+
+### User
+Sisältää ManyToOne-viittauksen Role-tauluun
+
+Kenttä | Tyyppi | Kuvaus
+------ | ------ | ------
+user_id | int PK | Käyttäjän id
+first_name | varchar(150) | Käyttäjän etunimi
+last_name | varchar(150) | Käyttäjän sukunimi
+email | varchar(50) | Käyttäjän sähköposti
+password | varchar(50) | Käyttäjän salasana
+deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
+
+### Role
+Role-taulusta OneToMany-viittaus User-tauluun
+
+Kenttä | Tyyppi | Kuvaus
+------ | ------ | ------
+role_id | int PK | Roolin id
+role_name | varchar (100) | Roolin nimi
+
 
 > ## Tekninen kuvaus
 > 
