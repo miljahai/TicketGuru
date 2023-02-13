@@ -93,6 +93,8 @@ ticket_id | int PK | Lipun id
 ticket_code | varchar(50) | Tarkistuskoodi
 price | double | Lipun hinta
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
+eventrecord_id | int FK | Viittaus tapahtumaan EventRecord-taulussa
+ticket_type_id | int FK | Viittaus lipputyyppiin TicketType-taulussa
 
 ### TicketType
 TicketType-taulu sisältää lipputyypit. Sisältää OneToMany-viittauksen Ticket-tauluun ja ManyToMany-viittauksen EventRecord-tauluun.
@@ -117,7 +119,7 @@ user_id | int FK | Ostotapahtuman ostajan käyttäjä id
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 
 ### User
-Sisältää ManyToOne-viittauksen Role-tauluun
+Sisältää ManyToOne-viittauksen Role-tauluun.
 
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
@@ -127,9 +129,10 @@ last_name | varchar(150) | Käyttäjän sukunimi
 email | varchar(50) | Käyttäjän sähköposti
 password | varchar(50) | Käyttäjän salasana
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
+role_id | int FK | Viittaus rooliin Role-taulussa
 
 ### Role
-Role-taulusta OneToMany-viittaus User-tauluun
+Role-taulusta OneToMany-viittaus User-tauluun.
 
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
