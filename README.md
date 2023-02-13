@@ -81,8 +81,8 @@ EventRecord- ja TicketType-taulun välinen aputaulu ManyToMany-riippuvuudelle.
 
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
-eventrecord_id | int PK | EventRecordin eli Tapahtuman id
-ticket_type_id | int PK | TicketTypen eli Lipputyypin id
+eventrecord_id | int PK FK | EventRecordin eli Tapahtuman id
+ticket_type_id | int PK FK | TicketTypen eli Lipputyypin id
 
 ### Ticket
 Ticket-taulu sisältää myytävät liput. Sisältää ManyToOne- viittaukset TicketType- ja EventRecord-tauluihin.
