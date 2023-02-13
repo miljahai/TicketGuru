@@ -58,7 +58,7 @@ Lippujen myyntitilanteessa avoimet kohteet listataan selattavaksi ja saatavuus t
 
 ### Tietokantamalli
 
-<img src="https://github.com/miljahai/TicketGuru/blob/develop/images/tietokantamalli.jpg?raw=true" width="700" alt="Tietokantamalli">
+<img src="https://github.com/miljahai/TicketGuru/blob/develop/images/tietokantamalli_paivitetty2.jpg?raw=true" width="700" alt="Tietokantamalli">
 
 
 
