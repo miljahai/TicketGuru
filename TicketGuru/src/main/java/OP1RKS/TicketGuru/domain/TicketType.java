@@ -5,9 +5,9 @@ import java.util.Set;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Id;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -2,7 +2,7 @@ package OP1RKS.TicketGuru.domain;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,16 +15,16 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name= "user")
+@Table(name= "appuser")
 
-@SQLDelete(sql = "UPDATE user SET deleted = true WHERE user_id=?")
+@SQLDelete(sql = "UPDATE appuser SET deleted = true WHERE appuser_id=?")
 @Where(clause="deleted=false")
-public class User {
+public class AppUser {
 	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long user_id;
+	private Long appuser_id;
 	
 	@NotNull
 	@Size(max = 150, message="name is too long")
@@ -45,32 +45,32 @@ public class User {
 	
 	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "role_id")
-	private Role role;
+	@JoinColumn(name = "userrole_id")
+	private UserRole userrole;
 
-	public User() {
+	public AppUser() {
 		super();
 	}
 
-	public User(Long user_id, @NotNull @Size(min = 1, max = 150, message = "name is too long") String first_name,
+	public AppUser(Long appuser_id, @NotNull @Size(min = 1, max = 150, message = "name is too long") String first_name,
 			@NotNull @Size(min = 1, max = 150, message = "name is too long") String last_name, @NotNull String email,
-			@NotNull String password, @NotNull Boolean deleted, @NotNull Role role) {
+			@NotNull String password, @NotNull Boolean deleted, @NotNull UserRole userrole) {
 		super();
-		this.user_id = user_id;
+		this.appuser_id = appuser_id;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.email = email;
 		this.password = password;
 		this.deleted = deleted;
-		this.role = role;
+		this.userrole = userrole;
 	}
 
-	public Long getUser_id() {
-		return user_id;
+	public Long getAppUser_id() {
+		return appuser_id;
 	}
 
-	public void setUser_id(Long user_id) {
-		this.user_id = user_id;
+	public void setAppUser_id(Long appuser_id) {
+		this.appuser_id = appuser_id;
 	}
 
 	public String getFirst_name() {
@@ -113,18 +113,18 @@ public class User {
 		this.deleted = deleted;
 	}
 
-	public Role getRole() {
-		return role;
+	public UserRole getRole() {
+		return userrole;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRole(UserRole userrole) {
+		this.userrole = userrole;
 	}
 
 	@Override
 	public String toString() {
-		return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", email="
-				+ email + ", password=" + password + ", deleted=" + deleted + ", role=" + role + "]";
+		return "User [user_id=" + appuser_id + ", first_name=" + first_name + ", last_name=" + last_name + ", email="
+				+ email + ", password=" + password + ", deleted=" + deleted + ", userrole=" + userrole + "]";
 	}
 	
 }

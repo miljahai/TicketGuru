@@ -1,7 +1,6 @@
 package OP1RKS.TicketGuru.domain;
 
-import java.time.LocalTime;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -39,14 +38,12 @@ public class EventRecord {
 	@Size(max = 100, message="name is too long")
 	private String eventrecord_name;
 	
-	private Date event_date;
-	
-	private LocalTime event_starttime, event_endtime;
+	private LocalDateTime event_starttime, event_endtime;
 	
 	private boolean deleted;
 	
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket_id")
 	private List<Ticket> tickets;
 	
 	@ManyToMany
@@ -57,11 +54,9 @@ public class EventRecord {
 	Set<TicketType> eventTicketTypes;
 
 	public EventRecord(Long eventrecord_id, @Size(max = 100, message = "name is too long") String eventrecord_name,
-			Date event_date, LocalTime event_starttime, LocalTime event_endtime, boolean deleted) {
+			LocalDateTime event_starttime, LocalDateTime event_endtime, boolean deleted) {
 		super();
-		this.eventrecord_id = eventrecord_id;
 		this.eventrecord_name = eventrecord_name;
-		this.event_date = event_date;
 		this.event_starttime = event_starttime;
 		this.event_endtime = event_endtime;
 		this.deleted = deleted;
@@ -87,27 +82,19 @@ public class EventRecord {
 		this.eventrecord_name = eventrecord_name;
 	}
 
-	public Date getEvent_date() {
-		return event_date;
-	}
-
-	public void setEvent_date(Date event_date) {
-		this.event_date = event_date;
-	}
-
-	public LocalTime getEvent_starttime() {
+	public LocalDateTime getEvent_starttime() {
 		return event_starttime;
 	}
 
-	public void setEvent_starttime(LocalTime event_starttime) {
+	public void setEvent_starttime(LocalDateTime event_starttime) {
 		this.event_starttime = event_starttime;
 	}
 
-	public LocalTime getEvent_endtime() {
+	public LocalDateTime getEvent_endtime() {
 		return event_endtime;
 	}
 
-	public void setEvent_endtime(LocalTime event_endtime) {
+	public void setEvent_endtime(LocalDateTime event_endtime) {
 		this.event_endtime = event_endtime;
 	}
 
@@ -122,7 +109,7 @@ public class EventRecord {
 	@Override
 	public String toString() {
 		return "EventRecord [eventrecord_id=" + eventrecord_id + ", eventrecord_name=" + eventrecord_name
-				+ ", event_date=" + event_date + ", event_starttime=" + event_starttime + ", event_endtime="
+				+ ", event_starttime=" + event_starttime + ", event_endtime="
 				+ event_endtime + ", deleted=" + deleted + "]";
 	}
 	

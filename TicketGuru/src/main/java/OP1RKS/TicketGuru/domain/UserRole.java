@@ -2,9 +2,7 @@ package OP1RKS.TicketGuru.domain;
 
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Id;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -15,67 +13,61 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-@Table(name= "role")
-public class Role {
+@Table(name= "userrole")
+public class UserRole {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long role_id;
+	private Long userrole_id;
 	
 	@NotNull
 	@Size(max = 100, message="name is too long")
-	private String role_name;
+	private String userrole_name;
 	
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, mappedBy ="ticketType")
-	private List<User>users;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy ="appuser_id")
+	private List<AppUser>appusers;
 	
-	public Role() {
+	public UserRole() {
 		super();
 	}
 
-	public Role(Long role_id, @NotNull @Size(max = 100, message = "name is too long") String role_name) {
+	public UserRole(Long userrole_id, @NotNull @Size(max = 100, message = "name is too long") String userrole_name) {
 		super();
-		this.role_id = role_id;
-		this.role_name = role_name;
+		this.userrole_id = userrole_id;
+		this.userrole_name = userrole_name;
 	}
 
-	public Role(Long role_id, @NotNull @Size(max = 100, message = "name is too long") String role_name,
-			List<User> users) {
-		super();
-		this.role_id = role_id;
-		this.role_name = role_name;
-		this.users = users;
+	public Long getUserRole_id() {
+		return userrole_id;
 	}
 
-	public Long getRole_id() {
-		return role_id;
+	public void setUserRole_id(Long userrole_id) {
+		this.userrole_id = userrole_id;
 	}
 
-	public void setRole_id(Long role_id) {
-		this.role_id = role_id;
+	public String getUserRole_name() {
+		return userrole_name;
 	}
 
-	public String getRole_name() {
-		return role_name;
+	public void setUserRole_name(String userrole_name) {
+		this.userrole_name = userrole_name;
 	}
 
-	public void setRole_name(String role_name) {
-		this.role_name = role_name;
+	public List<AppUser> getAppUsers() {
+		return appusers;
 	}
 
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public void setUsers(List<AppUser> appusers) {
+		this.appusers = appusers;
 	}
 
 	@Override
 	public String toString() {
-		return "Role [role_id=" + role_id + ", role_name=" + role_name + "]";
+		return "Role [userrole_id=" + userrole_id + ", userrole_name=" + userrole_name + "]";
 	}
 	
 }
