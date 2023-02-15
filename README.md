@@ -107,7 +107,7 @@ price | double | Lipputyypin hinta
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 
 ### SalesEvent
-SalesEvent-taulu sisältää ostotapahtuman tiedot. SalesEventistä on OneToMany-viittaus SalesEventTickets-tauluun ja User-tauluun.
+SalesEvent-taulu sisältää ostotapahtuman tiedot. SalesEventistä on OneToMany-viittaus SalesEventTickets-tauluun ja AppUser-tauluun.
 
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
@@ -118,26 +118,26 @@ price | double | Ostotapahtuman kokonaissumma
 user_id | int FK | Ostotapahtuman ostajan käyttäjä id
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 
-### User
-Sisältää ManyToOne-viittauksen Role-tauluun.
+### AppUser
+Sisältää ManyToOne-viittauksen UserRole-tauluun.
 
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
-user_id | int PK | Käyttäjän id
+appuser_id | int PK | Käyttäjän id
 first_name | varchar(150) | Käyttäjän etunimi
 last_name | varchar(150) | Käyttäjän sukunimi
 email | varchar(50) | Käyttäjän sähköposti
 password | varchar(50) | Käyttäjän salasana
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
-role_id | int FK | Viittaus rooliin Role-taulussa
+userrole_id | int FK | Viittaus rooliin Role-taulussa
 
-### Role
-Role-taulusta OneToMany-viittaus User-tauluun.
+### UserRole
+UserRole-taulusta OneToMany-viittaus User-tauluun.
 
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
-role_id | int PK | Roolin id
-role_name | varchar (100) | Roolin nimi
+userrole_id | int PK | Roolin id
+userrole_name | varchar (100) | Roolin nimi
 
 
 > ## Tekninen kuvaus
