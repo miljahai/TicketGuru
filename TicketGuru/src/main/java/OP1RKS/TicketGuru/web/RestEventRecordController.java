@@ -1,7 +1,10 @@
 package OP1RKS.TicketGuru.web;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +32,10 @@ public class RestEventRecordController {
 	// REST Update
 	
 	// REST Find by id
-	
+	@GetMapping("/events/{id}")
+	Optional<EventRecord> getEventRecord(@PathVariable Long id) {
+		return erepo.findById(id);
+	}
 	// REST Delete
 	
 	
