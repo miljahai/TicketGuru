@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "salesevent")
-@SQLDelete(sql = "UPDATE salesevent SET deleted = true WHERE eventrecord_id=?")
+@SQLDelete(sql = "UPDATE salesevent SET deleted = true WHERE salesevent_id=?")
 @Where(clause ="deleted=false")
 
 public class SalesEvent {
@@ -28,12 +28,12 @@ public class SalesEvent {
 	private Long salesevent_id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "salesevent_id")
-	private SalesEvent salesEvent;
+	@JoinColumn(name = "eventrecord_id")
+	private EventRecord eventrecord_id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
-	private UserId userId;
+	@JoinColumn(name = "appuser_id")
+	private AppUser appuser;
 	
 	private Date sale_date;
 	private LocalTime sale_time;
@@ -44,25 +44,24 @@ public class SalesEvent {
 		super();
 	}
 
-
-	public SalesEvent(Long salesevent_id, SalesEvent salesEvent, UserId userId, Date sale_date, LocalTime sale_time,
+	public SalesEvent(Long salesevent_id, EventRecord eventrecord_id, AppUser appuser, Date sale_date, LocalTime sale_time,
 			double price, boolean deleted) {
 		super();
 		this.salesevent_id = salesevent_id;
-		this.salesEvent = salesEvent;
-		this.userId = userId;
+		this.eventrecord_id = eventrecord_id;
+		this.appuser = appuser;
 		this.sale_date = sale_date;
 		this.sale_time = sale_time;
 		this.price = price;
 		this.deleted = deleted;
 	}
 
-	public UserId getUserId() {
-		return userId;
+	public AppUser getAppUser() {
+		return appuser;
 	}
 
-	public void setUserId(UserId userId) {
-		this.userId = userId;
+	public void setAppUser(AppUser appuser) {
+		this.appuser = appuser;
 	}
 
 	public Date getSale_date() {
@@ -100,7 +99,7 @@ public class SalesEvent {
 
 	@Override
 	public String toString() {
-		return "SalesEvent [salesevent_id=" + salesevent_id + ", salesEvent=" + salesEvent + ", sale_date=" + sale_date
+		return "SalesEvent [salesevent_id=" + salesevent_id + ", eventrecord=" + eventrecord_id + ", sale_date=" + sale_date
 				+ ", sale_time=" + sale_time + ", price=" + price + ", deleted=" + deleted + "]";
 	}
 	

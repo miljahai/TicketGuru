@@ -23,7 +23,7 @@ TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käytt�
 
 ### Käyttäjäryhmät ja -roolit
 
-*Myyjä* = henkilö, joka toimii asiakasrajapinnassa, syöttää ostoja/tilauksia sovellukseen.
+*Myyjä* = henkilö, joka toimii asiakasrajapinnassa, syöttää ostoja/tilauksia sovellukseen. Pystyy myös tarkistamaan lipun.
 
 *Ylläpitäjä* = henkilö, joka syöttää tapahtumatietoja sovellukseen.
 
@@ -37,7 +37,7 @@ TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käytt�
 
 [Lucidchart: Käyttötapauskaavio](https://lucid.app/lucidchart/71f2e8a8-ce9b-40b4-b3ee-a7a8fe56947b/edit?viewport_loc=-23%2C54%2C2072%2C1035%2C0_0&invitationId=inv_9bd0a9fd-a896-43e9-8b23-7e40b79d7f51)
 
-<img src ="images/usecase.jpeg" width="700" alt="Käyttötapauskaavio">
+<img src ="images/usecases.png" width="700" alt="Käyttötapauskaavio">
 
 ### Käyttäjätarinat
 
@@ -56,8 +56,14 @@ Lippujen myyntitilanteessa avoimet kohteet listataan selattavaksi ja saatavuus t
 
 ## Tietokanta
 
+### Tietokantamalli
 
-### _EventRecord_
+<img src="https://github.com/miljahai/TicketGuru/blob/develop/images/tietokantamalli_paivitetty2.jpg?raw=true" width="700" alt="Tietokantamalli">
+
+
+
+
+### EventRecord
 EventRecord-taulu sisältää Tapahtumat, joille lippuja myydään. EventRecordista on OneToMany-viittaus Ticket-tauluun ja ManyToMany-viittaus TicketTypes-tauluun. Taulu on nimetty muotoon EventRecord, koska Event on varattu sana Javassa.
 
 Kenttä | Tyyppi | Kuvaus
@@ -69,6 +75,15 @@ eventrecord_startdate | LocalTime | Tapahtuman aloitusaika
 eventrecord_enddate | LocalTime | Tapahtuman päättymisaika
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 
+### EventRecordTicketTypes
+
+EventRecord- ja TicketType-taulun välinen aputaulu ManyToMany-riippuvuudelle.
+
+Kenttä | Tyyppi | Kuvaus
+------ | ------ | ------
+eventrecord_id | int PK FK | EventRecordin eli Tapahtuman id
+ticket_type_id | int PK FK | TicketTypen eli Lipputyypin id
+
 ### Ticket
 Ticket-taulu sisältää myytävät liput. Sisältää ManyToOne- viittaukset TicketType- ja EventRecord-tauluihin.
 
@@ -78,6 +93,8 @@ ticket_id | int PK | Lipun id
 ticket_code | varchar(50) | Tarkistuskoodi
 price | double | Lipun hinta
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
+eventrecord_id | int FK | Viittaus tapahtumaan EventRecord-taulussa
+ticket_type_id | int FK | Viittaus lipputyyppiin TicketType-taulussa
 
 ### TicketType
 TicketType-taulu sisältää lipputyypit. Sisältää OneToMany-viittauksen Ticket-tauluun ja ManyToMany-viittauksen EventRecord-tauluun.
@@ -88,24 +105,6 @@ ticket_type_id | int PK | Lipputyypin id
 name | varchar(50) | Lipputyypin nimi
 price | double | Lipputyypin hinta
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
-
-> Järjestelmään säilöttävä ja siinä käsiteltävät tiedot ja niiden väliset suhteet
-> kuvataan käsitekaaviolla. Käsitemalliin sisältyy myös taulujen välisten viiteyhteyksien ja avainten
-> määritykset. Tietokanta kuvataan käyttäen jotain kuvausmenetelmää, joko ER-kaaviota ja UML-luokkakaaviota.
-> 
-> Lisäksi kukin järjestelmän tietoelementti ja sen attribuutit kuvataan
-> tietohakemistossa. Tietohakemisto tarkoittaa yksinkertaisesti vain jokaisen elementin (taulun) ja niiden
-> attribuuttien (kentät/sarakkeet) listausta ja lyhyttä kuvausta esim. tähän tyyliin:
-> 
-> ### _Tilit_
-> _Tilit-taulu sisältää käyttäjätilit. Käyttäjällä voi olla monta tiliä. Tili kuuluu aina vain yhdelle käyttäjälle._
->
-> Kenttä | Tyyppi | Kuvaus
-> ------ | ------ | ------
-> id | int PK | Tilin id
-> nimimerkki | varchar(30) |  Tilin nimimerkki
-> avatar | int FK | Tilin avatar, viittaus [avatar](#Avatar)-tauluun
-> kayttaja | int FK | Viittaus käyttäjään [käyttäjä](#Kayttaja)-taulussa
 
 ### SalesEvent
 SalesEvent-taulu sisältää ostotapahtuman tiedot. SalesEventistä on OneToMany-viittaus SalesEventTickets-tauluun ja User-tauluun.
@@ -118,6 +117,28 @@ sale_time | LocalTime | Ostotapahtuman tarkka aika
 price | double | Ostotapahtuman kokonaissumma
 user_id | int FK | Ostotapahtuman ostajan käyttäjä id
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
+
+### User
+Sisältää ManyToOne-viittauksen Role-tauluun.
+
+Kenttä | Tyyppi | Kuvaus
+------ | ------ | ------
+user_id | int PK | Käyttäjän id
+first_name | varchar(150) | Käyttäjän etunimi
+last_name | varchar(150) | Käyttäjän sukunimi
+email | varchar(50) | Käyttäjän sähköposti
+password | varchar(50) | Käyttäjän salasana
+deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
+role_id | int FK | Viittaus rooliin Role-taulussa
+
+### Role
+Role-taulusta OneToMany-viittaus User-tauluun.
+
+Kenttä | Tyyppi | Kuvaus
+------ | ------ | ------
+role_id | int PK | Roolin id
+role_name | varchar (100) | Roolin nimi
+
 
 > ## Tekninen kuvaus
 > 
