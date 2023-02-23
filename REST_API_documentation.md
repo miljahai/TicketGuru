@@ -4,7 +4,7 @@
 
 ### List All Events
 
-**URL:** `/events/api`
+**URL:** `/events`
 
 **Method:** `GET`
 
