@@ -7,21 +7,13 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-<<<<<<< HEAD
-=======
 import jakarta.persistence.Id;
->>>>>>> c95f79dedc07974a902d8e068784168bfa10f618
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-<<<<<<< HEAD
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-=======
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.ManyToMany;
->>>>>>> c95f79dedc07974a902d8e068784168bfa10f618
 import jakarta.persistence.Table;
 
 @Entity

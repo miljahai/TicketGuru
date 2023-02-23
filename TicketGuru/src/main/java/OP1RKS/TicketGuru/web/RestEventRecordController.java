@@ -20,7 +20,7 @@ public class RestEventRecordController {
 	
 	// REST EventRecord
 	// REST List all EventRecords
-	@GetMapping("/events/api")
+	@GetMapping("/events")
 	public Iterable<EventRecord> getEventRecords() {
 		return erepo.findAll();
 	};

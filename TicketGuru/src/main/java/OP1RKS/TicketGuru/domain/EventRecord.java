@@ -4,10 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-<<<<<<< HEAD
-import javax.validation.constraints.Size;
-
-=======
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,23 +16,10 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
->>>>>>> c95f79dedc07974a902d8e068784168bfa10f618
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
 
 @Entity
@@ -70,7 +53,7 @@ public class EventRecord {
 			inverseJoinColumns = @JoinColumn(name = "eventrecord_id"))
 	Set<TicketType> eventTicketTypes;
 
-	public EventRecord(Long eventrecord_id, @Size(max = 100, message = "name is too long") String eventrecord_name,
+	public EventRecord(@Size(max = 100, message = "name is too long") String eventrecord_name,
 			LocalDateTime event_starttime, LocalDateTime event_endtime, boolean deleted) {
 		super();
 		this.eventrecord_name = eventrecord_name;
