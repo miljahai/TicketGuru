@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +31,11 @@ public class RestEventRecordController {
 		return erepo.save(newEventRecord);
 	}
 	// REST Update
-	
+	@PutMapping("/events/{id}")
+    EventRecord editEventRecord(@RequestBody EventRecord editEventRecord, @PathVariable Long eventrecord_id) {
+        editEventRecord.setEventrecord_id(eventrecord_id);
+        return erepo.save(editEventRecord);
+    }
 	// REST Find by id
 	@GetMapping("/events/{id}")
 	Optional<EventRecord> getEventRecord(@PathVariable Long id) {
