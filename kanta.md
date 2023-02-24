@@ -5,7 +5,6 @@ CREATE TABLE EventRecord
 (
 eventrecord_id INTEGER NOT NULL AUTO_INCREMENT  UNIQUE ,
 eventrecord_name VARCHAR(100) NOT NULL,
-eventrecord_date DATE NOT NULL,
 eventrecord_starttime LOCALTIME NOT NULL,
 eventrecord_endtime LOCALTIME,
 deleted BOOLEAN DEFAULT 'false',
