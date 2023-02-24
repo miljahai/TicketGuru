@@ -70,9 +70,8 @@ Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
 eventrecord_id | int PK | Tapahtuman id
 eventrecord_name | varchar(100) |  Tapahtuman nimi
-eventrecord_date | date | Tapahtuman päivämäärä
-eventrecord_startdate | LocalTime | Tapahtuman aloitusaika
-eventrecord_enddate | LocalTime | Tapahtuman päättymisaika
+eventrecord_starttime | LocalDateTime | Tapahtuman aloitusaika
+eventrecord_endtime | LocalDateTime | Tapahtuman päättymisaika
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 
 ### EventRecordTicketTypes

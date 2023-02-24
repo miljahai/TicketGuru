@@ -15,6 +15,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -36,9 +37,13 @@ public class EventRecord {
 	private Long eventrecord_id;
 	
 	@Size(max = 100, message="name is too long")
+	@NotNull
 	private String eventrecord_name;
 	
-	private LocalDateTime event_starttime, event_endtime;
+	@NotNull
+	private LocalDateTime event_starttime;
+	
+	private LocalDateTime event_endtime;
 	
 	private boolean deleted;
 	
