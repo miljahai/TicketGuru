@@ -33,8 +33,8 @@ public class RestEventRecordController {
 	};
 	// REST Update
 	@PutMapping("/events/{id}")
-    EventRecord editEventRecord(@RequestBody EventRecord editEventRecord, @PathVariable Long eventrecord_id) {
-        editEventRecord.setEventrecord_id(eventrecord_id);
+    EventRecord editEventRecord(@RequestBody EventRecord editEventRecord, @PathVariable Long id) {
+        editEventRecord.setEventrecord_id(id);
         return erepo.save(editEventRecord);
 	}
 	// REST Find by id
