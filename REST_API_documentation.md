@@ -34,6 +34,20 @@ TBA
 
 **Code** : `200 OK`
 
+### Add new event
+
+**URL:** `/events`
+
+**Method:** `POST`
+
+**Auth required:** NO (needs to be fixed)
+
+**Permissions required:** NO
+
+#### Success Response
+
+**Code** : `201 Created`
+
 ### Delete By Id
 
 **URL:** `/events/delete/{id}`
@@ -58,7 +72,7 @@ TBA
 ## SalesEvent
 
 
-## User
+## AppUser
 
 
 ## UserRole
