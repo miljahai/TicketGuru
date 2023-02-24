@@ -53,7 +53,7 @@ public class EventRecord {
 			inverseJoinColumns = @JoinColumn(name = "eventrecord_id"))
 	Set<TicketType> eventTicketTypes;
 
-	public EventRecord(Long eventrecord_id, @Size(max = 100, message = "name is too long") String eventrecord_name,
+	public EventRecord(@Size(max = 100, message = "name is too long") String eventrecord_name,
 			LocalDateTime event_starttime, LocalDateTime event_endtime, boolean deleted) {
 		super();
 		this.eventrecord_name = eventrecord_name;
