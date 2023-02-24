@@ -43,6 +43,9 @@ public class RestEventRecordController {
 		return erepo.findById(id);
 	}
 	// REST Delete
-	
+	@GetMapping("/events/delete/{id}")
+	void deleteEventRecord(@PathVariable Long id) {
+		erepo.deleteById(id);	
+	}
 	
 }
