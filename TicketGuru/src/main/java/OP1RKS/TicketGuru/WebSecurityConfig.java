@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 
@@ -33,19 +34,26 @@ public class WebSecurityConfig {
                 .build();
             return new InMemoryUserDetailsManager(user1, user2, admin);
     }
+    
+    private static final AntPathRequestMatcher[] WHITE_LIST_URLS = {
+            new AntPathRequestMatcher("/events"),
+            new AntPathRequestMatcher("/events/**"),
+            new AntPathRequestMatcher("/login*"),
+            new AntPathRequestMatcher("/h2-console"),
+            new AntPathRequestMatcher("/h2-console/**")
+    };
 
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf()
-        .disable()
-        .authorizeHttpRequests()
-        .requestMatchers("/events/**")
-        .permitAll()
-        .requestMatchers("/events")
-        .permitAll()
-        .requestMatchers("/login*")
+		
+		http.headers().frameOptions().sameOrigin().and();
+		
+		http.authorizeHttpRequests()
+        .requestMatchers(WHITE_LIST_URLS)
         .permitAll();
-        return http.build();
+		http.csrf().disable();
+		
+		return http.build();
     }
     
     @Bean 
