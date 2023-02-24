@@ -58,7 +58,7 @@ Lippujen myyntitilanteessa avoimet kohteet listataan selattavaksi ja saatavuus t
 
 ### Tietokantamalli
 
-<img src="https://github.com/miljahai/TicketGuru/blob/develop/images/tietokantamalli_paivitetty2.jpg?raw=true" width="700" alt="Tietokantamalli">
+<img src="https://github.com/miljahai/TicketGuru/blob/develop/images/tietokantamalli_korjattu.jpg?raw=true" width="700" alt="Tietokantamalli_korjattu">
 
 
 
@@ -115,7 +115,7 @@ salesevent_id | int PK | Ostotapahtuman id
 sale_date | date |  Ostotapahtuman päivämäärä
 sale_time | LocalTime | Ostotapahtuman tarkka aika
 price | double | Ostotapahtuman kokonaissumma
-user_id | int FK | Ostotapahtuman ostajan käyttäjä id
+appuser_id | int FK | Ostotapahtuman myyjän käyttäjä id
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 
 ### AppUser
