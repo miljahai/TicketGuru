@@ -34,8 +34,20 @@ public class RestEventRecordController {
 	// REST Update
 	@PutMapping("/events/{id}")
     EventRecord editEventRecord(@RequestBody EventRecord editEventRecord, @PathVariable Long id) {
-        editEventRecord.setEventrecord_id(id);
-        return erepo.save(editEventRecord);
+		Optional<EventRecord> eventRecord = erepo.findById(id);
+		if (eventRecord.isPresent()) {
+			EventRecord existingEventRecord = eventRecord.get();
+		        
+		    existingEventRecord.setEventrecord_name(editEventRecord.getEventrecord_name());
+		    existingEventRecord.setEvent_starttime(editEventRecord.getEvent_starttime());
+		    existingEventRecord.setEvent_endtime(editEventRecord.getEvent_endtime());
+		    existingEventRecord.setDeleted(editEventRecord.isDeleted());
+		        
+		    erepo.save(existingEventRecord);   
+		    return existingEventRecord;
+		} else {
+		    return null;
+		}
 	}
 	// REST Find by id
 	@GetMapping("/events/{id}")
