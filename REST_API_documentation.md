@@ -1,5 +1,8 @@
 # TicketGuru REST API
 
+## Base URL
+https://ticketguru.com
+
 ## EventRecord
 
 ### List All Events
@@ -62,6 +65,8 @@
 
 **Content examples**
 
+/events/1
+
 ```
 {
     "eventrecord_id": 1,
@@ -71,7 +76,6 @@
     "deleted": false
 }
 ```
-
 ### Add new event
 
 **URL:** `/events`
@@ -91,8 +95,34 @@
 **Content examples**
 ```
 {
-    "eventrecord_id": 5,
+    "eventrecord_id": 4,
     "eventrecord_name": "Tapahtuma 4 ",
+    "event_starttime": "2023-02-02T19:00:00",
+    "event_endtime": "2023-02-02T23:30:00",
+    "deleted": false
+}
+```
+### Update event
+
+**URL:** `/events/{id}`
+
+**Method:** `DELETE`
+
+**Auth required:** NO (needs to be fixed)
+
+**Permissions required:** NO
+
+#### Success Response
+
+**Code** : `200 OK`
+
+**Content examples**
+
+Response show updated name for event with id 4
+```
+{
+    "eventrecord_id": 4,
+    "eventrecord_name": "Konsertti",
     "event_starttime": "2023-02-02T19:00:00",
     "event_endtime": "2023-02-02T23:30:00",
     "deleted": false
@@ -101,7 +131,7 @@
 
 ### Delete By Id
 
-**URL:** `/events/delete/{id}`
+**URL:** `/events/{id}`
 
 **Method:** `DELETE`
 
