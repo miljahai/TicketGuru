@@ -143,6 +143,12 @@ Response show updated name for event with id 4
 
 **Code** : `200 OK`
 
+**Content examples**
+
+Event with id 4 was deleted
+ ```
+ Event with id 4 was successfully deleted
+ ```
 
 ## Ticket
 
