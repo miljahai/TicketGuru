@@ -106,7 +106,7 @@ https://ticketguru.com
 
 **URL:** `/events/{id}`
 
-**Method:** `DELETE`
+**Method:** `PUT`
 
 **Auth required:** NO (needs to be fixed)
 
@@ -154,6 +154,143 @@ Response show updated name for event with id 4
 
 ## TicketType
 
+### List All TicketTypes
+
+**URL:** `/tickettypes`
+
+**Method:** `GET`
+
+**Auth required:** NO (needs to be fixed)
+
+**Permissions required:** NO
+
+#### Success Response
+
+**Code** : `200 OK`
+
+**Content examples**
+
+```
+[
+    {
+        "ticket_type_id": 1,
+        "name": "Aikuinen",
+        "price": 20.0,
+        "deleted": false
+    },
+    {
+        "ticket_type_id": 2,
+        "name": "Lapsi",
+        "price": 10.0,
+        "deleted": false
+    },
+    {
+        "ticket_type_id": 3,
+        "name": "Eläkeläinen",
+        "price": 15.0,
+        "deleted": false
+    }
+]
+```
+
+### Find By Id
+
+**URL:** `/tickettypes/{id}`
+
+**Method:** `GET`
+
+**Auth required:** NO (needs to be fixed)
+
+**Permissions required:** NO
+
+#### Success Response
+
+**Condition**: If everything is OK and eventrecord_id is found
+
+**Code** : `200 OK`
+
+**Content examples**
+
+/events/1
+
+```
+{
+    "ticket_type_id": 1,
+    "name": "Aikuinen",
+    "price": 20.0,
+    "deleted": false
+}
+```
+### Add new event
+
+**URL:** `/tickettypes`
+
+**Method:** `POST`
+
+**Auth required:** NO (needs to be fixed)
+
+**Permissions required:** NO
+
+#### Success Response
+
+**Condition**: If everything is OK
+
+**Code** : `201 Created`
+
+**Content examples**
+```
+{
+    "ticket_type_id": 5,
+    "name": "test",
+    "price": 11.0,
+    "deleted": false
+}
+```
+### Update event
+
+**URL:** `/tickettypes/{id}`
+
+**Method:** `PUT`
+
+**Auth required:** NO (needs to be fixed)
+
+**Permissions required:** NO
+
+#### Success Response
+
+**Code** : `200 OK`
+
+**Content examples**
+
+Response show updated name for event with id 4
+```
+{
+    "ticket_type_id": 5,
+    "name": "Varusmies/Upseeri",
+    "price": 11.0,
+    "deleted": false
+}
+```
+
+### Delete By Id
+
+**URL:** `/tickettypes/{id}`
+
+**Method:** `DELETE`
+
+**Auth required:** NO (needs to be fixed)
+
+**Permissions required:** NO
+
+#### Success Response
+
+**Code** : `200 OK`
+
+**Content examples**
+
+ ```
+ TicketType with id 5 was successfully deleted
+ ```
 
 ## SalesEvent
 
