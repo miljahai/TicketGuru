@@ -48,16 +48,18 @@ public class RestEventRecordController {
 		} else {
 		    return null;
 		}
-	}
+	};
+	
 	// REST Find by id
 	@GetMapping("/events/{id}")
 	Optional<EventRecord> getEventRecord(@PathVariable Long id) {
 		return erepo.findById(id);
 	};
+	
 	// REST Delete
 	@DeleteMapping("/events/{id}")
 	void deleteEventRecord(@PathVariable Long id) {
 		erepo.deleteById(id);	
-	}
+	};
 	
 }

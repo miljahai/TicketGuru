@@ -44,6 +44,16 @@ public class SalesEvent {
 		super();
 	}
 
+	public SalesEvent(EventRecord eventrecord_id, AppUser appuser, Date sale_date, LocalTime sale_time,
+			double price, boolean deleted) {
+		this.eventrecord_id = eventrecord_id;
+		this.appuser = appuser;
+		this.sale_date = sale_date;
+		this.sale_time = sale_time;
+		this.price = price;
+		this.deleted = deleted;
+	}
+	
 	public SalesEvent(Long salesevent_id, EventRecord eventrecord_id, AppUser appuser, Date sale_date, LocalTime sale_time,
 			double price, boolean deleted) {
 		super();

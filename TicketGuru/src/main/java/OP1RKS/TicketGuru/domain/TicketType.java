@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name= "ticketType")
 
-@SQLDelete(sql = "UPDATE tickeType SET deleted = true WHERE ticket_type_id=?")
+@SQLDelete(sql = "UPDATE ticket_type SET deleted = true WHERE ticket_type_id=?")
 @Where(clause="deleted=false")
 public class TicketType {
 	
@@ -39,6 +39,12 @@ public class TicketType {
 
 	public TicketType() {
 		super();
+	}
+	
+	public TicketType(String name, double price, boolean deleted) {
+		this.name = name;
+		this.price = price;
+		this.deleted = deleted;
 	}
 
 	public TicketType(Long ticket_type_id, String name, double price, boolean deleted) {

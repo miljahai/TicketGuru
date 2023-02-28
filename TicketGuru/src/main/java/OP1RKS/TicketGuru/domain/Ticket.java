@@ -38,7 +38,15 @@ public class Ticket {
 		super();
 		
 	}
-
+	
+	public Ticket(String ticket_code, boolean deleted, double price, TicketType ticketType, EventRecord eventRecord) {
+		this.ticket_code = ticket_code;
+		this.deleted = deleted;
+		this.price = price;
+		this.ticketType = ticketType;
+		this.eventRecord = eventRecord;
+	}
+	
 	public Ticket(Long ticket_id, String ticket_code, boolean deleted, double price, TicketType ticketType,
 			EventRecord eventRecord) {
 		super();

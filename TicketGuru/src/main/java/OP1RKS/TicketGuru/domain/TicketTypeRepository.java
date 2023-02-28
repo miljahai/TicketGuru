@@ -8,4 +8,6 @@ public interface TicketTypeRepository extends CrudRepository<TicketType, Long> {
 	
 	List<TicketType> findByName(String name);
 
+	//TicketType findById(int i);
+
 }
