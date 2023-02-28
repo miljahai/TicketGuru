@@ -3,6 +3,7 @@ package OP1RKS.TicketGuru.web;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,7 +60,8 @@ public class RestTicketTypeController {
 	
 	// REST Delete TicketType
 	@DeleteMapping("tickettypes/{id}")
-	void deleteTicketType(@PathVariable Long id) {
+	ResponseEntity<String> deleteTicketType(@PathVariable Long id) {
 		ttrepo.deleteById(id);
+		return ResponseEntity.ok("TicketType with id "+ id + " was successfully deleted");
 	};
 };
