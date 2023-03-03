@@ -107,6 +107,12 @@ public class SalesEvent {
 		this.deleted = deleted;
 	}
 
+	@Override
+	public String toString() {
+		return "SalesEvent [salesevent_id=" + salesevent_id + ", appuser=" + appuser + ", sale_date=" + sale_date
+				+ ", price=" + price + ", deleted=" + deleted + "]";
+	}
+
 
 
 	

@@ -54,12 +54,12 @@ public class TicketGuruApplication {
 			//trepo.save(new Ticket("CODE01",false,20.0,ttrepo.findById((long) 1).orElse(new TicketType()),erepo.findById(1).orElse(new EventRecord()));
 
 			Log.info("create SalesEvents");							
-<<<<<<< HEAD
+
 			srepo.save(new SalesEvent(LocalDateTime.of(2023, 2, 14, 12, 50), 25.5, false));
 			// SalesEventissä pitäisi vaihtaa EventRecord Optionaliksi, jotta vastaisi erepoa
-=======
+
 			//srepo.save(new SalesEvent());
->>>>>>> b719997426507e518fcef16c3268bd3e261628d4
+
 
 			Log.info("create Roles");
 			
