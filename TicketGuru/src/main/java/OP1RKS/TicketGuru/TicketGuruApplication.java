@@ -28,17 +28,19 @@ public class TicketGuruApplication {
 	@Bean
 	public CommandLineRunner demo(EventRecordRepository erepo, UserRoleRepository rrepo, SalesEventRepository srepo, TicketRepository trepo, TicketTypeRepository ttrepo, AppUserRepository urepo) {
 		return (args) -> {
-			// Fake Data for H2
-			Log.info("create TicketTypes");
-			ttrepo.save(new TicketType("Aikuinen",20.0,false));
-			ttrepo.save(new TicketType("Lapsi",10.0,false));
-			ttrepo.save(new TicketType("Eläkeläinen",15.0,false));
 			
+			// Fake Data for H2
 			Log.info("create EventRecords");
-			erepo.save(new EventRecord("Tapahtuma 1",LocalDateTime.of(2023,2,2,19,00),LocalDateTime.of(2023,2,2,23,30),false));
-			erepo.save(new EventRecord("Tapahtuma 2",LocalDateTime.of(2023,3,3,16,00),LocalDateTime.of(2023,3,3,19,30),false));
-			erepo.save(new EventRecord("Tapahtuma 3",LocalDateTime.of(2023,4,4,00,00),LocalDateTime.of(2023,4,5,23,55),false));	
+			erepo.save(new EventRecord("Tapahtuma 1","Paikka 1","Kaupunki 1",100,LocalDateTime.of(2023,1,1,11,11),LocalDateTime.of(2023,1,1,23,23),false));
+			erepo.save(new EventRecord("Tapahtuma 2","Paikka 2","Kaupunki 2",200,LocalDateTime.of(2023,2,2,12,22),LocalDateTime.of(2023,2,2,00,24),false));
+			erepo.save(new EventRecord("Tapahtuma 3","Paikka 3","Kaupunki 3",300,LocalDateTime.of(2023,3,3,13,33),LocalDateTime.of(2023,3,4,02,06),false));
+			erepo.save(new EventRecord("Tapahtuma 4","Paikka 4","Kaupunki 4",400,LocalDateTime.of(2023,4,4,14,44),LocalDateTime.of(2023,4,5,03,28),false));
 
+			Log.info("create TicketTypes");
+			ttrepo.save(new TicketType("Aikuinen",20.0,false,erepo.findById((long) 1).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Lapsi",20.0,false,erepo.findById((long) 1).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Eläkeläinen",20.0,false,erepo.findById((long) 1).orElse(new EventRecord()) ));
+			
 			Log.info("create Tickets");
 			//trepo.save(new Ticket("CODE01",false,20.0,ttrepo.findById(1),erepo.findById(1)));
 			// Ticketissä pitäisi vaihtaa TicketType ja EventRecord Optionaliksi, jotta vastaisi tterepoa ja erepoa
