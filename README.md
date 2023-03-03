@@ -64,24 +64,18 @@ Lippujen myyntitilanteessa avoimet kohteet listataan selattavaksi ja saatavuus t
 
 
 ### EventRecord
-EventRecord-taulu sisältää Tapahtumat, joille lippuja myydään. EventRecordista on OneToMany-viittaus Ticket-tauluun ja ManyToMany-viittaus TicketTypes-tauluun. Taulu on nimetty muotoon EventRecord, koska Event on varattu sana Javassa.
+EventRecord-taulu sisältää Tapahtumat, joille lippuja myydään. EventRecordista on OneToMany-viittaus Ticket-tauluun ja OneToMany-viittaus TicketTypes-tauluun. Taulu on nimetty muotoon EventRecord, koska Event on varattu sana Javassa.
 
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
 eventrecord_id | int PK | Tapahtuman id
 eventrecord_name | varchar(100) |  Tapahtuman nimi
+venue | varchar(100) | Tapahtumapaikan nimi 
+city | varchar(100> | Tapahtumapaikan kaupunki
+ticketsmax | int | Lippujen maksimimäärä
 eventrecord_starttime | LocalDateTime | Tapahtuman aloitusaika
 eventrecord_endtime | LocalDateTime | Tapahtuman päättymisaika
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
-
-### EventRecordTicketTypes
-
-EventRecord- ja TicketType-taulun välinen aputaulu ManyToMany-riippuvuudelle.
-
-Kenttä | Tyyppi | Kuvaus
------- | ------ | ------
-eventrecord_id | int PK FK | EventRecordin eli Tapahtuman id
-ticket_type_id | int PK FK | TicketTypen eli Lipputyypin id
 
 ### Ticket
 Ticket-taulu sisältää myytävät liput. Sisältää ManyToOne- viittaukset TicketType- ja EventRecord-tauluihin.
@@ -96,7 +90,7 @@ eventrecord_id | int FK | Viittaus tapahtumaan EventRecord-taulussa
 ticket_type_id | int FK | Viittaus lipputyyppiin TicketType-taulussa
 
 ### TicketType
-TicketType-taulu sisältää lipputyypit. Sisältää OneToMany-viittauksen Ticket-tauluun ja ManyToMany-viittauksen EventRecord-tauluun.
+TicketType-taulu sisältää lipputyypit. Sisältää OneToMany-viittauksen Ticket-tauluun ja ManyToOne-viittauksen EventRecord-tauluun.
 
 Kenttä | Tyyppi | Kuvaus
 ----- | ----- | -----
@@ -104,6 +98,7 @@ ticket_type_id | int PK | Lipputyypin id
 name | varchar(50) | Lipputyypin nimi
 price | double | Lipputyypin hinta
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
+eventrecord_id | int FK | Viittaus tapahtumaan EventRecord-taulussa
 
 ### SalesEvent
 SalesEvent-taulu sisältää ostotapahtuman tiedot. SalesEventistä on OneToMany-viittaus SalesEventTickets-tauluun ja AppUser-tauluun.
