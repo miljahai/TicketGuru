@@ -40,14 +40,19 @@ public class TicketGuruApplication {
 			ttrepo.save(new TicketType("Aikuinen",20.0,false,erepo.findById((long) 1).orElse(new EventRecord()) ));
 			ttrepo.save(new TicketType("Lapsi",20.0,false,erepo.findById((long) 1).orElse(new EventRecord()) ));
 			ttrepo.save(new TicketType("Eläkeläinen",20.0,false,erepo.findById((long) 1).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Aikuinen",20.0,false,erepo.findById((long) 2).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Lapsi",20.0,false,erepo.findById((long) 2).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Eläkeläinen",20.0,false,erepo.findById((long) 2).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Aikuinen",20.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Lapsi",20.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Aikuinen",20.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Eläkeläinen",20.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
 			
 			Log.info("create Tickets");
-			//trepo.save(new Ticket("CODE01",false,20.0,ttrepo.findById(1),erepo.findById(1)));
-			// Ticketissä pitäisi vaihtaa TicketType ja EventRecord Optionaliksi, jotta vastaisi tterepoa ja erepoa
+			//trepo.save(new Ticket("CODE01",false,20.0,ttrepo.findById((long) 1).orElse(new TicketType()),erepo.findById(1).orElse(new EventRecord()));
 
 			Log.info("create SalesEvents");							
 			//srepo.save(new SalesEvent());
-			// SalesEventissä pitäisi vaihtaa EventRecord Optionaliksi, jotta vastaisi erepoa
 
 			Log.info("create Roles");
 			
