@@ -38,7 +38,9 @@ public class EventRecord {
 	
 	@Size(max = 100, message="name is too long")
 	@NotNull
-	private String eventrecord_name;
+	private String eventrecord_name, venue, city;
+	
+	private int ticketsmax;
 	
 	@NotNull
 	private LocalDateTime event_starttime;
@@ -51,26 +53,47 @@ public class EventRecord {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket_id")
 	private List<Ticket> tickets;
 	
-	@ManyToMany
-	@JoinTable(
-			name ="event_ticket_type",
-			joinColumns = @JoinColumn(name = "tickettype_id"),
-			inverseJoinColumns = @JoinColumn(name = "eventrecord_id"))
-	Set<TicketType> eventTicketTypes;
-
-	public EventRecord(@Size(max = 100, message = "name is too long") String eventrecord_name,
-			LocalDateTime event_starttime, LocalDateTime event_endtime, boolean deleted) {
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket_type_id")
+	private List<TicketType> tickettypes;
+	
+	
+	// Constructors
+	public EventRecord(Long eventrecord_id,
+			@Size(max = 100, message = "name is too long") @NotNull String eventrecord_name,
+			@Size(max = 100, message = "name is too long") @NotNull String venue,
+			@Size(max = 100, message = "name is too long") @NotNull String city, int ticketsmax,
+			@NotNull LocalDateTime event_starttime, LocalDateTime event_endtime, boolean deleted) {
 		super();
+		this.eventrecord_id = eventrecord_id;
 		this.eventrecord_name = eventrecord_name;
+		this.venue = venue;
+		this.city = city;
+		this.ticketsmax = ticketsmax;
+		this.event_starttime = event_starttime;
+		this.event_endtime = event_endtime;
+		this.deleted = deleted;
+	}
+
+	public EventRecord(@Size(max = 100, message = "name is too long") @NotNull String eventrecord_name,
+			@Size(max = 100, message = "name is too long") @NotNull String venue,
+			@Size(max = 100, message = "name is too long") @NotNull String city, int ticketsmax,
+			@NotNull LocalDateTime event_starttime, LocalDateTime event_endtime, boolean deleted) {
+		this.eventrecord_name = eventrecord_name;
+		this.venue = venue;
+		this.city = city;
+		this.ticketsmax = ticketsmax;
 		this.event_starttime = event_starttime;
 		this.event_endtime = event_endtime;
 		this.deleted = deleted;
 	}
 
 	public EventRecord() {
-
+		super();
 	}
 
+	
+	// Getters and Setters
 	public Long getEventrecord_id() {
 		return eventrecord_id;
 	}
@@ -85,6 +108,30 @@ public class EventRecord {
 
 	public void setEventrecord_name(String eventrecord_name) {
 		this.eventrecord_name = eventrecord_name;
+	}
+
+	public String getVenue() {
+		return venue;
+	}
+
+	public void setVenue(String venue) {
+		this.venue = venue;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public int getTicketsmax() {
+		return ticketsmax;
+	}
+
+	public void setTicketsmax(int ticketsmax) {
+		this.ticketsmax = ticketsmax;
 	}
 
 	public LocalDateTime getEvent_starttime() {
@@ -111,11 +158,32 @@ public class EventRecord {
 		this.deleted = deleted;
 	}
 
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
+
+	public List<TicketType> getTickettypes() {
+		return tickettypes;
+	}
+
+	public void setTickettypes(List<TicketType> tickettypes) {
+		this.tickettypes = tickettypes;
+	}
+
+	
+	// ToString
 	@Override
 	public String toString() {
-		return "EventRecord [eventrecord_id=" + eventrecord_id + ", eventrecord_name=" + eventrecord_name
-				+ ", event_starttime=" + event_starttime + ", event_endtime="
-				+ event_endtime + ", deleted=" + deleted + "]";
+		return "EventRecord [eventrecord_id=" + eventrecord_id + ", eventrecord_name=" + eventrecord_name + ", venue="
+				+ venue + ", city=" + city + ", ticketsmax=" + ticketsmax + ", event_starttime=" + event_starttime
+				+ ", event_endtime=" + event_endtime + ", deleted=" + deleted + ", tickets= + tickets"
+				+ ", tickettypes= + tickettypes" + "]";
 	}
 	
 }
+	
+	
