@@ -39,6 +39,10 @@ public class WebSecurityConfig {
             new AntPathRequestMatcher("/events/**"),
             new AntPathRequestMatcher("/tickettypes"),
             new AntPathRequestMatcher("/tickettypes/**"),
+            new AntPathRequestMatcher("/tickets"),
+            new AntPathRequestMatcher("/tickets/**"),
+            new AntPathRequestMatcher("/salesevents"),
+            new AntPathRequestMatcher("/salesevents/**"),
             new AntPathRequestMatcher("/login*"),
             new AntPathRequestMatcher("/h2-console"),
             new AntPathRequestMatcher("/h2-console/**")
