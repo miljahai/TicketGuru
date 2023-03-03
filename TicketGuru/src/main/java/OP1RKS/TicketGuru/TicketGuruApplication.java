@@ -4,7 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;  
 
 import org.slf4j.Logger;
@@ -44,7 +46,7 @@ public class TicketGuruApplication {
 			// Ticketissä pitäisi vaihtaa TicketType ja EventRecord Optionaliksi, jotta vastaisi tterepoa ja erepoa
 
 			Log.info("create SalesEvents");							
-			//srepo.save(new SalesEvent());
+			srepo.save(new SalesEvent(LocalDateTime.of(2023, 2, 14, 12, 50), 25.5, false));
 			// SalesEventissä pitäisi vaihtaa EventRecord Optionaliksi, jotta vastaisi erepoa
 
 			Log.info("create Roles");

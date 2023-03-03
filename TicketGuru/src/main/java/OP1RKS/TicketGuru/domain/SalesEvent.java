@@ -1,11 +1,14 @@
 package OP1RKS.TicketGuru.domain;
 
-import java.time.LocalTime;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,43 +31,39 @@ public class SalesEvent {
 	@Column(name = "salesevent_id")
 	private Long salesevent_id;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "eventrecord_id")
-	private EventRecord eventrecord_id;
-	
+		
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "appuser_id")
 	private AppUser appuser;
 	
-	private Date sale_date;
-	private LocalTime sale_time;
+	private LocalDateTime sale_date;
 	private double price;
 	private boolean deleted;
 	
-	public SalesEvent() {
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "salesEvent")
+	private List<Ticket> tickets;	
+	
+	
+	public SalesEvent(LocalDateTime sale_date, double price, boolean deleted) {
 		super();
+		this.sale_date = sale_date;
+		this.price = price;
+		this.deleted = deleted;
 	}
 
-	public SalesEvent(EventRecord eventrecord_id, AppUser appuser, Date sale_date, LocalTime sale_time,
-			double price, boolean deleted) {
-		this.eventrecord_id = eventrecord_id;
+	public SalesEvent(Long salesevent_id, AppUser appuser, LocalDateTime sale_date, double price, boolean deleted) {
+		super();
+		this.salesevent_id = salesevent_id;
 		this.appuser = appuser;
 		this.sale_date = sale_date;
-		this.sale_time = sale_time;
 		this.price = price;
 		this.deleted = deleted;
 	}
-	
-	public SalesEvent(Long salesevent_id, EventRecord eventrecord_id, AppUser appuser, Date sale_date, LocalTime sale_time,
-			double price, boolean deleted) {
+
+	public SalesEvent() {
 		super();
-		this.salesevent_id = salesevent_id;
-		this.eventrecord_id = eventrecord_id;
-		this.appuser = appuser;
-		this.sale_date = sale_date;
-		this.sale_time = sale_time;
-		this.price = price;
-		this.deleted = deleted;
+		
 	}
 
 	public AppUser getAppUser() {
@@ -74,20 +74,21 @@ public class SalesEvent {
 		this.appuser = appuser;
 	}
 
-	public Date getSale_date() {
+	
+	public Long getSalesevent_id() {
+		return salesevent_id;
+	}
+
+	public void setSalesevent_id(Long salesevent_id) {
+		this.salesevent_id = salesevent_id;
+	}
+
+	public LocalDateTime getSale_date() {
 		return sale_date;
 	}
 
-	public void setSale_date(Date sale_date) {
+	public void setSale_date(LocalDateTime sale_date) {
 		this.sale_date = sale_date;
-	}
-
-	public LocalTime getSale_time() {
-		return sale_time;
-	}
-
-	public void setSale_time(LocalTime sale_time) {
-		this.sale_time = sale_time;
 	}
 
 	public double getPrice() {
@@ -107,11 +108,7 @@ public class SalesEvent {
 	}
 
 
-	@Override
-	public String toString() {
-		return "SalesEvent [salesevent_id=" + salesevent_id + ", eventrecord=" + eventrecord_id + ", sale_date=" + sale_date
-				+ ", sale_time=" + sale_time + ", price=" + price + ", deleted=" + deleted + "]";
-	}
+
 	
 	
 	
