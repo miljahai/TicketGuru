@@ -68,6 +68,11 @@ public class TicketType {
 		this.eventRecord = eventRecord;
 		this.tickets = tickets;
 	}
+	
+	public TicketType(Long ticket_type_id) {
+		super();
+		this.ticket_type_id = ticket_type_id;
+	}
 
 	public Long getTicket_type_id() {
 		return ticket_type_id;
