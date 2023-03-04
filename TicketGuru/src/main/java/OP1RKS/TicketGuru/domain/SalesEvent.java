@@ -60,10 +60,23 @@ public class SalesEvent {
 		this.price = price;
 		this.deleted = deleted;
 	}
+	
+	
+	public SalesEvent(LocalDateTime sale_date, double price, boolean deleted, List<Ticket> tickets) {
+		super();
+		this.sale_date = sale_date;
+		this.price = price;
+		this.deleted = deleted;
+		this.tickets = tickets;
+	}
 
 	public SalesEvent() {
 		super();
 		
+	}
+
+	public SalesEvent(LocalDateTime of, double d, boolean b, Ticket orElse) {
+		// TODO Auto-generated constructor stub
 	}
 
 	public AppUser getAppUser() {

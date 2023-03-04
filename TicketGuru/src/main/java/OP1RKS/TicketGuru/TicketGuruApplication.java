@@ -56,7 +56,8 @@ public class TicketGuruApplication {
 			srepo.save(new SalesEvent(LocalDateTime.of(2023, 5, 5, 12, 5), 44.4, false));
 			srepo.save(new SalesEvent(LocalDateTime.of(2023, 6, 6, 12, 6), 55.5, false));
 			srepo.save(new SalesEvent(LocalDateTime.of(2023, 7, 7, 12, 7), 66.6, false));
-			srepo.save(new SalesEvent(LocalDateTime.of(2023, 8, 8, 12, 8), 77.7, false));
+			srepo.save(new SalesEvent(LocalDateTime.of(2023, 8, 8, 12, 8), 77.7, false));			
+			srepo.save(new SalesEvent(LocalDateTime.of(2023, 9, 9, 12, 9), 88.8, false));
 						
 			Log.info("create Tickets");
 			// Tämä ei jostain syystä toimi:
@@ -88,8 +89,31 @@ public class TicketGuruApplication {
 			newTicket3.setTicketType(ttrepo.findById((long) 1).orElse(new TicketType()));
 			newTicket3.setEventRecord(erepo.findById((long) 3).orElse(new EventRecord()));
 			newTicket3.setSalesEvent(srepo.findById((long) 2).orElse(new SalesEvent()));
-			tickets.save(newTicket1);
-			
+			tickets.save(newTicket3);
+			Ticket newTicket4 = new Ticket();
+			newTicket4.setTicket_code("CODE03");
+			newTicket4.setDeleted(false);
+			newTicket4.setPrice(50.70);
+			newTicket4.setTicketType(ttrepo.findById((long) 6).orElse(new TicketType()));
+			newTicket4.setEventRecord(erepo.findById((long) 2).orElse(new EventRecord()));
+			newTicket4.setSalesEvent(srepo.findById((long) 5).orElse(new SalesEvent()));
+			tickets.save(newTicket4);
+			Ticket newTicket5 = new Ticket();
+			newTicket5.setTicket_code("CODE03");
+			newTicket5.setDeleted(false);
+			newTicket5.setPrice(50.70);
+			newTicket5.setTicketType(ttrepo.findById((long) 4).orElse(new TicketType()));
+			newTicket5.setEventRecord(erepo.findById((long) 4).orElse(new EventRecord()));
+			newTicket5.setSalesEvent(srepo.findById((long) 7).orElse(new SalesEvent()));
+			tickets.save(newTicket5);
+			Ticket newTicket6 = new Ticket();
+			newTicket6.setTicket_code("CODE03");
+			newTicket6.setDeleted(false);
+			newTicket6.setPrice(50.70);
+			newTicket6.setTicketType(ttrepo.findById((long) 5).orElse(new TicketType()));
+			newTicket6.setEventRecord(erepo.findById((long) 4).orElse(new EventRecord()));
+			newTicket6.setSalesEvent(srepo.findById((long) 8).orElse(new SalesEvent()));
+			tickets.save(newTicket6);
 
 			Log.info("create Roles");
 			
