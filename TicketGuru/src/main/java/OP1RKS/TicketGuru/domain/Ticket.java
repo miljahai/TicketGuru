@@ -40,18 +40,20 @@ public class Ticket {
 	
 	
 	public Ticket() {
-		super();	
 	}
 	
-	public Ticket(String ticket_code, boolean deleted, double price
-			//, TicketType ticketType, EventRecord eventRecord, SalesEvent salesEvent
+	public Ticket(
+			String ticket_code
+			, boolean deleted
+			, double price
+			, TicketType ticketType, EventRecord eventRecord, SalesEvent salesEvent
 			) {
 		this.ticket_code = ticket_code;
 		this.deleted = deleted;
 		this.price = price;
-		//this.ticketType = ticketType;
-		//this.eventRecord = eventRecord;
-		//this.salesEvent = salesEvent;
+		this.ticketType = ticketType;
+		this.eventRecord = eventRecord;
+		this.salesEvent = salesEvent;
 	}
 
 	public Ticket(Long ticket_id, String ticket_code, boolean deleted, double price, TicketType ticketType,
@@ -66,7 +68,6 @@ public class Ticket {
 		this.salesEvent = salesEvent;
 	}
 
-	
 	public Long getTicket_id() {
 		return ticket_id;
 	}
@@ -114,17 +115,14 @@ public class Ticket {
 	public void setEventRecord(EventRecord eventRecord) {
 		this.eventRecord = eventRecord;
 	}
-	
-	
+
 	public SalesEvent getSalesEvent() {
 		return salesEvent;
 	}
 
-
 	public void setSalesEvent(SalesEvent salesEvent) {
 		this.salesEvent = salesEvent;
 	}
-
 
 	@Override
 	public String toString() {
@@ -133,7 +131,5 @@ public class Ticket {
 				+ "]";
 	}
 
-
-	
 
 }

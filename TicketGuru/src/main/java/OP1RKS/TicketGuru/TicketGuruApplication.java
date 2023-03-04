@@ -28,7 +28,7 @@ public class TicketGuruApplication {
 	private static final Logger Log = LoggerFactory.getLogger(TicketGuruApplication.class);
 	
 	@Bean
-	public CommandLineRunner demo(EventRecordRepository erepo, UserRoleRepository rrepo, SalesEventRepository srepo, TicketRepository trepo, TicketTypeRepository ttrepo, AppUserRepository urepo) {
+	public CommandLineRunner demo(EventRecordRepository erepo, UserRoleRepository rrepo, SalesEventRepository srepo, TicketRepository tickets, TicketTypeRepository ttrepo, AppUserRepository urepo) {
 		return (args) -> {
 			
 			// Fake Data for H2
@@ -47,8 +47,8 @@ public class TicketGuruApplication {
 			ttrepo.save(new TicketType("Eläkeläinen",20.0,false,erepo.findById((long) 2).orElse(new EventRecord()) ));
 			ttrepo.save(new TicketType("Aikuinen",20.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
 			ttrepo.save(new TicketType("Lapsi",20.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
-			ttrepo.save(new TicketType("Aikuinen",20.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
-			ttrepo.save(new TicketType("Eläkeläinen",20.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Aikuinen",20.0,false,erepo.findById((long) 4).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Eläkeläinen",20.0,false,erepo.findById((long) 4).orElse(new EventRecord()) ));
 			
 			Log.info("create SalesEvents");							
 			srepo.save(new SalesEvent(LocalDateTime.of(2023, 1, 1, 12, 1), 25.5, false));
@@ -61,9 +61,36 @@ public class TicketGuruApplication {
 			srepo.save(new SalesEvent(LocalDateTime.of(2023, 8, 8, 12, 8), 77.7, false));
 						
 			Log.info("create Tickets");
-			//trepo.save("CODE1", false, 20.0, ttrepo.findById((long) 1).orElse(new TicketType()), erepo.findById((long) 1).orElse(new EventRecord()), srepo.findById((long) 1).orElse(new SalesEvent()) );
-			// Tämä ei jostain syystä toimi.
-			//trepo.save("CODE01", false, 200.0);
+			// Tämä ei jostain syystä toimi:
+			//tickets.save("CODE1", false, 20.0, ttrepo.findById((long) 1).orElse(new TicketType()), erepo.findById((long) 1).orElse(new EventRecord()), srepo.findById((long) 1).orElse(new SalesEvent()) );
+			//tickets.save("CODE01", false, 200.0);
+
+			// Mutta tämä toimii:
+			// (Muutin trepo ticketsiksi testaillessa. Sen voi muuttaa takaisin.)			
+			Ticket newTicket1 = new Ticket();
+			newTicket1.setTicket_code("CODE01");
+			newTicket1.setDeleted(false);
+			newTicket1.setPrice(200.0);
+			newTicket1.setTicketType(ttrepo.findById((long) 1).orElse(new TicketType()));
+			newTicket1.setEventRecord(erepo.findById((long) 1).orElse(new EventRecord()));
+			newTicket1.setSalesEvent(srepo.findById((long) 1).orElse(new SalesEvent()));
+			tickets.save(newTicket1);
+			Ticket newTicket2 = new Ticket();
+			newTicket2.setTicket_code("CODE02");
+			newTicket2.setDeleted(false);
+			newTicket2.setPrice(250.0);
+			newTicket2.setTicketType(ttrepo.findById((long) 2).orElse(new TicketType()));
+			newTicket2.setEventRecord(erepo.findById((long) 3).orElse(new EventRecord()));
+			newTicket2.setSalesEvent(srepo.findById((long) 2).orElse(new SalesEvent()));
+			tickets.save(newTicket2);
+			Ticket newTicket3 = new Ticket();
+			newTicket3.setTicket_code("CODE01");
+			newTicket3.setDeleted(false);
+			newTicket3.setPrice(200.0);
+			newTicket3.setTicketType(ttrepo.findById((long) 1).orElse(new TicketType()));
+			newTicket3.setEventRecord(erepo.findById((long) 3).orElse(new EventRecord()));
+			newTicket3.setSalesEvent(srepo.findById((long) 2).orElse(new SalesEvent()));
+			tickets.save(newTicket1);
 			
 
 			Log.info("create Roles");
