@@ -53,13 +53,20 @@ public class RestEventRecordController {
 	
 	// REST Find by id
 	@GetMapping("/events/{id}")
-	Optional<EventRecord> getEventRecord(@PathVariable Long id) {
-		return erepo.findById(id);
+	ResponseEntity<Object> getEventRecord(@PathVariable Long id) {
+		if (!erepo.existsById(id)) {
+			return ResponseEntity.badRequest().body("Event with id " + id + " doesn't exist");
+		}
+		Optional<EventRecord> foundEvent = erepo.findById(id);
+		return ResponseEntity.ok(foundEvent);
 	};
 	
 	// REST Delete
 	@DeleteMapping("/events/{id}")
 	ResponseEntity<String> deleteEventRecord(@PathVariable Long id) {
+		if (!erepo.existsById(id)) {
+			return ResponseEntity.badRequest().body("Event with id " + id + " doesn't exist");
+		}
 		erepo.deleteById(id);
 		return ResponseEntity.ok("Event with id "+ id + " was successfully deleted");
 	}

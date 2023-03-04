@@ -69,13 +69,22 @@ public class RestTicketController {
 	
 	// REST Find Ticket by id
 	@GetMapping("/tickets/{id}")
-	Optional<Ticket> getTicket(@PathVariable Long id) {
-		return trepo.findById(id);
+	ResponseEntity<Object> getTicket(@PathVariable Long id) {
+		
+		if (!trepo.existsById(id)) {
+			return ResponseEntity.badRequest().body("Ticket with id " + id + " doesn't exist");
+		}
+		Optional<Ticket> foundTicket = trepo.findById(id);
+		return ResponseEntity.ok(foundTicket);
 	};
 	
 	// REST Delete Ticket
 	@DeleteMapping("tickets/{id}")
 	ResponseEntity<String> deleteTicket(@PathVariable Long id) {
+		
+		if (!trepo.existsById(id)) {
+			return ResponseEntity.badRequest().body("Ticket with id " + id + " doesn't exist");
+		}
 		trepo.deleteById(id);
 		return ResponseEntity.ok("Ticket with id "+ id + " was successfully deleted");
 	};

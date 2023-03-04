@@ -70,6 +70,11 @@ public class SalesEvent {
 		this.tickets = tickets;
 	}
 
+	public SalesEvent(Long salesevent_id) {
+		super();
+		this.salesevent_id = salesevent_id;
+	}
+
 	public SalesEvent() {
 		super();
 		

@@ -31,36 +31,40 @@ public class RestSalesEventController {
 	SalesEvent newSalesEvent(@RequestBody SalesEvent newSalesEvent) {
 		return srepo.save(newSalesEvent);
 	};
-	
 		
 	//Update
 	@PutMapping("/salesevents/{id}")
-	SalesEvent editSalesEvent(@RequestBody SalesEvent editSalesEvent, @PathVariable Long id) {
+	ResponseEntity<Object> editSalesEvent(@RequestBody SalesEvent editSalesEvent, @PathVariable Long id) {
 		Optional<SalesEvent> salesEvent = srepo.findById(id);
-		if (salesEvent.isPresent()) {
-			SalesEvent existingSalesEvent = salesEvent.get();
-			
-			existingSalesEvent.setSale_date(editSalesEvent.getSale_date());
-			existingSalesEvent.setPrice(editSalesEvent.getPrice());
-			existingSalesEvent.setDeleted(editSalesEvent.isDeleted());
-			
-			srepo.save(existingSalesEvent);
-			return existingSalesEvent;
-		} else {
-			return null;
-		}
+		if (!salesEvent.isPresent()) {
+			return ResponseEntity.badRequest().body("SalesEvent with id " + id + " doesn't exist");
+		} 
+		SalesEvent existingSalesEvent = salesEvent.get();
+		existingSalesEvent.setSale_date(editSalesEvent.getSale_date());
+		existingSalesEvent.setPrice(editSalesEvent.getPrice());
+		existingSalesEvent.setDeleted(editSalesEvent.isDeleted());
+		
+		SalesEvent editedSalesEvent = srepo.save(existingSalesEvent);
+		return ResponseEntity.ok(editedSalesEvent);
 	};
 	
 	//Find By Id
 	@GetMapping("/salesevent/{id}")
-	Optional<SalesEvent> getSalesEvent(@PathVariable Long id) {
-		return srepo.findById(id);
+	ResponseEntity<Object> getSalesEvent(@PathVariable Long id) {
+		if (!srepo.existsById(id)) {
+			return ResponseEntity.badRequest().body("SalesEvent with id " + id + " doesn't exist");
+		}
+		Optional<SalesEvent> foundSalesEvent = srepo.findById(id);
+		return ResponseEntity.ok(foundSalesEvent);
 	};
 	
 	//Delete
 	ResponseEntity<String> deleteSalesEvent(@PathVariable Long id) {
+		if (!srepo.existsById(id)) {
+			return ResponseEntity.badRequest().body("SalesEvent with id " + id + " doesn't exist");
+		}
 		srepo.deleteById(id);
-		return ResponseEntity.ok("Event with id " + id + " was succesfully deleted");
+		return ResponseEntity.ok("SalesEvent with id "+ id + " was successfully deleted");
 	};	
 
 }

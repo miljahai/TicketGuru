@@ -30,37 +30,53 @@ public class RestTicketTypeController {
 	
 	// REST Add TicketType
 	@PostMapping("/tickettypes")
-	TicketType newTicketType (@RequestBody TicketType newTicketType) {
-		return ttrepo.save(newTicketType);
+	ResponseEntity<Object> newTicketType (@RequestBody TicketType newTicketType) {
+		Long eventrecord_id = newTicketType.getEventRecord().getEventrecord_id();
+		
+		if(!ttrepo.existsById(eventrecord_id)) {
+			return ResponseEntity.badRequest().body("Event with id " + eventrecord_id + " doesn't exist");
+		}
+		TicketType savedTicketType = ttrepo.save(newTicketType);
+		return ResponseEntity.ok(savedTicketType);
 	};
+
 	
 	// REST Update TickeType
 	@PutMapping("/tickettypes/{id}")
-	TicketType editTicketType(@RequestBody TicketType editTicketType, @PathVariable Long id) {
+	ResponseEntity<Object> editTicketType(@RequestBody TicketType editTicketType, @PathVariable Long id) {
 		Optional<TicketType> ticketType = ttrepo.findById(id);
-		if (ticketType.isPresent()) {
-			TicketType existingTicketType = ticketType.get();
-			
-			existingTicketType.setName(editTicketType.getName());
-			existingTicketType.setPrice(editTicketType.getPrice());
-			existingTicketType.setDeleted(editTicketType.isDeleted());
-			
-			ttrepo.save(existingTicketType);
-			return existingTicketType;
-		} else {
-			return null;
+		Long eventrecord_id = editTicketType.getEventRecord().getEventrecord_id();
+		
+		if (!ticketType.isPresent()) {
+			return ResponseEntity.badRequest().body("TicketType with id " + id + " doesn't exist");
+		} else if (!ttrepo.existsById(eventrecord_id)) {
+			return ResponseEntity.badRequest().body("Event with id " + eventrecord_id + " doesn't exist");
 		}
+		TicketType existingTicketType = ticketType.get();
+		existingTicketType.setName(editTicketType.getName());
+		existingTicketType.setPrice(editTicketType.getPrice());
+		existingTicketType.setDeleted(editTicketType.isDeleted());
+		
+		TicketType editedTicketType = ttrepo.save(existingTicketType);
+		return ResponseEntity.ok(editedTicketType);
 	};
 	
 	// REST Find TicketType by id
 	@GetMapping("/tickettypes/{id}")
-	Optional<TicketType> getTicketType(@PathVariable Long id) {
-		return ttrepo.findById(id);
+	ResponseEntity<Object> getTicketType(@PathVariable Long id) {
+		if (!ttrepo.existsById(id)) {
+			return ResponseEntity.badRequest().body("TicketType with id " + id + " doesn't exist");
+		}
+		Optional<TicketType> foundTicketType = ttrepo.findById(id);
+		return ResponseEntity.ok(foundTicketType);
 	};
 	
 	// REST Delete TicketType
 	@DeleteMapping("tickettypes/{id}")
 	ResponseEntity<String> deleteTicketType(@PathVariable Long id) {
+		if (!ttrepo.existsById(id)) {
+			return ResponseEntity.badRequest().body("TicketType with id " + id + " doesn't exist");
+		}
 		ttrepo.deleteById(id);
 		return ResponseEntity.ok("TicketType with id "+ id + " was successfully deleted");
 	};
