@@ -38,23 +38,21 @@ public class Ticket {
 	@JoinColumn(name = "salesevent_id")
 	private SalesEvent salesEvent;
 	
+	
 	public Ticket() {
-		super();
-		
+		super();	
 	}
 	
-
-	public Ticket(String ticket_code, boolean deleted, double price, TicketType ticketType, EventRecord eventRecord,
-			SalesEvent salesEvent) {
-		super();
+	public Ticket(String ticket_code, boolean deleted, double price
+			//, TicketType ticketType, EventRecord eventRecord, SalesEvent salesEvent
+			) {
 		this.ticket_code = ticket_code;
 		this.deleted = deleted;
 		this.price = price;
-		this.ticketType = ticketType;
-		this.eventRecord = eventRecord;
-		this.salesEvent = salesEvent;
+		//this.ticketType = ticketType;
+		//this.eventRecord = eventRecord;
+		//this.salesEvent = salesEvent;
 	}
-
 
 	public Ticket(Long ticket_id, String ticket_code, boolean deleted, double price, TicketType ticketType,
 			EventRecord eventRecord, SalesEvent salesEvent) {
@@ -68,6 +66,7 @@ public class Ticket {
 		this.salesEvent = salesEvent;
 	}
 
+	
 	public Long getTicket_id() {
 		return ticket_id;
 	}

@@ -120,7 +120,7 @@ public class TicketType {
 	@Override
 	public String toString() {
 		return "TicketType [ticket_type_id=" + ticket_type_id + ", name=" + name + ", price=" + price + ", deleted="
-				+ deleted + ", tickets=" + tickets + ", eventRecord=" + eventRecord + "]";
+				+ deleted + ", tickets= + tickets" + ", eventRecord=" + eventRecord + "]";
 	}
 
 	

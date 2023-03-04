@@ -50,16 +50,21 @@ public class TicketGuruApplication {
 			ttrepo.save(new TicketType("Aikuinen",20.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
 			ttrepo.save(new TicketType("Eläkeläinen",20.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
 			
-			Log.info("create Tickets");
-			//trepo.save(new Ticket("CODE01",false,20.0,ttrepo.findById((long) 1).orElse(new TicketType()),erepo.findById(1).orElse(new EventRecord()));
-
 			Log.info("create SalesEvents");							
-
-			srepo.save(new SalesEvent(LocalDateTime.of(2023, 2, 14, 12, 50), 25.5, false));
-			// SalesEventissä pitäisi vaihtaa EventRecord Optionaliksi, jotta vastaisi erepoa
-
-			//srepo.save(new SalesEvent());
-
+			srepo.save(new SalesEvent(LocalDateTime.of(2023, 1, 1, 12, 1), 25.5, false));
+			srepo.save(new SalesEvent(LocalDateTime.of(2023, 2, 2, 12, 2), 11.1, false));
+			srepo.save(new SalesEvent(LocalDateTime.of(2023, 3, 3, 12, 3), 22.2, false));
+			srepo.save(new SalesEvent(LocalDateTime.of(2023, 4, 4, 12, 4), 33.3, false));
+			srepo.save(new SalesEvent(LocalDateTime.of(2023, 5, 5, 12, 5), 44.4, false));
+			srepo.save(new SalesEvent(LocalDateTime.of(2023, 6, 6, 12, 6), 55.5, false));
+			srepo.save(new SalesEvent(LocalDateTime.of(2023, 7, 7, 12, 7), 66.6, false));
+			srepo.save(new SalesEvent(LocalDateTime.of(2023, 8, 8, 12, 8), 77.7, false));
+						
+			Log.info("create Tickets");
+			//trepo.save("CODE1", false, 20.0, ttrepo.findById((long) 1).orElse(new TicketType()), erepo.findById((long) 1).orElse(new EventRecord()), srepo.findById((long) 1).orElse(new SalesEvent()) );
+			// Tämä ei jostain syystä toimi.
+			//trepo.save("CODE01", false, 200.0);
+			
 
 			Log.info("create Roles");
 			
@@ -69,6 +74,14 @@ public class TicketGuruApplication {
 			Log.info("fetch all eventrecords");
 			for (EventRecord eventrecord: erepo.findAll()) {
 				Log.info("Fetch eventrecord: " + eventrecord.toString());
+			}
+			Log.info("fetch all tickettypes");
+			for (TicketType tickettype: ttrepo.findAll()) {
+				Log.info("Fetch tickettype: " + tickettype.toString());
+			}
+			Log.info("fetch all salesevents");
+			for (SalesEvent salesevent: srepo.findAll()) {
+				Log.info("Fetch salesevent: " + salesevent.toString());
 			}
 		};
 	}

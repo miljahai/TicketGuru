@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface TicketRepository extends CrudRepository<Ticket, Long>{
+public interface TicketRepository extends CrudRepository<Ticket, Long> {
 
 	Optional<Ticket> findById(Long id);
 }
