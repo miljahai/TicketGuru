@@ -106,7 +106,7 @@ SalesEvent-taulu sisältää ostotapahtuman tiedot. SalesEventistä on OneToMany
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
 salesevent_id | int PK | Ostotapahtuman id
-sale_date | LacoalDateTime |  Ostotapahtuman päivämäärä ja kellonaika
+sale_date | LocalDateTime |  Ostotapahtuman päivämäärä ja kellonaika
 price | double | Ostotapahtuman kokonaissumma
 appuser_id | int FK | Ostotapahtuman myyjän käyttäjä id
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
