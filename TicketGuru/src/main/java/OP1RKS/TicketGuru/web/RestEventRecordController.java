@@ -40,6 +40,9 @@ public class RestEventRecordController {
 			EventRecord existingEventRecord = eventRecord.get();
 		        
 		    existingEventRecord.setEventrecord_name(editEventRecord.getEventrecord_name());
+		    existingEventRecord.setVenue(editEventRecord.getVenue());
+		    existingEventRecord.setCity(editEventRecord.getCity());
+		    existingEventRecord.setTicketsmax(editEventRecord.getTicketsmax());
 		    existingEventRecord.setEvent_starttime(editEventRecord.getEvent_starttime());
 		    existingEventRecord.setEvent_endtime(editEventRecord.getEvent_endtime());
 		    existingEventRecord.setDeleted(editEventRecord.isDeleted());
