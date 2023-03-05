@@ -73,6 +73,8 @@ public class RestTicketController {
 		existingTicket.setTicket_code(editTicket.getTicket_code());
 		existingTicket.setPrice(editTicket.getPrice());
 		existingTicket.setDeleted(editTicket.isDeleted());
+		existingTicket.setEventRecord(editTicket.getEventRecord());
+		existingTicket.setSalesEvent(editTicket.getSalesEvent());
 		
 		Ticket editedTicket = trepo.save(existingTicket);
 		return ResponseEntity.ok(editedTicket);
