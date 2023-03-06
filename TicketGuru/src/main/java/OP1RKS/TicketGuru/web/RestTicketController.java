@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import OP1RKS.TicketGuru.domain.EventRecordRepository;
 import OP1RKS.TicketGuru.domain.SalesEventRepository;
 import OP1RKS.TicketGuru.domain.Ticket;
 import OP1RKS.TicketGuru.domain.TicketRepository;
@@ -30,7 +31,8 @@ public class RestTicketController {
 	@Autowired
 	private SalesEventRepository srepo;
 	
-		
+	@Autowired
+	private EventRecordRepository erepo;	
 
 	// REST Ticket
 	// REST List all Tickets
@@ -44,12 +46,15 @@ public class RestTicketController {
 	ResponseEntity<Object> newTicket (@RequestBody Ticket newTicket) {
 		Long ticket_type_id = newTicket.getTicketType().getTicket_type_id();
 		Long salesevent_id = newTicket.getSalesEvent().getSalesevent_id();
+		Long eventrecord_id = newTicket.getEventRecord().getEventrecord_id();
 		
 		if(!ttrepo.existsById(ticket_type_id)) {
 			return ResponseEntity.badRequest().body("TicketType with id " + ticket_type_id + " doesn't exist");
 		} else if (!srepo.existsById(salesevent_id)) {
-			return ResponseEntity.badRequest().body("SalesEvent type with id " + salesevent_id + " doesn't exist");
-		}
+			return ResponseEntity.badRequest().body("SalesEvent with id " + salesevent_id + " doesn't exist");
+		} else if (!erepo.existsById(eventrecord_id)) {
+			return ResponseEntity.badRequest().body("Event with id " + eventrecord_id + " doesn't exist");
+		} 
 		Ticket savedTicket = trepo.save(newTicket);
 		return ResponseEntity.ok(savedTicket);
 	};
@@ -60,21 +65,24 @@ public class RestTicketController {
 		Optional<Ticket> ticket = trepo.findById(id);
 		Long ticket_type_id = editTicket.getTicketType().getTicket_type_id();
 		Long salesevent_id = editTicket.getSalesEvent().getSalesevent_id();
+		Long eventrecord_id = editTicket.getEventRecord().getEventrecord_id();
 		
 		if (!ticket.isPresent()) {
 			return ResponseEntity.badRequest().body("Ticket with id " + id + " doesn't exist");
 		} else if (!ttrepo.existsById(ticket_type_id)) {
 			return ResponseEntity.badRequest().body("TicketType with id " + ticket_type_id + " doesn't exist");
-		} else if (!srepo.existsById(ticket_type_id)) {
+		} else if (!srepo.existsById(salesevent_id)) {
 			return ResponseEntity.badRequest().body("SalesEvent with id " + salesevent_id + " doesn't exist");
+		} else if (!srepo.existsById(eventrecord_id)) {
+			return ResponseEntity.badRequest().body("Event with id " + eventrecord_id + " doesn't exist");
 		}
-		
 		Ticket existingTicket = ticket.get();
 		existingTicket.setTicket_code(editTicket.getTicket_code());
 		existingTicket.setPrice(editTicket.getPrice());
 		existingTicket.setDeleted(editTicket.isDeleted());
 		existingTicket.setEventRecord(editTicket.getEventRecord());
 		existingTicket.setSalesEvent(editTicket.getSalesEvent());
+		existingTicket.setTicketType(editTicket.getTicketType());
 		
 		Ticket editedTicket = trepo.save(existingTicket);
 		return ResponseEntity.ok(editedTicket);
