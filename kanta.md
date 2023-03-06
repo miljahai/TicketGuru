@@ -5,8 +5,11 @@ CREATE TABLE EventRecord
 (
 eventrecord_id INTEGER NOT NULL AUTO_INCREMENT  UNIQUE ,
 eventrecord_name VARCHAR(100) NOT NULL,
-eventrecord_starttime LOCALTIME NOT NULL,
-eventrecord_endtime LOCALTIME,
+venue VARCHAR,
+city CHAR(100),
+ticketsmax INTEGER,
+eventrecord_starttime LOCALDATETIME NOT NULL,
+eventrecord_endtime LOCALDATETIME,
 deleted BOOLEAN DEFAULT 'false',
 CONSTRAINT EventRecord_pkey PRIMARY KEY (eventrecord_id)
 );
@@ -14,8 +17,7 @@ CONSTRAINT EventRecord_pkey PRIMARY KEY (eventrecord_id)
 CREATE TABLE SalesEvent
 (
 sales_event_id INTEGER NOT NULL AUTO_INCREMENT  UNIQUE ,
-sale_date DATE NOT NULL,
-sale_time LOCALTIME NOT NULL,
+sale_date LOCALDATETIME NOT NULL,
 sales_event_price DOUBLE NOT NULL,
 appuser_id INTEGER NOT NULL,
 deleted BOOLEAN DEFAULT 'false',
@@ -59,7 +61,7 @@ last_name CHAR(25) NOT NULL,
 email VARCHAR(100) NOT NULL,
 password VARCHAR(50) NOT NULL,
 deleted BOOLEAN DEFAULT 'false',
-role_id INTEGER NOT NULL,
+userrole_id INTEGER,
 CONSTRAINT AppUser_pkey PRIMARY KEY (appuser_id)
 );
 
@@ -73,4 +75,4 @@ ALTER TABLE Ticket ADD FOREIGN KEY (ticket_type_id) REFERENCES TicketTypes (tick
 
 ALTER TABLE Ticket ADD FOREIGN KEY (sales_event_id) REFERENCES SalesEvent (sales_event_id);
 
-ALTER TABLE AppUser ADD FOREIGN KEY (role_id) REFERENCES UserRole (userrole_id);
+ALTER TABLE AppUser ADD FOREIGN KEY (userrole_id) REFERENCES UserRole (userrole_id);
