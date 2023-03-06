@@ -90,6 +90,18 @@ https://ticketguru.com
 ```
 #### Error response
 
+**Condition** : Id does not exist
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+
+/events/99
+```
+Event with id 99 doesn't exist
+```
+
+
 ### Add new event
 
 **URL:** `/events`
@@ -102,7 +114,7 @@ https://ticketguru.com
 
 #### Success Response
 
-**Condition**: If everything is OK
+**Condition** : If everything is OK
 
 **Code** : `201 Created`
 
@@ -120,6 +132,11 @@ https://ticketguru.com
 }
 ```
 #### Error response
+
+**Condition** : Values given in invalid format
+
+**Code** : `403 Forbidden`
+
 
 
 ### Update event
@@ -153,6 +170,10 @@ Response show updated name, city and ticketsmax for event with id 5
 ```
 #### Error response
 
+**Condition** : Values given in invalid format
+
+**Code** : `403 Forbidden`
+
 
 ### Delete By Id
 
@@ -175,6 +196,17 @@ Response show updated name, city and ticketsmax for event with id 5
  ```
 
 #### Error response
+
+**Condition** : Id does not exist
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+
+/events/99
+```
+Event with id 99 doesn't exist
+```
 
 <br>
 
@@ -344,6 +376,17 @@ Response show updated name, city and ticketsmax for event with id 5
 ```
 #### Error response
 
+**Condition** : Id does not exist
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+
+/tickets/99
+```
+Ticket with id 99 doesn't exist
+```
+
 ### Add new ticket
 
 **URL:** `/tickets`
@@ -378,6 +421,11 @@ Response show updated name, city and ticketsmax for event with id 5
 }
 ```
 #### Error response
+
+**Condition** : Values given in invalid format
+
+**Code** : `403 Forbidden`
+
 
 ### Update ticket
 
@@ -428,7 +476,35 @@ Response show updated price for ticket with id 5
     }
 }
 ```
-#### Error response
+#### Error responses
+
+**Condition** : Id does not exist
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+
+/tickets/99
+```
+Ticket with id 99 doesn't exist
+```
+
+**Condition** : Linked resources do not exist
+
+**Code** : `400 Bad Request``
+
+**Content examples**
+```
+SalesEvent with id 99 doesn't exist
+```
+```
+Event with id 99 doesn't exist
+```
+```
+TicketType with id 99 doesn't exist
+```
+
+
 
 ### Delete By Id
 
@@ -451,6 +527,19 @@ Ticket with id 7 was successfully deleted
  ```
 
 #### Error response
+
+**Condition** : Id does not exist
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+
+/tickets/99
+```
+Ticket with id 99 doesn't exist
+```
+
+
 
 <br>
 
@@ -569,6 +658,17 @@ Ticket with id 7 was successfully deleted
 ```
 #### Error Response
 
+**Condition** : Id does not exist
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+
+/tickettypes/99
+```
+TicketType with id 99 doesn't exist
+```
+
 ### Add new TicketType
 
 **URL:** `/tickettypes`
@@ -598,6 +698,17 @@ Ticket with id 7 was successfully deleted
 }
 ```
 #### Error Response
+
+**Condition** : Linked resource does not exist
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+
+/tickettypes
+```
+Event with id 99 doesn't exist
+```
 
 ### Update TicketType
 
@@ -636,6 +747,27 @@ Response show updated name for ticket type with id 1
 ```
 #### Error Response
 
+**Condition** : Id does not exist
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+
+/tickettypes/99
+```
+TicketType with id 99 doesn't exist
+```
+
+**Condition** : Linked resource does not exist
+
+**Code** : `400 Bad Request``
+
+**Content examples**
+```
+Event with id 99 doesn't exist
+```
+
+
 ### Delete By Id
 
 **URL:** `/tickettypes/{id}`
@@ -655,6 +787,19 @@ Response show updated name for ticket type with id 1
  ```
  TicketType with id 5 was successfully deleted
  ```
+
+#### Error Response
+
+**Condition** : Id does not exist
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+
+/tickettypes/99
+```
+TicketType with id 99 doesn't exist
+```
 
 <br>
 
@@ -738,6 +883,17 @@ Response show updated name for ticket type with id 1
 ```
 #### Error Response
 
+**Condition** : Id does not exist
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+
+/salesevents/99
+```
+SalesEvent with id 99 doesn't exist
+```
+
 ### Add new SalesEvent
 
 **URL:** `/salesevents`
@@ -765,6 +921,10 @@ Response show updated name for ticket type with id 1
 }
 ```
 #### Error Response
+
+**Condition** : Values given in invalid format
+
+**Code** : `403 Forbidden`
 
 ### Update SalesEvent
 
@@ -794,6 +954,18 @@ Response show updated price for sales event with id 10
 ```
 #### Error Response
 
+**Condition** : Id does not exist
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+
+/salesevents/99
+```
+SalesEvent with id 99 doesn't exist
+```
+
+
 ### Delete By Id
 
 **URL:** `/salesevents/{id}`
@@ -813,6 +985,19 @@ Response show updated price for sales event with id 10
  ```
  SalesEvent with id 10 was successfully deleted
  ```
+
+#### Error Response
+
+**Condition** : Id does not exist
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+
+/salesevents/99
+```
+SalesEvent with id 99 doesn't exist
+```
 
 <br>
 
