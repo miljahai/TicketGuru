@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +50,7 @@ public class RestSalesEventController {
 	};
 	
 	//Find By Id
-	@GetMapping("/salesevent/{id}")
+	@GetMapping("/salesevents/{id}")
 	ResponseEntity<Object> getSalesEvent(@PathVariable Long id) {
 		if (!srepo.existsById(id)) {
 			return ResponseEntity.badRequest().body("SalesEvent with id " + id + " doesn't exist");
@@ -59,6 +60,7 @@ public class RestSalesEventController {
 	};
 	
 	//Delete
+	@DeleteMapping("/salesevents/{id}")
 	ResponseEntity<String> deleteSalesEvent(@PathVariable Long id) {
 		if (!srepo.existsById(id)) {
 			return ResponseEntity.badRequest().body("SalesEvent with id " + id + " doesn't exist");
