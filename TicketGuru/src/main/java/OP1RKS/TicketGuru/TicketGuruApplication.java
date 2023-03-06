@@ -79,7 +79,7 @@ public class TicketGuruApplication {
 			newTicket2.setDeleted(false);
 			newTicket2.setPrice(250.0);
 			newTicket2.setTicketType(ttrepo.findById((long) 2).orElse(new TicketType()));
-			newTicket2.setEventRecord(erepo.findById((long) 3).orElse(new EventRecord()));
+			newTicket2.setEventRecord(erepo.findById((long) 1).orElse(new EventRecord()));
 			newTicket2.setSalesEvent(srepo.findById((long) 2).orElse(new SalesEvent()));
 			tickets.save(newTicket2);
 			Ticket newTicket3 = new Ticket();
@@ -87,8 +87,8 @@ public class TicketGuruApplication {
 			newTicket3.setDeleted(false);
 			newTicket3.setPrice(200.0);
 			newTicket3.setTicketType(ttrepo.findById((long) 1).orElse(new TicketType()));
-			newTicket3.setEventRecord(erepo.findById((long) 3).orElse(new EventRecord()));
-			newTicket3.setSalesEvent(srepo.findById((long) 2).orElse(new SalesEvent()));
+			newTicket3.setEventRecord(erepo.findById((long) 1).orElse(new EventRecord()));
+			newTicket3.setSalesEvent(srepo.findById((long) 3).orElse(new SalesEvent()));
 			tickets.save(newTicket3);
 			Ticket newTicket4 = new Ticket();
 			newTicket4.setTicket_code("CODE03");
@@ -96,7 +96,7 @@ public class TicketGuruApplication {
 			newTicket4.setPrice(50.70);
 			newTicket4.setTicketType(ttrepo.findById((long) 6).orElse(new TicketType()));
 			newTicket4.setEventRecord(erepo.findById((long) 2).orElse(new EventRecord()));
-			newTicket4.setSalesEvent(srepo.findById((long) 5).orElse(new SalesEvent()));
+			newTicket4.setSalesEvent(srepo.findById((long) 4).orElse(new SalesEvent()));
 			tickets.save(newTicket4);
 			Ticket newTicket5 = new Ticket();
 			newTicket5.setTicket_code("CODE03");
@@ -104,7 +104,7 @@ public class TicketGuruApplication {
 			newTicket5.setPrice(50.70);
 			newTicket5.setTicketType(ttrepo.findById((long) 4).orElse(new TicketType()));
 			newTicket5.setEventRecord(erepo.findById((long) 2).orElse(new EventRecord()));
-			newTicket5.setSalesEvent(srepo.findById((long) 7).orElse(new SalesEvent()));
+			newTicket5.setSalesEvent(srepo.findById((long) 5).orElse(new SalesEvent()));
 			tickets.save(newTicket5);
 			Ticket newTicket6 = new Ticket();
 			newTicket6.setTicket_code("CODE03");
@@ -112,7 +112,7 @@ public class TicketGuruApplication {
 			newTicket6.setPrice(50.70);
 			newTicket6.setTicketType(ttrepo.findById((long) 9).orElse(new TicketType()));
 			newTicket6.setEventRecord(erepo.findById((long) 4).orElse(new EventRecord()));
-			newTicket6.setSalesEvent(srepo.findById((long) 8).orElse(new SalesEvent()));
+			newTicket6.setSalesEvent(srepo.findById((long) 6).orElse(new SalesEvent()));
 			tickets.save(newTicket6);
 
 			Log.info("create Roles");
