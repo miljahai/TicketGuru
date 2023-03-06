@@ -49,7 +49,7 @@ public class RestSalesEventController {
 	};
 	
 	//Find By Id
-	@GetMapping("/salesevent/{id}")
+	@GetMapping("/salesevents/{id}")
 	ResponseEntity<Object> getSalesEvent(@PathVariable Long id) {
 		if (!srepo.existsById(id)) {
 			return ResponseEntity.badRequest().body("SalesEvent with id " + id + " doesn't exist");

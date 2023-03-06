@@ -103,14 +103,14 @@ public class TicketGuruApplication {
 			newTicket5.setDeleted(false);
 			newTicket5.setPrice(50.70);
 			newTicket5.setTicketType(ttrepo.findById((long) 4).orElse(new TicketType()));
-			newTicket5.setEventRecord(erepo.findById((long) 4).orElse(new EventRecord()));
+			newTicket5.setEventRecord(erepo.findById((long) 2).orElse(new EventRecord()));
 			newTicket5.setSalesEvent(srepo.findById((long) 7).orElse(new SalesEvent()));
 			tickets.save(newTicket5);
 			Ticket newTicket6 = new Ticket();
 			newTicket6.setTicket_code("CODE03");
 			newTicket6.setDeleted(false);
 			newTicket6.setPrice(50.70);
-			newTicket6.setTicketType(ttrepo.findById((long) 5).orElse(new TicketType()));
+			newTicket6.setTicketType(ttrepo.findById((long) 9).orElse(new TicketType()));
 			newTicket6.setEventRecord(erepo.findById((long) 4).orElse(new EventRecord()));
 			newTicket6.setSalesEvent(srepo.findById((long) 8).orElse(new SalesEvent()));
 			tickets.save(newTicket6);
