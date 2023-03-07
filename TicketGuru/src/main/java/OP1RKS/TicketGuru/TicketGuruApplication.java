@@ -59,13 +59,7 @@ public class TicketGuruApplication {
 			srepo.save(new SalesEvent(LocalDateTime.of(2023, 8, 8, 12, 8), 77.7, false));			
 			srepo.save(new SalesEvent(LocalDateTime.of(2023, 9, 9, 12, 9), 88.8, false));
 						
-			Log.info("create Tickets");
-			// Tämä ei jostain syystä toimi:
-			//tickets.save("CODE1", false, 20.0, ttrepo.findById((long) 1).orElse(new TicketType()), erepo.findById((long) 1).orElse(new EventRecord()), srepo.findById((long) 1).orElse(new SalesEvent()) );
-			//tickets.save("CODE01", false, 200.0);
-
-			// Mutta tämä toimii:
-			// (Muutin trepo ticketsiksi testaillessa. Sen voi muuttaa takaisin.)			
+			Log.info("create Tickets");	
 			Ticket newTicket1 = new Ticket();
 			newTicket1.setTicket_code("CODE01");
 			newTicket1.setDeleted(false);
@@ -131,6 +125,10 @@ public class TicketGuruApplication {
 			Log.info("fetch all salesevents");
 			for (SalesEvent salesevent: srepo.findAll()) {
 				Log.info("Fetch salesevent: " + salesevent.toString());
+			}
+			Log.info("fetch all tickets");
+			for (Ticket ticket: tickets.findAll()) {
+				Log.info("Fetch ticket: " + ticket.toString());
 			}
 		};
 	}

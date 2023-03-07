@@ -10,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.SQLDelete;
@@ -31,16 +33,18 @@ public class EventRecord {
 	@Column(name = "eventrecord_id" )
 	private Long eventrecord_id;
 	
-	@Size(max = 100, message="name is too long")
 	@NotNull
-	private String eventrecord_name, venue, city;
+	@Size(max = 100, message="name is too long")
+	private String eventrecord_name;
 	
+	@Size(max = 100, message="too long")
+	private String venue, city;
+	
+	@Min(value = 0, message="number of tickets cannot be negative")
 	private int ticketsmax;
 	
 	@NotNull
-	private LocalDateTime event_starttime;
-	
-	private LocalDateTime event_endtime;
+	private LocalDateTime event_starttime, event_endtime;
 	
 	private boolean deleted;
 	
@@ -54,12 +58,30 @@ public class EventRecord {
 	
 	
 	// Constructors
+
+
+	public EventRecord() {
+		
+	}
+	
+	public EventRecord(@NotNull @Size(max = 100, message = "name is too long") String eventrecord_name,
+			@Size(max = 100, message = "too long") String venue, @Size(max = 100, message = "too long") String city,
+			@Min(value = 0, message = "number of tickets cannot be negative") int ticketsmax,
+			@NotNull LocalDateTime event_starttime, @NotNull LocalDateTime event_endtime, boolean deleted) {
+		this.eventrecord_name = eventrecord_name;
+		this.venue = venue;
+		this.city = city;
+		this.ticketsmax = ticketsmax;
+		this.event_starttime = event_starttime;
+		this.event_endtime = event_endtime;
+		this.deleted = deleted;
+	}
+
 	public EventRecord(Long eventrecord_id,
-			@Size(max = 100, message = "name is too long") @NotNull String eventrecord_name,
-			@Size(max = 100, message = "name is too long") @NotNull String venue,
-			@Size(max = 100, message = "name is too long") @NotNull String city, int ticketsmax,
-			@NotNull LocalDateTime event_starttime, LocalDateTime event_endtime, boolean deleted) {
-		super();
+			@NotNull @Size(max = 100, message = "name is too long") String eventrecord_name,
+			@Size(max = 100, message = "too long") String venue, @Size(max = 100, message = "too long") String city,
+			@Min(value = 0, message = "number of tickets cannot be negative") int ticketsmax,
+			@NotNull LocalDateTime event_starttime, @NotNull LocalDateTime event_endtime, boolean deleted) {
 		this.eventrecord_id = eventrecord_id;
 		this.eventrecord_name = eventrecord_name;
 		this.venue = venue;
@@ -70,24 +92,7 @@ public class EventRecord {
 		this.deleted = deleted;
 	}
 
-	public EventRecord(@Size(max = 100, message = "name is too long") @NotNull String eventrecord_name,
-			@Size(max = 100, message = "name is too long") @NotNull String venue,
-			@Size(max = 100, message = "name is too long") @NotNull String city, int ticketsmax,
-			@NotNull LocalDateTime event_starttime, LocalDateTime event_endtime, boolean deleted) {
-		this.eventrecord_name = eventrecord_name;
-		this.venue = venue;
-		this.city = city;
-		this.ticketsmax = ticketsmax;
-		this.event_starttime = event_starttime;
-		this.event_endtime = event_endtime;
-		this.deleted = deleted;
-	}
 
-	public EventRecord() {
-		super();
-	}
-
-	
 	// Getters and Setters
 	public Long getEventrecord_id() {
 		return eventrecord_id;
