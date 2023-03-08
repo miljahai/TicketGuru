@@ -2,15 +2,17 @@ package OP1RKS.TicketGuru.domain;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import jakarta.persistence.Id;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name= "ticket")
@@ -22,7 +24,11 @@ public class Ticket {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long ticket_id;
+	
+	@NotNull
+	@Size(max = 50, message="code is too long")
 	private String ticket_code;
+	
 	private boolean deleted;
 	private double price;
 	
@@ -39,21 +45,10 @@ public class Ticket {
 	public Ticket() {
 	}
 	
-	public Ticket(
-			String ticket_code
-			, boolean deleted
-			, double price
-			, TicketType ticketType, SalesEvent salesEvent
-			) {
-		this.ticket_code = ticket_code;
-		this.deleted = deleted;
-		this.price = price;
-		this.ticketType = ticketType;
-		this.salesEvent = salesEvent;
-	}
-
-	public Ticket(Long ticket_id, String ticket_code, boolean deleted, double price, TicketType ticketType,
-			SalesEvent salesEvent) {
+	
+	
+	public Ticket(Long ticket_id, @NotNull @Size(max = 50, message = "code is too long") String ticket_code,
+			boolean deleted, double price, TicketType ticketType, SalesEvent salesEvent) {
 		super();
 		this.ticket_id = ticket_id;
 		this.ticket_code = ticket_code;
@@ -62,6 +57,18 @@ public class Ticket {
 		this.ticketType = ticketType;
 		this.salesEvent = salesEvent;
 	}
+
+
+	public Ticket(@NotNull @Size(max = 50, message = "code is too long") String ticket_code, boolean deleted,
+			double price, TicketType ticketType, SalesEvent salesEvent) {
+		super();
+		this.ticket_code = ticket_code;
+		this.deleted = deleted;
+		this.price = price;
+		this.ticketType = ticketType;
+		this.salesEvent = salesEvent;
+	}
+
 
 	public Long getTicket_id() {
 		return ticket_id;
