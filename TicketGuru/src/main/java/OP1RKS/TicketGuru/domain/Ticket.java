@@ -2,15 +2,17 @@ package OP1RKS.TicketGuru.domain;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import jakarta.persistence.Id;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name= "ticket")
@@ -22,17 +24,18 @@ public class Ticket {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long ticket_id;
+	
+	@NotNull
+	@Size(max = 50, message="code is too long")
 	private String ticket_code;
+	
 	private boolean deleted;
 	private double price;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ticket_type_id")
 	private TicketType ticketType;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn (name = "eventrecord_id")
-	private EventRecord eventRecord;
+	
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "salesevent_id")
@@ -42,31 +45,30 @@ public class Ticket {
 	public Ticket() {
 	}
 	
-	public Ticket(
-			String ticket_code
-			, boolean deleted
-			, double price
-			, TicketType ticketType, EventRecord eventRecord, SalesEvent salesEvent
-			) {
-		this.ticket_code = ticket_code;
-		this.deleted = deleted;
-		this.price = price;
-		this.ticketType = ticketType;
-		this.eventRecord = eventRecord;
-		this.salesEvent = salesEvent;
-	}
-
-	public Ticket(Long ticket_id, String ticket_code, boolean deleted, double price, TicketType ticketType,
-			EventRecord eventRecord, SalesEvent salesEvent) {
+	
+	
+	public Ticket(Long ticket_id, @NotNull @Size(max = 50, message = "code is too long") String ticket_code,
+			boolean deleted, double price, TicketType ticketType, SalesEvent salesEvent) {
 		super();
 		this.ticket_id = ticket_id;
 		this.ticket_code = ticket_code;
 		this.deleted = deleted;
 		this.price = price;
 		this.ticketType = ticketType;
-		this.eventRecord = eventRecord;
 		this.salesEvent = salesEvent;
 	}
+
+
+	public Ticket(@NotNull @Size(max = 50, message = "code is too long") String ticket_code, boolean deleted,
+			double price, TicketType ticketType, SalesEvent salesEvent) {
+		super();
+		this.ticket_code = ticket_code;
+		this.deleted = deleted;
+		this.price = price;
+		this.ticketType = ticketType;
+		this.salesEvent = salesEvent;
+	}
+
 
 	public Long getTicket_id() {
 		return ticket_id;
@@ -108,14 +110,6 @@ public class Ticket {
 		this.ticketType = ticketType;
 	}
 
-	public EventRecord getEventRecord() {
-		return eventRecord;
-	}
-
-	public void setEventRecord(EventRecord eventRecord) {
-		this.eventRecord = eventRecord;
-	}
-
 	public SalesEvent getSalesEvent() {
 		return salesEvent;
 	}
@@ -127,7 +121,7 @@ public class Ticket {
 	@Override
 	public String toString() {
 		return "Ticket [ticket_id=" + ticket_id + ", ticket_code=" + ticket_code + ", deleted=" + deleted + ", price="
-				+ price + ", ticketType=" + ticketType + ", eventRecord=" + eventRecord + ", salesEvent=" + salesEvent
+				+ price + ", ticketType=" + ticketType + ", salesEvent=" + salesEvent
 				+ "]";
 	}
 

@@ -47,9 +47,6 @@ public class EventRecord {
 	
 	private boolean deleted;
 	
-	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket_id")
-	private List<Ticket> tickets;
 	
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket_type_id")
@@ -157,14 +154,7 @@ public class EventRecord {
 		this.deleted = deleted;
 	}
 
-	public List<Ticket> getTickets() {
-		return tickets;
-	}
-
-	public void setTickets(List<Ticket> tickets) {
-		this.tickets = tickets;
-	}
-
+	
 	public List<TicketType> getTickettypes() {
 		return tickettypes;
 	}
@@ -179,8 +169,7 @@ public class EventRecord {
 	public String toString() {
 		return "EventRecord [eventrecord_id=" + eventrecord_id + ", eventrecord_name=" + eventrecord_name + ", venue="
 				+ venue + ", city=" + city + ", ticketsmax=" + ticketsmax + ", event_starttime=" + event_starttime
-				+ ", event_endtime=" + event_endtime + ", deleted=" + deleted + ", tickets= + tickets"
-				+ ", tickettypes= + tickettypes" + "]";
+				+ ", event_endtime=" + event_endtime + ", deleted=" + deleted + ", tickettypes= + tickettypes" + "]";
 	}
 	
 }

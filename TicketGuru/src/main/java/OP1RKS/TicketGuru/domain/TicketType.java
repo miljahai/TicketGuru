@@ -4,18 +4,21 @@ import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name= "ticketType")
@@ -26,8 +29,12 @@ public class TicketType {
 	
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Long ticket_type_id;	
+	private Long ticket_type_id;
+	
+	@NotNull
+	@Size(max = 20, message = "name is too long")
 	private String name;
+	
 	private double price;
 	private boolean deleted;
 	
@@ -43,14 +50,22 @@ public class TicketType {
 		super();
 	}
 	
-	public TicketType(String name, double price, boolean deleted, EventRecord eventRecord) {
+	
+	
+	public TicketType(@NotNull @Size(max = 20, message = "name is too long") String name, double price, boolean deleted,
+			EventRecord eventRecord) {
+		super();
 		this.name = name;
 		this.price = price;
 		this.deleted = deleted;
 		this.eventRecord = eventRecord;
 	}
 
-	public TicketType(Long ticket_type_id, String name, double price, boolean deleted, EventRecord eventRecord) {
+
+
+
+	public TicketType(Long ticket_type_id, @NotNull @Size(max = 20, message = "name is too long") String name,
+			double price, boolean deleted, EventRecord eventRecord) {
 		super();
 		this.ticket_type_id = ticket_type_id;
 		this.name = name;
@@ -59,15 +74,19 @@ public class TicketType {
 		this.eventRecord = eventRecord;
 	}
 
-	public TicketType(Long ticket_type_id, String name, double price, boolean deleted, EventRecord eventRecord, List<Ticket> tickets) {
+
+
+	public TicketType(Long ticket_type_id, @NotNull @Size(max = 20, message = "name is too long") String name,
+			double price, boolean deleted, List<Ticket> tickets, EventRecord eventRecord) {
 		super();
 		this.ticket_type_id = ticket_type_id;
 		this.name = name;
 		this.price = price;
 		this.deleted = deleted;
-		this.eventRecord = eventRecord;
 		this.tickets = tickets;
+		this.eventRecord = eventRecord;
 	}
+
 	
 	public TicketType(Long ticket_type_id) {
 		super();
