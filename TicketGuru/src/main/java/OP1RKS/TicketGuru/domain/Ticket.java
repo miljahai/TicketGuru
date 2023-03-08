@@ -29,10 +29,7 @@ public class Ticket {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ticket_type_id")
 	private TicketType ticketType;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn (name = "eventrecord_id")
-	private EventRecord eventRecord;
+	
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "salesevent_id")
@@ -46,25 +43,23 @@ public class Ticket {
 			String ticket_code
 			, boolean deleted
 			, double price
-			, TicketType ticketType, EventRecord eventRecord, SalesEvent salesEvent
+			, TicketType ticketType, SalesEvent salesEvent
 			) {
 		this.ticket_code = ticket_code;
 		this.deleted = deleted;
 		this.price = price;
 		this.ticketType = ticketType;
-		this.eventRecord = eventRecord;
 		this.salesEvent = salesEvent;
 	}
 
 	public Ticket(Long ticket_id, String ticket_code, boolean deleted, double price, TicketType ticketType,
-			EventRecord eventRecord, SalesEvent salesEvent) {
+			SalesEvent salesEvent) {
 		super();
 		this.ticket_id = ticket_id;
 		this.ticket_code = ticket_code;
 		this.deleted = deleted;
 		this.price = price;
 		this.ticketType = ticketType;
-		this.eventRecord = eventRecord;
 		this.salesEvent = salesEvent;
 	}
 
@@ -108,14 +103,6 @@ public class Ticket {
 		this.ticketType = ticketType;
 	}
 
-	public EventRecord getEventRecord() {
-		return eventRecord;
-	}
-
-	public void setEventRecord(EventRecord eventRecord) {
-		this.eventRecord = eventRecord;
-	}
-
 	public SalesEvent getSalesEvent() {
 		return salesEvent;
 	}
@@ -127,7 +114,7 @@ public class Ticket {
 	@Override
 	public String toString() {
 		return "Ticket [ticket_id=" + ticket_id + ", ticket_code=" + ticket_code + ", deleted=" + deleted + ", price="
-				+ price + ", ticketType=" + ticketType + ", eventRecord=" + eventRecord + ", salesEvent=" + salesEvent
+				+ price + ", ticketType=" + ticketType + ", salesEvent=" + salesEvent
 				+ "]";
 	}
 
