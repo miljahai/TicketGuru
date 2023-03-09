@@ -52,7 +52,7 @@ public class Ticket {
 	
 	
 	public Ticket(Long ticket_id, @NotNull @Size(max = 50, message = "code is too long") String ticket_code,
-			boolean deleted, double price, TicketType ticketType, SalesEvent salesEvent) {
+			boolean deleted, @NotNull @Min(value = 0, message="price cannot be negative") double price, TicketType ticketType, SalesEvent salesEvent) {
 		super();
 		this.ticket_id = ticket_id;
 		this.ticket_code = ticket_code;
@@ -64,7 +64,7 @@ public class Ticket {
 
 
 	public Ticket(@NotNull @Size(max = 50, message = "code is too long") String ticket_code, boolean deleted,
-			double price, TicketType ticketType, SalesEvent salesEvent) {
+			@NotNull @Min(value = 0, message="price cannot be negative") double price, TicketType ticketType, SalesEvent salesEvent) {
 		super();
 		this.ticket_code = ticket_code;
 		this.deleted = deleted;
