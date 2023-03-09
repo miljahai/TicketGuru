@@ -54,12 +54,9 @@ public class EventRecord {
 	
 	
 	// Constructors
+	public EventRecord() {}
 
-
-	public EventRecord() {
-		
-	}
-	
+	// without id
 	public EventRecord(@NotNull @Size(max = 100, message = "name is too long") String eventrecord_name,
 			@Size(max = 100, message = "too long") String venue, @Size(max = 100, message = "too long") String city,
 			@Min(value = 0, message = "number of tickets cannot be negative") int ticketsmax,
@@ -72,7 +69,8 @@ public class EventRecord {
 		this.event_endtime = event_endtime;
 		this.deleted = deleted;
 	}
-
+	
+	// with id
 	public EventRecord(Long eventrecord_id,
 			@NotNull @Size(max = 100, message = "name is too long") String eventrecord_name,
 			@Size(max = 100, message = "too long") String venue, @Size(max = 100, message = "too long") String city,
@@ -164,12 +162,11 @@ public class EventRecord {
 	}
 
 	
-	// ToString
 	@Override
 	public String toString() {
 		return "EventRecord [eventrecord_id=" + eventrecord_id + ", eventrecord_name=" + eventrecord_name + ", venue="
 				+ venue + ", city=" + city + ", ticketsmax=" + ticketsmax + ", event_starttime=" + event_starttime
-				+ ", event_endtime=" + event_endtime + ", deleted=" + deleted + ", tickettypes= + tickettypes" + "]";
+				+ ", event_endtime=" + event_endtime + ", deleted=" + deleted + ", tickettypes=" + tickettypes + "]";
 	}
 	
 }

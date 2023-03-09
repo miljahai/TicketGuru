@@ -3,6 +3,7 @@ package OP1RKS.TicketGuru.web;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,14 +28,22 @@ public class RestEventRecordController {
 	public Iterable<EventRecord> getEventRecords() {
 		return erepo.findAll();
 	};
+	
 	// REST Add
 	@PostMapping("/events")
-	EventRecord newEventRecord (@RequestBody EventRecord newEventRecord) {
-		return erepo.save(newEventRecord);
+	ResponseEntity<EventRecord> newEventRecord (@RequestBody EventRecord newEventRecord) {
+		try {
+		erepo.save(newEventRecord);
+		return new ResponseEntity<>(newEventRecord, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(newEventRecord, HttpStatus.BAD_REQUEST);
+		}
 	};
+	
 	// REST Update
 	@PutMapping("/events/{id}")
-    EventRecord editEventRecord(@RequestBody EventRecord editEventRecord, @PathVariable Long id) {
+    ResponseEntity<String> editEventRecord(@RequestBody EventRecord editEventRecord, @PathVariable Long id) {
 		Optional<EventRecord> eventRecord = erepo.findById(id);
 		if (eventRecord.isPresent()) {
 			EventRecord existingEventRecord = eventRecord.get();
@@ -48,9 +57,9 @@ public class RestEventRecordController {
 		    existingEventRecord.setDeleted(editEventRecord.isDeleted());
 		        
 		    erepo.save(existingEventRecord);   
-		    return existingEventRecord;
+		    return new ResponseEntity<>("Event " + existingEventRecord.getEventrecord_id() + " " + existingEventRecord.getEventrecord_name() + " updated", HttpStatus.OK);
 		} else {
-		    return null;
+		    return new ResponseEntity<>("Event with id " + id + " doesn't exist", HttpStatus.BAD_REQUEST);
 		}
 	};
 	
@@ -65,6 +74,7 @@ public class RestEventRecordController {
 	};
 	
 	// REST Delete
+	// TBA: tarkista liittyykö poistettavaan Eventtiin TicketTypejä ???
 	@DeleteMapping("/events/{id}")
 	ResponseEntity<String> deleteEventRecord(@PathVariable Long id) {
 		if (!erepo.existsById(id)) {

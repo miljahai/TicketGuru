@@ -108,6 +108,8 @@ public class TicketGuruApplication {
 			Log.info("create Users");
 			
 			// Check Fake Data
+			// Tämä failaa, jos Eventrecordin toStringissä on tickettypes
+			/*
 			Log.info("fetch all eventrecords");
 			for (EventRecord eventrecord: erepo.findAll()) {
 				Log.info("Fetch eventrecord: " + eventrecord.toString());
@@ -124,6 +126,7 @@ public class TicketGuruApplication {
 			for (Ticket ticket: tickets.findAll()) {
 				Log.info("Fetch ticket: " + ticket.toString());
 			}
+			*/
 		};
 	}
 	
