@@ -61,6 +61,8 @@ https://ticketguru.com
 
 **Code** : `404 Not Found`
 
+<br>
+
 ### Find By Id
 
 **URL:** `/events/{id}`
@@ -105,7 +107,7 @@ https://ticketguru.com
 ```
 Event with id 99 doesn't exist
 ```
-
+<br>
 
 ### Add new event
 
@@ -179,6 +181,7 @@ Response show updated name, city and ticketsmax for event with id 5
 
 **Code** : `404 Not Found`
 
+<br>
 
 ### Delete By Id
 
@@ -256,16 +259,6 @@ Event with id 99 doesn't exist
                 "deleted": false
             }
         },
-        "eventRecord": {
-            "eventrecord_id": 1,
-            "eventrecord_name": "Tapahtuma 1",
-            "venue": "Paikka 1",
-            "city": "Kaupunki 1",
-            "ticketsmax": 100,
-            "event_starttime": "2023-01-01T11:11:00",
-            "event_endtime": "2023-01-01T23:23:00",
-            "deleted": false
-        },
         "salesEvent": {
             "salesevent_id": 1,
             "sale_date": "2023-01-01T12:01:00",
@@ -295,16 +288,6 @@ Event with id 99 doesn't exist
                 "deleted": false
             }
         },
-        "eventRecord": {
-            "eventrecord_id": 1,
-            "eventrecord_name": "Tapahtuma 1",
-            "venue": "Paikka 1",
-            "city": "Kaupunki 1",
-            "ticketsmax": 100,
-            "event_starttime": "2023-01-01T11:11:00",
-            "event_endtime": "2023-01-01T23:23:00",
-            "deleted": false
-        },
         "salesEvent": {
             "salesevent_id": 2,
             "sale_date": "2023-02-02T12:02:00",
@@ -317,6 +300,11 @@ Event with id 99 doesn't exist
 ```
 #### Error response
 
+**Condition** : No tickets found
+
+**Code** : `404 Not Found`
+
+<br>
 
 ### Find By Id
 
@@ -383,7 +371,7 @@ Event with id 99 doesn't exist
 
 **Condition** : Id does not exist
 
-**Code** : `400 Bad Request`
+**Code** : `404 Not Found`
 
 **Content examples**
 
@@ -391,6 +379,8 @@ Event with id 99 doesn't exist
 ```
 Ticket with id 99 doesn't exist
 ```
+
+<br>
 
 ### Add new ticket
 
@@ -431,6 +421,20 @@ Ticket with id 99 doesn't exist
 
 **Code** : `403 Forbidden`
 
+
+**Condition** : Linked resources do not exist
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+```
+SalesEvent with id 99 doesn't exist
+```
+```
+TicketType with id 99 doesn't exist
+```
+
+<br>
 
 ### Update ticket
 
@@ -485,7 +489,7 @@ Response show updated price for ticket with id 5
 
 **Condition** : Id does not exist
 
-**Code** : `400 Bad Request`
+**Code** : `404 Not Found`
 
 **Content examples**
 
@@ -496,20 +500,20 @@ Ticket with id 99 doesn't exist
 
 **Condition** : Linked resources do not exist
 
-**Code** : `400 Bad Request``
+**Code** : `400 Bad Request`
 
 **Content examples**
 ```
 SalesEvent with id 99 doesn't exist
 ```
 ```
-Event with id 99 doesn't exist
-```
-```
 TicketType with id 99 doesn't exist
 ```
+**Condition** : Values given in invalid format
 
+**Code** : `403 Forbidden`
 
+<br>
 
 ### Delete By Id
 
@@ -535,7 +539,7 @@ Ticket with id 7 was successfully deleted
 
 **Condition** : Id does not exist
 
-**Code** : `400 Bad Request`
+**Code** : `404 Not Found`
 
 **Content examples**
 
@@ -543,8 +547,6 @@ Ticket with id 7 was successfully deleted
 ```
 Ticket with id 99 doesn't exist
 ```
-
-
 
 <br>
 
@@ -623,6 +625,8 @@ Ticket with id 99 doesn't exist
 ```
 #### Error Response
 
+<br>
+
 ### Find By Id
 
 **URL:** `/tickettypes/{id}`
@@ -673,6 +677,7 @@ Ticket with id 99 doesn't exist
 ```
 TicketType with id 99 doesn't exist
 ```
+<br>
 
 ### Add new TicketType
 
@@ -714,6 +719,7 @@ TicketType with id 99 doesn't exist
 ```
 Event with id 99 doesn't exist
 ```
+<br>
 
 ### Update TicketType
 
@@ -772,6 +778,7 @@ TicketType with id 99 doesn't exist
 Event with id 99 doesn't exist
 ```
 
+<br>
 
 ### Delete By Id
 
@@ -857,6 +864,8 @@ TicketType with id 99 doesn't exist
 ```
 #### Error Response
 
+<br>
+
 ### Find By Id
 
 **URL:** `/salesevents/{id}`
@@ -898,6 +907,7 @@ TicketType with id 99 doesn't exist
 ```
 SalesEvent with id 99 doesn't exist
 ```
+<br>
 
 ### Add new SalesEvent
 
@@ -930,6 +940,8 @@ SalesEvent with id 99 doesn't exist
 **Condition** : Values given in invalid format
 
 **Code** : `403 Forbidden`
+
+<br>
 
 ### Update SalesEvent
 
@@ -969,7 +981,7 @@ Response show updated price for sales event with id 10
 ```
 SalesEvent with id 99 doesn't exist
 ```
-
+<br>
 
 ### Delete By Id
 

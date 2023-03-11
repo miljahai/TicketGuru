@@ -35,8 +35,13 @@ public class RestTicketController {
 	// REST Ticket
 	// REST List all Tickets
 	@GetMapping("/tickets")
-	public Iterable<Ticket> getTickets() {
-		return trepo.findAll();
+	 public ResponseEntity<Iterable<Ticket>> getTickets() {
+		Iterable<Ticket> tickets = trepo.findAll();
+		if (tickets.iterator().hasNext()) {
+            return ResponseEntity.ok(tickets);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
 	};
 	
 	// REST Add Ticket
@@ -62,7 +67,7 @@ public class RestTicketController {
 		Long salesevent_id = editTicket.getSalesEvent().getSalesevent_id();
 				
 		if (!ticket.isPresent()) {
-			return new ResponseEntity<>("Ticket with id " + id + " doesn't exist", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Ticket with id " + id + " doesn't exist", HttpStatus.NOT_FOUND);
 		} else if (!ttrepo.existsById(ticket_type_id)) {
 			return new ResponseEntity<>("TicketType with id " + ticket_type_id + " doesn't exist", HttpStatus.BAD_REQUEST);
 		} else if (!srepo.existsById(salesevent_id)) {
