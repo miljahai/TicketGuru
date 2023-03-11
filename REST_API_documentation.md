@@ -55,6 +55,11 @@ https://ticketguru.com
     }
 ]
 ```
+#### Error Response
+
+**Condition** : No events exist.
+
+**Code** : `404 Not Found`
 
 ### Find By Id
 
@@ -92,7 +97,7 @@ https://ticketguru.com
 
 **Condition** : Id does not exist
 
-**Code** : `400 Bad Request`
+**Code** : `404 Not Found`
 
 **Content examples**
 
@@ -135,7 +140,7 @@ Event with id 99 doesn't exist
 
 **Condition** : Values given in invalid format
 
-**Code** : `403 Forbidden`
+**Code** : `400 Bad Request`
 
 
 
@@ -170,9 +175,9 @@ Response show updated name, city and ticketsmax for event with id 5
 ```
 #### Error response
 
-**Condition** : Values given in invalid format
+**Condition** : Id doesn't exist.
 
-**Code** : `403 Forbidden`
+**Code** : `404 Not Found`
 
 
 ### Delete By Id
@@ -199,7 +204,7 @@ Response show updated name, city and ticketsmax for event with id 5
 
 **Condition** : Id does not exist
 
-**Code** : `400 Bad Request`
+**Code** : `404 Not Found`
 
 **Content examples**
 
