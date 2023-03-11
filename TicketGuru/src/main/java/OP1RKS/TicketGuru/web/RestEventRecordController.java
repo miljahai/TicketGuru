@@ -30,7 +30,7 @@ public class RestEventRecordController {
 			return new ResponseEntity<>(erepo.findAll(), HttpStatus.OK);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<>(erepo.findAll(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(erepo.findAll(), HttpStatus.NOT_FOUND);
 		}
 	};
 	
@@ -64,7 +64,7 @@ public class RestEventRecordController {
 		    erepo.save(existingEventRecord);   
 		    return new ResponseEntity<>("Event " + existingEventRecord.getEventrecord_id() + " " + existingEventRecord.getEventrecord_name() + " updated", HttpStatus.OK);
 		} else {
-		    return new ResponseEntity<>("Event with id " + id + " doesn't exist", HttpStatus.BAD_REQUEST);
+		    return new ResponseEntity<>("Event with id " + id + " doesn't exist", HttpStatus.NOT_FOUND);
 		}
 	};
 	
@@ -72,18 +72,17 @@ public class RestEventRecordController {
 	@GetMapping("/events/{id}")
 	ResponseEntity<Object> getEventRecord(@PathVariable Long id) {
 		if (!erepo.existsById(id)) {
-			return ResponseEntity.badRequest().body("Event with id " + id + " doesn't exist");
+			return new ResponseEntity<>("Event with id " + id + " doesn't exist",HttpStatus.NOT_FOUND);
 		}
 		Optional<EventRecord> foundEvent = erepo.findById(id);
 		return ResponseEntity.ok(foundEvent);
 	};
 	
 	// REST Delete
-	// TBA: tarkista liittyykö poistettavaan Eventtiin TicketTypejä ???
 	@DeleteMapping("/events/{id}")
 	ResponseEntity<String> deleteEventRecord(@PathVariable Long id) {
 		if (!erepo.existsById(id)) {
-			return ResponseEntity.badRequest().body("Event with id " + id + " doesn't exist");
+			return new ResponseEntity<>("Event with id " + id + " doesn't exist",HttpStatus.NOT_FOUND);
 		}
 		erepo.deleteById(id);
 		return ResponseEntity.ok("Event with id "+ id + " was successfully deleted");
