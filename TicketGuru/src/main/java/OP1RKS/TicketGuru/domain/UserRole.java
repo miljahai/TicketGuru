@@ -2,6 +2,9 @@ package OP1RKS.TicketGuru.domain;
 
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import jakarta.persistence.Id;
 
 import jakarta.persistence.CascadeType;
@@ -17,6 +20,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name= "userrole")
+
+@SQLDelete(sql = "UPDATE userrole SET deleted = true WHERE userrrole_id=?")
+@Where(clause="deleted=false")
 public class UserRole {
 	
 	@Id

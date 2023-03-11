@@ -3,7 +3,7 @@ package OP1RKS.TicketGuru.domain;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -24,20 +25,23 @@ public class AppUser {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "appuser_id" )
 	private Long appuser_id;
 	
 	@NotNull
-	@Size(max = 150, message="name is too long")
+	@Size(max = 100, message="name is too long")
 	private String first_name;
 	
 	@NotNull
-	@Size(max = 150, message="name is too long")
+	@Size(max = 100, message="name is too long")
 	private String last_name;
 	
 	@NotNull
+	@Email
 	private String email;
 	
 	@NotNull
+	@Size(min = 6, message="password is too short")
 	private String password;
 	
 	@NotNull
@@ -52,9 +56,10 @@ public class AppUser {
 		super();
 	}
 
-	public AppUser(Long appuser_id, @NotNull @Size(min = 1, max = 150, message = "name is too long") String first_name,
-			@NotNull @Size(min = 1, max = 150, message = "name is too long") String last_name, @NotNull String email,
-			@NotNull String password, @NotNull Boolean deleted, @NotNull UserRole userrole) {
+	public AppUser(Long appuser_id, @NotNull @Size(max = 100, message = "name is too long") String first_name,
+			@NotNull @Size(max = 100, message = "name is too long") String last_name, @NotNull @Email String email,
+			@NotNull @Size(min = 6, message = "password is too short") String password, @NotNull Boolean deleted,
+			@NotNull UserRole userrole) {
 		super();
 		this.appuser_id = appuser_id;
 		this.first_name = first_name;
@@ -64,6 +69,7 @@ public class AppUser {
 		this.deleted = deleted;
 		this.userrole = userrole;
 	}
+
 
 	public Long getAppUser_id() {
 		return appuser_id;

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import OP1RKS.TicketGuru.domain.EventRecordRepository;
 import OP1RKS.TicketGuru.domain.SalesEventRepository;
 import OP1RKS.TicketGuru.domain.Ticket;
 import OP1RKS.TicketGuru.domain.TicketRepository;
@@ -31,9 +30,6 @@ public class RestTicketController {
 	@Autowired
 	private SalesEventRepository srepo;
 	
-	@Autowired
-	private EventRecordRepository erepo;	
-
 	// REST Ticket
 	// REST List all Tickets
 	@GetMapping("/tickets")
