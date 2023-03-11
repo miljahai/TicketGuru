@@ -3,6 +3,7 @@ package OP1RKS.TicketGuru.web;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +17,12 @@ import OP1RKS.TicketGuru.domain.SalesEventRepository;
 import OP1RKS.TicketGuru.domain.Ticket;
 import OP1RKS.TicketGuru.domain.TicketRepository;
 import OP1RKS.TicketGuru.domain.TicketTypeRepository;
+import jakarta.validation.Valid;
 
 
 @RestController
 public class RestTicketController {
-	
+
 	@Autowired
 	private TicketRepository trepo;
 	
@@ -39,33 +41,32 @@ public class RestTicketController {
 	
 	// REST Add Ticket
 	@PostMapping("/tickets")
-	ResponseEntity<Object> newTicket (@RequestBody Ticket newTicket) {
+	ResponseEntity<Object> newTicket (@Valid @RequestBody Ticket newTicket) {
 		Long ticket_type_id = newTicket.getTicketType().getTicket_type_id();
 		Long salesevent_id = newTicket.getSalesEvent().getSalesevent_id();
 				
 		if(!ttrepo.existsById(ticket_type_id)) {
-			return ResponseEntity.badRequest().body("TicketType with id " + ticket_type_id + " doesn't exist");
+			return new ResponseEntity<>("TicketType with id " + ticket_type_id + " doesn't exist", HttpStatus.BAD_REQUEST);
 		} else if (!srepo.existsById(salesevent_id)) {
-			return ResponseEntity.badRequest().body("SalesEvent with id " + salesevent_id + " doesn't exist");
+			return new ResponseEntity<>("SalesEvent with id " + salesevent_id + " doesn't exist", HttpStatus.BAD_REQUEST);
 		}
-		
 		Ticket savedTicket = trepo.save(newTicket);
-		return ResponseEntity.ok(savedTicket);
+		return new ResponseEntity<>(savedTicket, HttpStatus.CREATED);
 	};
 	
 	// REST Update Ticket
 	@PutMapping("/tickets/{id}")
-	ResponseEntity<Object> editTicket(@RequestBody Ticket editTicket, @PathVariable Long id) {
+	ResponseEntity<Object> editTicket(@Valid @RequestBody Ticket editTicket, @PathVariable Long id) {
 		Optional<Ticket> ticket = trepo.findById(id);
 		Long ticket_type_id = editTicket.getTicketType().getTicket_type_id();
 		Long salesevent_id = editTicket.getSalesEvent().getSalesevent_id();
 				
 		if (!ticket.isPresent()) {
-			return ResponseEntity.badRequest().body("Ticket with id " + id + " doesn't exist");
+			return new ResponseEntity<>("Ticket with id " + id + " doesn't exist", HttpStatus.BAD_REQUEST);
 		} else if (!ttrepo.existsById(ticket_type_id)) {
-			return ResponseEntity.badRequest().body("TicketType with id " + ticket_type_id + " doesn't exist");
+			return new ResponseEntity<>("TicketType with id " + ticket_type_id + " doesn't exist", HttpStatus.BAD_REQUEST);
 		} else if (!srepo.existsById(salesevent_id)) {
-			return ResponseEntity.badRequest().body("SalesEvent with id " + salesevent_id + " doesn't exist");
+			return new ResponseEntity<>("SalesEvent with id " + salesevent_id + " doesn't exist", HttpStatus.BAD_REQUEST);
 		} 
 		
 		Ticket existingTicket = ticket.get();
@@ -76,7 +77,7 @@ public class RestTicketController {
 		existingTicket.setTicketType(editTicket.getTicketType());
 		
 		Ticket editedTicket = trepo.save(existingTicket);
-		return ResponseEntity.ok(editedTicket);
+		return new ResponseEntity<>(editedTicket, HttpStatus.OK);
 	};
 	
 	// REST Find Ticket by id
@@ -84,10 +85,10 @@ public class RestTicketController {
 	ResponseEntity<Object> getTicket(@PathVariable Long id) {
 		
 		if (!trepo.existsById(id)) {
-			return ResponseEntity.badRequest().body("Ticket with id " + id + " doesn't exist");
+			return new ResponseEntity<>("Ticket with id " + id + " doesn't exist", HttpStatus.NOT_FOUND);
 		}
 		Optional<Ticket> foundTicket = trepo.findById(id);
-		return ResponseEntity.ok(foundTicket);
+		return new ResponseEntity<>(foundTicket, HttpStatus.OK);
 	};
 	
 	// REST Delete Ticket
@@ -95,9 +96,9 @@ public class RestTicketController {
 	ResponseEntity<String> deleteTicket(@PathVariable Long id) {
 		
 		if (!trepo.existsById(id)) {
-			return ResponseEntity.badRequest().body("Ticket with id " + id + " doesn't exist");
+			return new ResponseEntity<>("Ticket with id " + id + " doesn't exist", HttpStatus.NOT_FOUND);
 		}
 		trepo.deleteById(id);
-		return ResponseEntity.ok("Ticket with id "+ id + " was successfully deleted");
+		return new ResponseEntity<>("Ticket with id " + id + " was successfully deleted", HttpStatus.OK);
 	};
 };
