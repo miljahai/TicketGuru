@@ -25,8 +25,13 @@ public class RestEventRecordController {
 	// REST EventRecord
 	// REST List all EventRecords
 	@GetMapping("/events")
-	public Iterable<EventRecord> getEventRecords() {
-		return erepo.findAll();
+	ResponseEntity<Object> getEventRecords() {
+		try {
+			return new ResponseEntity<>(erepo.findAll(), HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(erepo.findAll(), HttpStatus.BAD_REQUEST);
+		}
 	};
 	
 	// REST Add
@@ -34,7 +39,7 @@ public class RestEventRecordController {
 	ResponseEntity<EventRecord> newEventRecord (@RequestBody EventRecord newEventRecord) {
 		try {
 		erepo.save(newEventRecord);
-		return new ResponseEntity<>(newEventRecord, HttpStatus.OK);
+		return new ResponseEntity<>(newEventRecord, HttpStatus.CREATED);
 		}
 		catch (Exception e) {
 			return new ResponseEntity<>(newEventRecord, HttpStatus.BAD_REQUEST);
