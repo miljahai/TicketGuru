@@ -3,6 +3,7 @@ package OP1RKS.TicketGuru.web;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,14 +24,25 @@ public class RestSalesEventController {
 	
 	//List all
 	@GetMapping("/salesevents")
-	public Iterable<SalesEvent> getSalesEvents() {
-		return srepo.findAll();
+	ResponseEntity<Object> getEventRecords() {
+			try {
+				return new ResponseEntity<>(srepo.findAll(), HttpStatus.OK);
+			}
+			catch (Exception e) {
+				return new ResponseEntity<>(srepo.findAll(), HttpStatus.NOT_FOUND);
+			}
 	};
 
 	//Add
 	@PostMapping("salesevents")
-	SalesEvent newSalesEvent(@RequestBody SalesEvent newSalesEvent) {
-		return srepo.save(newSalesEvent);
+	ResponseEntity<SalesEvent> newEventRecord (@RequestBody SalesEvent newSalesEvent) {
+		try {
+			srepo.save(newSalesEvent);
+			return new ResponseEntity<>(newSalesEvent, HttpStatus.CREATED);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(newSalesEvent, HttpStatus.BAD_REQUEST);
+		}
 	};
 		
 	//Update
@@ -38,7 +50,7 @@ public class RestSalesEventController {
 	ResponseEntity<Object> editSalesEvent(@RequestBody SalesEvent editSalesEvent, @PathVariable Long id) {
 		Optional<SalesEvent> salesEvent = srepo.findById(id);
 		if (!salesEvent.isPresent()) {
-			return ResponseEntity.badRequest().body("SalesEvent with id " + id + " doesn't exist");
+			return new ResponseEntity<>("Sales Event with id " + id + " doesn't exist", HttpStatus.NOT_FOUND);
 		} 
 		SalesEvent existingSalesEvent = salesEvent.get();
 		existingSalesEvent.setSale_date(editSalesEvent.getSale_date());
@@ -46,27 +58,27 @@ public class RestSalesEventController {
 		existingSalesEvent.setDeleted(editSalesEvent.isDeleted());
 		
 		SalesEvent editedSalesEvent = srepo.save(existingSalesEvent);
-		return ResponseEntity.ok(editedSalesEvent);
+		return new ResponseEntity<>(editedSalesEvent, HttpStatus.OK);
 	};
 	
 	//Find By Id
 	@GetMapping("/salesevents/{id}")
 	ResponseEntity<Object> getSalesEvent(@PathVariable Long id) {
 		if (!srepo.existsById(id)) {
-			return ResponseEntity.badRequest().body("SalesEvent with id " + id + " doesn't exist");
+			return new ResponseEntity<>("Sales Event with id " + id + " doesn't exist", HttpStatus.NOT_FOUND);
 		}
 		Optional<SalesEvent> foundSalesEvent = srepo.findById(id);
-		return ResponseEntity.ok(foundSalesEvent);
+		return new ResponseEntity<>(foundSalesEvent, HttpStatus.OK);
 	};
 	
 	//Delete
 	@DeleteMapping("/salesevents/{id}")
 	ResponseEntity<String> deleteSalesEvent(@PathVariable Long id) {
 		if (!srepo.existsById(id)) {
-			return ResponseEntity.badRequest().body("SalesEvent with id " + id + " doesn't exist");
+			return new ResponseEntity<>("Sales Event " + id + " doesn't exist", HttpStatus.NOT_FOUND);
 		}
 		srepo.deleteById(id);
-		return ResponseEntity.ok("SalesEvent with id "+ id + " was successfully deleted");
+		return new ResponseEntity<>("Sales Event with id " + id + " was successfully deleted", HttpStatus.OK);
 	};	
 
 }
