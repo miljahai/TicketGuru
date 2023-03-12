@@ -40,6 +40,7 @@ public class AppUser {
 	@Email
 	private String email;
 	
+	// To Do: kryptaus salasanaan
 	@NotNull
 	@Size(min = 6, message="password is too short")
 	private String password;
@@ -67,6 +68,14 @@ public class AppUser {
 		this.email = email;
 		this.password = password;
 		this.deleted = deleted;
+		this.userrole = userrole;
+	}
+	
+	public AppUser(@NotNull @Email String email, @NotNull @Size(min = 6, message = "password is too short") String password, 
+			@NotNull UserRole userrole) {
+		this.email = email;
+		this.password = password;
+		this.deleted = false;
 		this.userrole = userrole;
 	}
 

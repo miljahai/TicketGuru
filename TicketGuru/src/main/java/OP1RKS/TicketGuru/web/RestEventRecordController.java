@@ -30,19 +30,19 @@ public class RestEventRecordController {
 			return new ResponseEntity<>(erepo.findAll(), HttpStatus.OK);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<>(erepo.findAll(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Tapahtumia ei löydy.", HttpStatus.NOT_FOUND);
 		}
 	};
 	
 	// REST Add
 	@PostMapping("/events")
-	ResponseEntity<EventRecord> newEventRecord (@RequestBody EventRecord newEventRecord) {
+	ResponseEntity<Object> newEventRecord (@RequestBody EventRecord newEventRecord) {
 		try {
 		erepo.save(newEventRecord);
 		return new ResponseEntity<>(newEventRecord, HttpStatus.CREATED);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<>(newEventRecord, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Tapahtuman lisäys epäonnistui: " + newEventRecord, HttpStatus.BAD_REQUEST);
 		}
 	};
 	
