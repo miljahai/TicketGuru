@@ -25,11 +25,11 @@ public class RestSalesEventController {
 	//List all
 	@GetMapping("/salesevents")
 	ResponseEntity<Object> getEventRecords() {
-			try {
-				return new ResponseEntity<>(srepo.findAll(), HttpStatus.OK);
-			}
-			catch (Exception e) {
-				return new ResponseEntity<>(srepo.findAll(), HttpStatus.NOT_FOUND);
+		try {
+			return new ResponseEntity<>(srepo.findAll(), HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(srepo.findAll(), HttpStatus.NOT_FOUND);
 			}
 	};
 
