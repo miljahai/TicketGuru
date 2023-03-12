@@ -75,7 +75,7 @@ public class RestSalesEventController {
 	@DeleteMapping("/salesevents/{id}")
 	ResponseEntity<String> deleteSalesEvent(@PathVariable Long id) {
 		if (!srepo.existsById(id)) {
-			return new ResponseEntity<>("Sales Event " + id + " doesn't exist", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Sales Event with id " + id + " doesn't exist", HttpStatus.NOT_FOUND);
 		}
 		srepo.deleteById(id);
 		return new ResponseEntity<>("Sales Event with id " + id + " was successfully deleted", HttpStatus.OK);
