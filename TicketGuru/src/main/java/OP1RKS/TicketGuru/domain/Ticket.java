@@ -26,11 +26,14 @@ public class Ticket {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long ticket_id;
 	
-	@NotNull
 	@Size(max = 50, message="code is too long")
 	private String ticket_code;
 	
+	@NotNull
 	private boolean deleted;
+	
+	@NotNull
+	private boolean used;
 	
 	@NotNull
 	@Min(value = 0, message="price cannot be negative")
@@ -47,27 +50,31 @@ public class Ticket {
 	
 	
 	public Ticket() {
-	}
+	}	
+			
 	
-	
-	
-	public Ticket(Long ticket_id, @NotNull @Size(max = 50, message = "code is too long") String ticket_code,
-			boolean deleted, @NotNull @Min(value = 0, message="price cannot be negative") double price, TicketType ticketType, SalesEvent salesEvent) {
+	public Ticket(Long ticket_id, @Size(max = 50, message = "code is too long") String ticket_code,
+			@NotNull boolean deleted, @NotNull boolean used,
+			@NotNull @Min(value = 0, message = "price cannot be negative") double price, TicketType ticketType,
+			SalesEvent salesEvent) {
 		super();
 		this.ticket_id = ticket_id;
 		this.ticket_code = ticket_code;
 		this.deleted = deleted;
+		this.used = used;
 		this.price = price;
 		this.ticketType = ticketType;
 		this.salesEvent = salesEvent;
 	}
 
 
-	public Ticket(@NotNull @Size(max = 50, message = "code is too long") String ticket_code, boolean deleted,
-			@NotNull @Min(value = 0, message="price cannot be negative") double price, TicketType ticketType, SalesEvent salesEvent) {
+	public Ticket(@Size(max = 50, message = "code is too long") String ticket_code, @NotNull boolean deleted,
+			@NotNull boolean used, @NotNull @Min(value = 0, message = "price cannot be negative") double price,
+			TicketType ticketType, SalesEvent salesEvent) {
 		super();
 		this.ticket_code = ticket_code;
 		this.deleted = deleted;
+		this.used = used;
 		this.price = price;
 		this.ticketType = ticketType;
 		this.salesEvent = salesEvent;
@@ -97,6 +104,17 @@ public class Ticket {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
+		
+
+	public boolean isUsed() {
+		return used;
+	}
+
+
+	public void setUsed(boolean used) {
+		this.used = used;
+	}
+
 
 	public double getPrice() {
 		return price;
@@ -124,7 +142,7 @@ public class Ticket {
 
 	@Override
 	public String toString() {
-		return "Ticket [ticket_id=" + ticket_id + ", ticket_code=" + ticket_code + ", deleted=" + deleted + ", price="
+		return "Ticket [ticket_id=" + ticket_id + ", ticket_code=" + ticket_code + ", deleted=" + deleted + ", used =" + used + " , price="
 				+ price + ", ticketType=" + ticketType + ", salesEvent=" + salesEvent
 				+ "]";
 	}
