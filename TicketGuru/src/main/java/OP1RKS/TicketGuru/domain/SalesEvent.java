@@ -19,6 +19,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "salesevent")
@@ -36,8 +38,14 @@ public class SalesEvent {
 	@JoinColumn(name = "appuser_id")
 	private AppUser appuser;
 	
+	@NotNull
 	private LocalDateTime sale_date;
+	
+	@NotNull
+	@Min(value = 0, message="price cannot be negative")
 	private double price;
+	
+	@NotNull
 	private boolean deleted;
 	
 	@JsonIgnore
@@ -45,14 +53,14 @@ public class SalesEvent {
 	private List<Ticket> tickets;	
 	
 	
-	public SalesEvent(LocalDateTime sale_date, double price, boolean deleted) {
+	public SalesEvent(@NotNull LocalDateTime sale_date, @NotNull @Min(value = 0, message="price cannot be negative") double price, @NotNull boolean deleted) {
 		super();
 		this.sale_date = sale_date;
 		this.price = price;
 		this.deleted = deleted;
 	}
 
-	public SalesEvent(Long salesevent_id, AppUser appuser, LocalDateTime sale_date, double price, boolean deleted) {
+	public SalesEvent(Long salesevent_id, AppUser appuser, @NotNull LocalDateTime sale_date, @NotNull @Min(value = 0, message="price cannot be negative") double price, @NotNull boolean deleted) {
 		super();
 		this.salesevent_id = salesevent_id;
 		this.appuser = appuser;
@@ -62,7 +70,7 @@ public class SalesEvent {
 	}
 	
 	
-	public SalesEvent(LocalDateTime sale_date, double price, boolean deleted, List<Ticket> tickets) {
+	public SalesEvent(LocalDateTime sale_date, @NotNull @Min(value = 0, message="price cannot be negative") double price, @NotNull boolean deleted, List<Ticket> tickets) {
 		super();
 		this.sale_date = sale_date;
 		this.price = price;
