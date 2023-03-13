@@ -86,6 +86,7 @@ ticket_id | int PK | Lipun id
 ticket_code | varchar(50) | Tarkistuskoodi
 price | double | Lipun hinta
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
+used | boolean | Onko lippu käytetty. Oletuksena false. Kun lippu on tarkastettu, muuttuu trueksi.
 eventrecord_id | int FK | Viittaus tapahtumaan EventRecord-taulussa
 ticket_type_id | int FK | Viittaus lipputyyppiin TicketType-taulussa
 
