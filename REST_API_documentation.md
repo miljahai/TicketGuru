@@ -625,6 +625,10 @@ Ticket with id 99 doesn't exist
 ```
 #### Error Response
 
+**Condition** : Id does not exist
+
+**Code** : `404 Not Found`
+
 <br>
 
 ### Find By Id
