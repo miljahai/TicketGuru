@@ -4,9 +4,16 @@ import OP1RKS.TicketGuru.domain.UserRole;
 
 public class AppUserDTO {
 	
+	private Long id;
 	private String email;
 	private UserRole userrole;
 	
+		
+	public AppUserDTO() { }
+
+	public AppUserDTO(Long id) { 
+		this.id = id;
+	}
 	
 	public AppUserDTO(String email, UserRole userrole) {
 		this.email = email;
@@ -14,6 +21,14 @@ public class AppUserDTO {
 	}
 	
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getEmail() {
 		return email;
 	}

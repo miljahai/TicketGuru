@@ -16,19 +16,21 @@ import OP1RKS.TicketGuru.domain.UserRoleRepository;
 import OP1RKS.TicketGuru.dto.AppUserCreationDTO;
 import OP1RKS.TicketGuru.dto.AppUserDTO;
 import OP1RKS.TicketGuru.dto.AppUserIdDTO;
+import OP1RKS.TicketGuru.service.AppUserService;
 
 @RestController
 @RequestMapping("/users")
 public class AppUserController {
 
 	private AppUserRepository urepo;
+	private AppUserService uservice;
 	private UserRoleRepository rrepo;
 	private Mapper mapper;
 	
 	@GetMapping
 	@ResponseBody
 	public List<AppUserDTO> getUsers() {
-		return urepo.getAll()
+		return uservice.getAllAppUsers()	// needs to be defined in uservice
 				.stream()
 				.map(mapper::toDto)
 				.collect(toList());
@@ -36,13 +38,13 @@ public class AppUserController {
 	
 	@PostMapping
 	@ResponseBody
-	public AppUserIdDTO create(@RequestBody AppUserCreationDTO userDTO) {
+	public AppUserDTO create(@RequestBody AppUserCreationDTO userDTO) {
 		AppUser user = mapper.toUser(userDTO);
 		
 		userDTO.getUserrole();
 		
 		urepo.save(user);
 		
-		return new AppUserIdDTO(user.getId());
+		return new AppUserDTO(user.getAppUser_id());
 	}
 }
