@@ -58,7 +58,8 @@ public class AppUser implements UserDetails {
 	private String password;
 	
 	@NotNull
-	private Boolean deleted;
+	@Builder.Default
+	private Boolean deleted = false;
 	
 	@Enumerated(EnumType.STRING)
 	private UserRole userrole;
