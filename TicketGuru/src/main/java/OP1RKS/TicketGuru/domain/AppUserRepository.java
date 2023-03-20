@@ -1,7 +1,11 @@
 package OP1RKS.TicketGuru.domain;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.Optional;
 
-public interface AppUserRepository extends CrudRepository<AppUser, Long>{
-	AppUser findByEmail(String email);
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AppUserRepository extends JpaRepository<AppUser, Long>{
+
+	Optional<AppUser> findByEmail(String email);
+
 }
