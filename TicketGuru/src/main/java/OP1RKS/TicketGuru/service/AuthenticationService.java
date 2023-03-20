@@ -1,9 +1,7 @@
 package OP1RKS.TicketGuru.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +17,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-	@Autowired
-	private AppUserRepository urepo;
-	private PasswordEncoder passwordEncoder;
-	private JwtService jwtService;
-	private AuthenticationManager authenticationManager;
+	private final AppUserRepository urepo;
+	private final PasswordEncoder passwordEncoder;
+	private final JwtService jwtService;
+	private final AuthenticationManager authenticationManager;
 	
 	public AuthenticationResponse register(RegisterRequest request) {
 		var user = AppUser.builder()
@@ -31,7 +28,7 @@ public class AuthenticationService {
 				.lastname(request.getLastname())
 				.email(request.getEmail())
 				.password(passwordEncoder.encode(request.getPassword()))
-				.role(UserRole.SALES)
+				.userrole(UserRole.SALES)
 				.build();
 		urepo.save(user);
 		var jwtToken = jwtService.generateToken(user);

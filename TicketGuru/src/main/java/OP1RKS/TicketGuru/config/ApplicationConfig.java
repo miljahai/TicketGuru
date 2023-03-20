@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class ApplicationConfig {
 	
 	@Autowired
-	private AppUserRepository urepo;
+	private final AppUserRepository urepo;
 	
 	@Bean
 	public UserDetailsService userDetailsService() {

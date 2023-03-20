@@ -20,7 +20,7 @@ public class JwtService {
 	// SALAINEN AVAIN tokeneja varten
 	// https://allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx
 	// Hex = true
-	// Avaimen pitää olla vähintään 256-bittinen	
+	// Avaimen pitää olla vähintään 256-bittinen
 	private static final String SECRET_KEY = "244326462948404D635166546A576E5A7234753778214125442A472D4B614E64";
 	
 	public String extractUsername(String token) {

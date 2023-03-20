@@ -6,11 +6,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -24,25 +19,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
-	/*
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user1 = User.withUsername("user1")
-                .password(passwordEncoder().encode("user1Pass"))
-                .roles("USER")
-                .build();
-            UserDetails user2 = User.withUsername("user2")
-                .password(passwordEncoder().encode("user2Pass"))
-                .roles("USER")
-                .build();
-            UserDetails admin = User.withUsername("admin")
-                .password(passwordEncoder().encode("adminPass"))
-                .roles("ADMIN")
-                .build();
-            return new InMemoryUserDetailsManager(user1, user2, admin);
-    }
     
     private static final AntPathRequestMatcher[] WHITE_LIST_URLS = {
+    		new AntPathRequestMatcher("/auth"),
+    		new AntPathRequestMatcher("/auth/**"),
             new AntPathRequestMatcher("/events"),
             new AntPathRequestMatcher("/events/**"),
             new AntPathRequestMatcher("/tickettypes"),
@@ -57,10 +37,10 @@ public class WebSecurityConfig {
             new AntPathRequestMatcher("/h2-console"),
             new AntPathRequestMatcher("/h2-console/**")
     };
-    */
+    
 
-	private JwtAuthenticationFilter jwtAuthFilter;
-	private AuthenticationProvider authenticationProvider; 
+	private final JwtAuthenticationFilter jwtAuthFilter;
+	private final AuthenticationProvider authenticationProvider; 
 
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -79,7 +59,7 @@ public class WebSecurityConfig {
 			.csrf()
 			.disable()
 			.authorizeHttpRequests()
-			.requestMatchers("/auth/**","h2-console/**")
+			.requestMatchers(WHITE_LIST_URLS)
 			.permitAll()
 			.anyRequest()
 			.authenticated()
@@ -91,13 +71,8 @@ public class WebSecurityConfig {
 			.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 			;
 		
-		
 		return http.build();
 		
     }
     
-    @Bean 
-    public PasswordEncoder passwordEncoder() { 
-        return new BCryptPasswordEncoder(); 
-    }
 }
