@@ -1,10 +1,19 @@
 package OP1RKS.TicketGuru.domain;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,14 +23,20 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name= "appuser")
-
 @SQLDelete(sql = "UPDATE appuser SET deleted = true WHERE appuser_id=?")
 @Where(clause="deleted=false")
-public class AppUser {
-	
+public class AppUser implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -30,11 +45,11 @@ public class AppUser {
 	
 	@NotNull
 	@Size(max = 100, message="name is too long")
-	private String first_name;
+	private String firstname;
 	
 	@NotNull
 	@Size(max = 100, message="name is too long")
-	private String last_name;
+	private String lastname;
 	
 	@NotNull
 	@Email
@@ -47,30 +62,64 @@ public class AppUser {
 	@NotNull
 	private Boolean deleted;
 	
-	@NotNull
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "userrole_id")
+	@Enumerated(EnumType.STRING)
 	private UserRole userrole;
+	
+	
+	// From UserDetails
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority(userrole.name()));
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+	
+	
 
 	public AppUser() {
 		super();
 	}
 
-	public AppUser(Long appuser_id, @NotNull @Size(max = 100, message = "name is too long") String first_name,
-			@NotNull @Size(max = 100, message = "name is too long") String last_name, @NotNull @Email String email,
-			@NotNull @Size(min = 6, message = "password is too short") String password, @NotNull Boolean deleted,
-			@NotNull UserRole userrole) {
-		super();
-		this.appuser_id = appuser_id;
-		this.first_name = first_name;
-		this.last_name = last_name;
+	public AppUser(@NotNull @Size(max = 100, message = "name is too long") String firstname,
+			@NotNull @Size(max = 100, message = "name is too long") String lastname, @NotNull @Email String email,
+			@NotNull @Size(min = 6, message = "password is too short") String password,	@NotNull UserRole userrole) {
+		this.firstname = firstname;
+		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
-		this.deleted = deleted;
+		this.deleted = false;
 		this.userrole = userrole;
 	}
+	
+	public AppUser(@NotNull @Email String email ) {
+		this.email = email;
+	}
 
-
+	
+	// From class
 	public Long getAppUser_id() {
 		return appuser_id;
 	}
@@ -79,20 +128,20 @@ public class AppUser {
 		this.appuser_id = appuser_id;
 	}
 
-	public String getFirst_name() {
-		return first_name;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setFirst_name(String firstname) {
+		this.firstname = firstname;
 	}
 
-	public String getLast_name() {
-		return last_name;
+	public String getLastname() {
+		return lastname;
 	}
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLast_name(String lastname) {
+		this.lastname = lastname;
 	}
 
 	public String getEmail() {
@@ -129,8 +178,7 @@ public class AppUser {
 
 	@Override
 	public String toString() {
-		return "User [user_id=" + appuser_id + ", first_name=" + first_name + ", last_name=" + last_name + ", email="
+		return "User [user_id=" + appuser_id + ", firstname=" + firstname + ", lastname=" + lastname + ", email="
 				+ email + ", password=" + password + ", deleted=" + deleted + ", userrole=" + userrole + "]";
 	}
-	
 }
