@@ -109,10 +109,11 @@ public class TicketGuruApplication {
 				newTicket6.setSalesEvent(srepo.findById((long) 6).orElse(new SalesEvent()));
 			tickets.save(newTicket6);
 
+			// salasana on sala1234
 			Log.info("create Users");
-			urepo.save(new AppUser("Test","Admin","test.admin@ticketguru.com","sala1234",UserRole.ADMIN));
-			urepo.save(new AppUser("Test","Sales","test.sales@ticketguru.com","sala1234",UserRole.SALES));
-			urepo.save(new AppUser("Test","Events","test.events@ticketguru.com","sala1234",UserRole.EVENTS));
+			urepo.save(new AppUser("Test","Admin","test.admin@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.ADMIN));
+			urepo.save(new AppUser("Test","Sales","test.sales@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.SALES));
+			urepo.save(new AppUser("Test","Events","test.events@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.EVENTS));
 			
 			// Check Fake Data
 			// Tämä failaa, jos Eventrecordin toStringissä on tickettypes

@@ -63,6 +63,7 @@ public class AppUser implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private UserRole userrole;
 	
+
 	public AppUser(@NotNull @Size(max = 100, message = "name is too long") String firstname,
 			@NotNull @Size(max = 100, message = "name is too long") String lastname, @NotNull @Email String email,
 			@NotNull @Size(min = 6, message = "password is too short") String password, UserRole userrole) {
@@ -106,12 +107,6 @@ public class AppUser implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
-	}
-
-	@Override
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 

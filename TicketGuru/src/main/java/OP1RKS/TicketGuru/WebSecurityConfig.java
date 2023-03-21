@@ -20,11 +20,12 @@ import lombok.RequiredArgsConstructor;
 public class WebSecurityConfig {
 
     
+	// TODO: tätä listaa pitää siivota
     private static final AntPathRequestMatcher[] WHITE_LIST_URLS = {
     		new AntPathRequestMatcher("/auth"),
     		new AntPathRequestMatcher("/auth/**"),
-            new AntPathRequestMatcher("/events"),
-            new AntPathRequestMatcher("/events/**"),
+            //new AntPathRequestMatcher("/events"),
+            //new AntPathRequestMatcher("/events/**"),
             new AntPathRequestMatcher("/tickettypes"),
             new AntPathRequestMatcher("/tickettypes/**"),
             new AntPathRequestMatcher("/tickets"),
@@ -45,16 +46,10 @@ public class WebSecurityConfig {
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
-		// Vanha koodi:
-		/*
-		http.headers().frameOptions().sameOrigin().and();
-				http.authorizeHttpRequests()
-        .requestMatchers(WHITE_LIST_URLS)
-        .permitAll();
-		http.csrf().disable();
-		*/
-		
-		// Uudi koodi, JWT:
+		// JWT-koodi
+		// kaikkien toimintojuen pitäisi edellyttää JWT:ta
+		// vaatii ehkä korjauksia
+		// kts. https://github.com/ali-bouali/spring-boot-3-jwt-security/blob/main/src/main/java/com/alibou/security/config/SecurityConfiguration.java
 		http
 			.csrf()
 			.disable()
@@ -64,12 +59,12 @@ public class WebSecurityConfig {
 			.and()
 			.authorizeHttpRequests()
 			.requestMatchers(WHITE_LIST_URLS)
-			.permitAll()
+				.permitAll()
 			.anyRequest()
-			.authenticated()
+				.authenticated()
 			.and()
-			.sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authenticationProvider(authenticationProvider)
 			.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
