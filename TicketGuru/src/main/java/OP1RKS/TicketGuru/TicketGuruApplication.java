@@ -109,7 +109,8 @@ public class TicketGuruApplication {
 				newTicket6.setSalesEvent(srepo.findById((long) 6).orElse(new SalesEvent()));
 			tickets.save(newTicket6);
 
-			// salasana on sala1234
+			// demokäyttäjien salasana on sala1234
+			// kryptattu bcryptilla https://bcrypt-generator.com/
 			Log.info("create Users");
 			urepo.save(new AppUser("Test","Admin","test.admin@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.ADMIN));
 			urepo.save(new AppUser("Test","Sales","test.sales@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.SALES));
