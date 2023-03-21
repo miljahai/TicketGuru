@@ -37,7 +37,7 @@ import lombok.NoArgsConstructor;
 public class AppUser implements UserDetails {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "appuser_id" )
 	private Long appuser_id;
 	
@@ -57,12 +57,24 @@ public class AppUser implements UserDetails {
 	@Size(min = 6, message="password is too short")
 	private String password;
 	
-	@NotNull
 	@Builder.Default
 	private Boolean deleted = false;
 	
 	@Enumerated(EnumType.STRING)
 	private UserRole userrole;
+	
+	public AppUser(@NotNull @Size(max = 100, message = "name is too long") String firstname,
+			@NotNull @Size(max = 100, message = "name is too long") String lastname, @NotNull @Email String email,
+			@NotNull @Size(min = 6, message = "password is too short") String password, UserRole userrole) {
+		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.password = password;
+		this.deleted = false;
+		this.userrole = userrole;
+	}
+	
 	
 	
 	// From UserDetails
@@ -101,5 +113,6 @@ public class AppUser implements UserDetails {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+
 }

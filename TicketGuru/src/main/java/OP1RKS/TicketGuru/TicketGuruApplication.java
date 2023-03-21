@@ -26,7 +26,7 @@ public class TicketGuruApplication {
 	private static final Logger Log = LoggerFactory.getLogger(TicketGuruApplication.class);
 	
 	@Bean
-	public CommandLineRunner demo(EventRecordRepository erepo, SalesEventRepository srepo, TicketRepository tickets, TicketTypeRepository ttrepo) {
+	public CommandLineRunner demo(EventRecordRepository erepo, SalesEventRepository srepo, TicketRepository tickets, TicketTypeRepository ttrepo, AppUserRepository urepo) {
 		return (args) -> {
 			
 			// Fake Data for H2
@@ -109,12 +109,10 @@ public class TicketGuruApplication {
 				newTicket6.setSalesEvent(srepo.findById((long) 6).orElse(new SalesEvent()));
 			tickets.save(newTicket6);
 
-			//Log.info("create Roles");
-			
-			//Log.info("create Users");
-			//urepo.save(new AppUser("Test","Admin","test.admin@ticketguru.com","sala1234",false,rrepo.findById((long) 1).orElse(new UserRole())));
-			//urepo.save(new AppUser("Test","Sales","test.sales@ticketguru.com","sala1234",false,rrepo.findById((long) 2).orElse(new UserRole())));
-			//urepo.save(new AppUser("Test","Events","test.events@ticketguru.com","sala1234",false,rrepo.findById((long) 3).orElse(new UserRole())));
+			Log.info("create Users");
+			urepo.save(new AppUser("Test","Admin","test.admin@ticketguru.com","sala1234",UserRole.ADMIN));
+			urepo.save(new AppUser("Test","Sales","test.sales@ticketguru.com","sala1234",UserRole.SALES));
+			urepo.save(new AppUser("Test","Events","test.events@ticketguru.com","sala1234",UserRole.EVENTS));
 			
 			// Check Fake Data
 			// Tämä failaa, jos Eventrecordin toStringissä on tickettypes

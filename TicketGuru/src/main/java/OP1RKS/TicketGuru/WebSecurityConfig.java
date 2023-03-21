@@ -58,6 +58,10 @@ public class WebSecurityConfig {
 		http
 			.csrf()
 			.disable()
+			.headers()
+			.frameOptions()
+			.sameOrigin()
+			.and()
 			.authorizeHttpRequests()
 			.requestMatchers(WHITE_LIST_URLS)
 			.permitAll()
