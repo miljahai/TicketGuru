@@ -4,17 +4,21 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import OP1RKS.TicketGuru.domain.EventRecord;
 import OP1RKS.TicketGuru.domain.EventRecordRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 
 @RestController
 public class RestEventRecordController {
@@ -25,32 +29,28 @@ public class RestEventRecordController {
 	// REST EventRecord
 	// REST List all EventRecords
 	@GetMapping("/events")
-	ResponseEntity<Object> getEventRecords() {
-		try {
-			return new ResponseEntity<>(erepo.findAll(), HttpStatus.OK);
-		}
-		catch (Exception e) {
-			return new ResponseEntity<>(erepo.findAll(), HttpStatus.NOT_FOUND);
-		}
+	public Iterable<EventRecord> getEventRecords() {
+		return erepo.findAll();
 	};
 	
 	// REST Add
 	@PostMapping("/events")
-	ResponseEntity<EventRecord> newEventRecord (@RequestBody EventRecord newEventRecord) {
-		try {
-		erepo.save(newEventRecord);
-		return new ResponseEntity<>(newEventRecord, HttpStatus.CREATED);
-		}
-		catch (Exception e) {
-			return new ResponseEntity<>(newEventRecord, HttpStatus.BAD_REQUEST);
-		}
+	@ResponseStatus(HttpStatus.CREATED)
+	public EventRecord newEventRecord (@Valid @RequestBody EventRecord newEventRecord, BindingResult result) throws MethodArgumentNotValidException {
+		if(result.hasErrors()) {
+			throw new MethodArgumentNotValidException(null, result);
+		} 
+		return erepo.save(newEventRecord);
 	};
 	
 	// REST Update
 	@PutMapping("/events/{id}")
-    ResponseEntity<String> editEventRecord(@RequestBody EventRecord editEventRecord, @PathVariable Long id) {
+    public EventRecord editEventRecord(@Valid @RequestBody EventRecord editEventRecord, @PathVariable Long id, BindingResult result) throws MethodArgumentNotValidException {
 		Optional<EventRecord> eventRecord = erepo.findById(id);
 		if (eventRecord.isPresent()) {
+			if(result.hasErrors()) {
+				throw new MethodArgumentNotValidException(null, result);
+			} 
 			EventRecord existingEventRecord = eventRecord.get();
 		        
 		    existingEventRecord.setEventrecord_name(editEventRecord.getEventrecord_name());
@@ -61,31 +61,30 @@ public class RestEventRecordController {
 		    existingEventRecord.setEvent_endtime(editEventRecord.getEvent_endtime());
 		    existingEventRecord.setDeleted(editEventRecord.isDeleted());
 		        
-		    erepo.save(existingEventRecord);   
-		    return new ResponseEntity<>("Event " + existingEventRecord.getEventrecord_id() + " " + existingEventRecord.getEventrecord_name() + " updated", HttpStatus.OK);
+		    return erepo.save(existingEventRecord);   
 		} else {
-		    return new ResponseEntity<>("Event with id " + id + " doesn't exist", HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException("Event not found with id: " + id);
 		}
 	};
 	
 	// REST Find by id
 	@GetMapping("/events/{id}")
-	ResponseEntity<Object> getEventRecord(@PathVariable Long id) {
-		if (!erepo.existsById(id)) {
-			return new ResponseEntity<>("Event with id " + id + " doesn't exist",HttpStatus.NOT_FOUND);
+	public EventRecord getEventRecord(@PathVariable Long id) {
+		Optional<EventRecord> event = erepo.findById(id);
+		if (event.isPresent()) {
+			return event.get();
+		} else {
+			throw new EntityNotFoundException("Event not found with id " + id);
 		}
-		Optional<EventRecord> foundEvent = erepo.findById(id);
-		return ResponseEntity.ok(foundEvent);
 	};
 	
 	// REST Delete
 	@DeleteMapping("/events/{id}")
-	ResponseEntity<String> deleteEventRecord(@PathVariable Long id) {
+	public void deleteEventRecord(@PathVariable Long id) {
 		if (!erepo.existsById(id)) {
-			return new ResponseEntity<>("Event with id " + id + " doesn't exist",HttpStatus.NOT_FOUND);
+			throw new EntityNotFoundException("Event not found with id " + id);
 		}
 		erepo.deleteById(id);
-		return ResponseEntity.ok("Event with id "+ id + " was successfully deleted");
-	}
+	};
 	
 }

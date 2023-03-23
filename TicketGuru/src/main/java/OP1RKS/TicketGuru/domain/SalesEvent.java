@@ -19,6 +19,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "salesevent")
@@ -36,6 +37,7 @@ public class SalesEvent {
 	@JoinColumn(name = "appuser_id")
 	private AppUser appuser;
 	
+	@NotNull
 	private LocalDateTime sale_date;
 	private double price;
 	private boolean deleted;

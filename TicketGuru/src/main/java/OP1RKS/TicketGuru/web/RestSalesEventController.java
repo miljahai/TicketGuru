@@ -3,17 +3,22 @@ package OP1RKS.TicketGuru.web;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import OP1RKS.TicketGuru.domain.SalesEvent;
 import OP1RKS.TicketGuru.domain.SalesEventRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 
 @RestController
 public class RestSalesEventController {
@@ -29,45 +34,52 @@ public class RestSalesEventController {
 
 	//Add
 	@PostMapping("salesevents")
-	SalesEvent newSalesEvent(@RequestBody SalesEvent newSalesEvent) {
+	@ResponseStatus(HttpStatus.CREATED)
+	public SalesEvent newSalesEvent(@Valid @RequestBody SalesEvent newSalesEvent, BindingResult result) throws MethodArgumentNotValidException {
+		if(result.hasErrors()) {
+			throw new MethodArgumentNotValidException(null, result);
+		} 
 		return srepo.save(newSalesEvent);
 	};
 		
 	//Update
 	@PutMapping("/salesevents/{id}")
-	ResponseEntity<Object> editSalesEvent(@RequestBody SalesEvent editSalesEvent, @PathVariable Long id) {
-		Optional<SalesEvent> salesEvent = srepo.findById(id);
-		if (!salesEvent.isPresent()) {
-			return ResponseEntity.badRequest().body("SalesEvent with id " + id + " doesn't exist");
-		} 
-		SalesEvent existingSalesEvent = salesEvent.get();
-		existingSalesEvent.setSale_date(editSalesEvent.getSale_date());
-		existingSalesEvent.setPrice(editSalesEvent.getPrice());
-		existingSalesEvent.setDeleted(editSalesEvent.isDeleted());
-		
-		SalesEvent editedSalesEvent = srepo.save(existingSalesEvent);
-		return ResponseEntity.ok(editedSalesEvent);
+	public SalesEvent editSalesEvent(@Valid @RequestBody SalesEvent editSalesEvent, @PathVariable Long id, BindingResult result) throws MethodArgumentNotValidException {
+		Optional<SalesEvent> salesEvent = srepo.findById(id);		
+		if (salesEvent.isPresent()) {
+			if(result.hasErrors()) {
+				throw new MethodArgumentNotValidException(null, result);
+			} 
+			SalesEvent existingSalesEvent = salesEvent.get();
+			existingSalesEvent.setSale_date(editSalesEvent.getSale_date());
+			existingSalesEvent.setPrice(editSalesEvent.getPrice());
+			existingSalesEvent.setDeleted(editSalesEvent.isDeleted());
+			
+			return srepo.save(existingSalesEvent);
+		} else {
+			throw new EntityNotFoundException("SalesEvent not found with id: " + id);
+		}
 	};
 	
 	//Find By Id
 	@GetMapping("/salesevents/{id}")
-	ResponseEntity<Object> getSalesEvent(@PathVariable Long id) {
-		if (!srepo.existsById(id)) {
-			return ResponseEntity.badRequest().body("SalesEvent with id " + id + " doesn't exist");
+	public SalesEvent getSalesEvent(@PathVariable Long id) {
+		Optional<SalesEvent> salesevent = srepo.findById(id);
+		if (salesevent.isPresent()) {
+			return salesevent.get();
+		} else {
+			throw new EntityNotFoundException("SalesEvent not found with id " + id);
 		}
-		Optional<SalesEvent> foundSalesEvent = srepo.findById(id);
-		return ResponseEntity.ok(foundSalesEvent);
 	};
 	
 	//Delete
 	@DeleteMapping("/salesevents/{id}")
-	ResponseEntity<String> deleteSalesEvent(@PathVariable Long id) {
+	public void deleteSalesEvent(@PathVariable Long id) {
 		if (!srepo.existsById(id)) {
-			return ResponseEntity.badRequest().body("SalesEvent with id " + id + " doesn't exist");
+			throw new EntityNotFoundException("SalesEvent not found with id " + id);
 		}
 		srepo.deleteById(id);
-		return ResponseEntity.ok("SalesEvent with id "+ id + " was successfully deleted");
-	};	
+	};
 
 }
 
