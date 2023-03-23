@@ -32,7 +32,7 @@ public class RestTicketTypeController {
 	@GetMapping("/tickettypes")
 	public Iterable<TicketType> getTicketTypes() {
             return ttrepo.findAll();
-	};
+	}
 	
 	// REST Add TicketType
 	@PostMapping("/tickettypes")
@@ -90,3 +90,4 @@ public class RestTicketTypeController {
 		ttrepo.deleteById(id);
 	};
 };
+

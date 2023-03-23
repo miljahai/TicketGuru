@@ -26,7 +26,7 @@ public class TicketGuruApplication {
 	private static final Logger Log = LoggerFactory.getLogger(TicketGuruApplication.class);
 	
 	@Bean
-	public CommandLineRunner demo(EventRecordRepository erepo, UserRoleRepository rrepo, SalesEventRepository srepo, TicketRepository tickets, TicketTypeRepository ttrepo, AppUserRepository urepo) {
+	public CommandLineRunner demo(EventRecordRepository erepo, SalesEventRepository srepo, TicketRepository tickets, TicketTypeRepository ttrepo, AppUserRepository urepo) {
 		return (args) -> {
 			
 			// Fake Data for H2
@@ -61,51 +61,60 @@ public class TicketGuruApplication {
 						
 			Log.info("create Tickets");	
 			Ticket newTicket1 = new Ticket();
-			newTicket1.setTicket_code("CODE01");
-			newTicket1.setDeleted(false);
-			newTicket1.setPrice(200.0);
-			newTicket1.setTicketType(ttrepo.findById((long) 1).orElse(new TicketType()));
-			newTicket1.setSalesEvent(srepo.findById((long) 1).orElse(new SalesEvent()));
+				newTicket1.setTicket_code("CODE01");
+				newTicket1.setDeleted(false);
+				newTicket1.setUsed(false);
+				newTicket1.setPrice(200.0);
+				newTicket1.setTicketType(ttrepo.findById((long) 1).orElse(new TicketType()));
+				newTicket1.setSalesEvent(srepo.findById((long) 1).orElse(new SalesEvent()));
 			tickets.save(newTicket1);
 			Ticket newTicket2 = new Ticket();
-			newTicket2.setTicket_code("CODE02");
-			newTicket2.setDeleted(false);
-			newTicket2.setPrice(250.0);
-			newTicket2.setTicketType(ttrepo.findById((long) 2).orElse(new TicketType()));
-			newTicket2.setSalesEvent(srepo.findById((long) 2).orElse(new SalesEvent()));
+				newTicket2.setTicket_code("CODE02");
+				newTicket2.setDeleted(false);
+				newTicket2.setUsed(false);
+				newTicket2.setPrice(250.0);
+				newTicket2.setTicketType(ttrepo.findById((long) 2).orElse(new TicketType()));
+				newTicket2.setSalesEvent(srepo.findById((long) 2).orElse(new SalesEvent()));
 			tickets.save(newTicket2);
 			Ticket newTicket3 = new Ticket();
-			newTicket3.setTicket_code("CODE01");
-			newTicket3.setDeleted(false);
-			newTicket3.setPrice(200.0);
-			newTicket3.setTicketType(ttrepo.findById((long) 1).orElse(new TicketType()));
-			newTicket3.setSalesEvent(srepo.findById((long) 3).orElse(new SalesEvent()));
+				newTicket3.setTicket_code("CODE03");
+				newTicket3.setDeleted(false);
+				newTicket3.setUsed(false);
+				newTicket3.setPrice(200.0);
+				newTicket3.setTicketType(ttrepo.findById((long) 1).orElse(new TicketType()));
+				newTicket3.setSalesEvent(srepo.findById((long) 3).orElse(new SalesEvent()));
 			tickets.save(newTicket3);
 			Ticket newTicket4 = new Ticket();
-			newTicket4.setTicket_code("CODE03");
-			newTicket4.setDeleted(false);
-			newTicket4.setPrice(50.70);
-			newTicket4.setTicketType(ttrepo.findById((long) 6).orElse(new TicketType()));
-			newTicket4.setSalesEvent(srepo.findById((long) 4).orElse(new SalesEvent()));
+				newTicket4.setTicket_code("CODE04");
+				newTicket4.setDeleted(false);
+				newTicket4.setUsed(false);
+				newTicket4.setPrice(50.70);
+				newTicket4.setTicketType(ttrepo.findById((long) 6).orElse(new TicketType()));
+				newTicket4.setSalesEvent(srepo.findById((long) 4).orElse(new SalesEvent()));
 			tickets.save(newTicket4);
 			Ticket newTicket5 = new Ticket();
-			newTicket5.setTicket_code("CODE03");
-			newTicket5.setDeleted(false);
-			newTicket5.setPrice(50.70);
-			newTicket5.setTicketType(ttrepo.findById((long) 4).orElse(new TicketType()));
-			newTicket5.setSalesEvent(srepo.findById((long) 5).orElse(new SalesEvent()));
+				newTicket5.setTicket_code("CODE05");
+				newTicket5.setDeleted(false);
+				newTicket5.setUsed(false);
+				newTicket5.setPrice(50.70);
+				newTicket5.setTicketType(ttrepo.findById((long) 4).orElse(new TicketType()));
+				newTicket5.setSalesEvent(srepo.findById((long) 5).orElse(new SalesEvent()));
 			tickets.save(newTicket5);
 			Ticket newTicket6 = new Ticket();
-			newTicket6.setTicket_code("CODE03");
-			newTicket6.setDeleted(false);
-			newTicket6.setPrice(50.70);
-			newTicket6.setTicketType(ttrepo.findById((long) 9).orElse(new TicketType()));
-			newTicket6.setSalesEvent(srepo.findById((long) 6).orElse(new SalesEvent()));
+				newTicket6.setTicket_code("CODE06");
+				newTicket6.setDeleted(false);
+				newTicket6.setUsed(false);
+				newTicket6.setPrice(50.70);
+				newTicket6.setTicketType(ttrepo.findById((long) 9).orElse(new TicketType()));
+				newTicket6.setSalesEvent(srepo.findById((long) 6).orElse(new SalesEvent()));
 			tickets.save(newTicket6);
 
-			Log.info("create Roles");
-			
+			// demokäyttäjien salasana on sala1234
+			// kryptattu bcryptilla https://bcrypt-generator.com/
 			Log.info("create Users");
+			urepo.save(new AppUser("Test","Admin","test.admin@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.ADMIN));
+			urepo.save(new AppUser("Test","Sales","test.sales@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.SALES));
+			urepo.save(new AppUser("Test","Events","test.events@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.EVENTS));
 			
 			// Check Fake Data
 			// Tämä failaa, jos Eventrecordin toStringissä on tickettypes
@@ -127,6 +136,7 @@ public class TicketGuruApplication {
 				Log.info("Fetch ticket: " + ticket.toString());
 			}
 			*/
+						
 		};
 	}
 	

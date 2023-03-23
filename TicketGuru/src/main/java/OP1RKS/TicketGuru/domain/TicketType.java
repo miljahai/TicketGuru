@@ -54,7 +54,6 @@ public class TicketType {
 	}
 	
 	
-	
 	public TicketType(@NotNull @Size(max = 20, message = "name is too long") String name, @NotNull
 			@Min(value = 0, message="price cannot be negative") double price, boolean deleted,
 			EventRecord eventRecord) {
@@ -66,8 +65,6 @@ public class TicketType {
 	}
 
 
-
-
 	public TicketType(Long ticket_type_id, @NotNull @Size(max = 20, message = "name is too long") String name,
 			@NotNull @Min(value = 0, message="price cannot be negative") double price, boolean deleted, EventRecord eventRecord) {
 		super();
@@ -77,7 +74,6 @@ public class TicketType {
 		this.deleted = deleted;
 		this.eventRecord = eventRecord;
 	}
-
 
 
 	public TicketType(Long ticket_type_id, @NotNull @Size(max = 20, message = "name is too long") String name,

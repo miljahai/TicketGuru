@@ -29,8 +29,8 @@ public class RestSalesEventController {
 	//List all
 	@GetMapping("/salesevents")
 	public Iterable<SalesEvent> getSalesEvents() {
-		return srepo.findAll();
-	};
+            return srepo.findAll();
+	}
 
 	//Add
 	@PostMapping("salesevents")
