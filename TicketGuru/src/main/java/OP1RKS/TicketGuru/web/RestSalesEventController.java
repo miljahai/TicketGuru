@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -74,6 +75,7 @@ public class RestSalesEventController {
 	
 	//Delete
 	@DeleteMapping("/salesevents/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'EVENTS')")
 	public void deleteSalesEvent(@PathVariable Long id) {
 		if (!srepo.existsById(id)) {
 			throw new EntityNotFoundException("SalesEvent not found with id " + id);

@@ -11,6 +11,7 @@ import OP1RKS.TicketGuru.auth.RegisterRequest;
 import OP1RKS.TicketGuru.domain.AppUser;
 import OP1RKS.TicketGuru.domain.AppUserRepository;
 import OP1RKS.TicketGuru.domain.UserRole;
+import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -37,7 +38,10 @@ public class AuthenticationService {
 	 *  }
 	 * 	Palauttaa Tokenin
 	 */
-	public AuthenticationResponse register(RegisterRequest request) {
+	public AuthenticationResponse register(RegisterRequest request){
+		if (urepo.findByEmail(request.getEmail()).isPresent()) {
+	        throw new EntityExistsException("Email already exists");
+	    }
 		var user = AppUser.builder()
 				.firstname(request.getFirstname())
 				.lastname(request.getLastname())
@@ -51,8 +55,6 @@ public class AuthenticationService {
 				.token(jwtToken)
 				.build();
 	}
-	
-	
 	
 	/*	Tarkistaa onko POST-kutsussa oleva käyttäjä AppUserRepositoryssa.
 	 * 	Kutsun muoto:

@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,6 +36,7 @@ public class RestEventRecordController {
 	
 	// REST Add
 	@PostMapping("/events")
+	@PreAuthorize("hasAnyRole('ADMIN', 'EVENTS')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public EventRecord newEventRecord (@Valid @RequestBody EventRecord newEventRecord, BindingResult result) throws MethodArgumentNotValidException {
 		if(result.hasErrors()) {
@@ -45,6 +47,7 @@ public class RestEventRecordController {
 	
 	// REST Update
 	@PutMapping("/events/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'EVENTS')")
     public EventRecord editEventRecord(@Valid @RequestBody EventRecord editEventRecord, @PathVariable Long id, BindingResult result) throws MethodArgumentNotValidException {
 		Optional<EventRecord> eventRecord = erepo.findById(id);
 		if (eventRecord.isPresent()) {
@@ -80,6 +83,7 @@ public class RestEventRecordController {
 	
 	// REST Delete
 	@DeleteMapping("/events/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'EVENTS')")
 	public void deleteEventRecord(@PathVariable Long id) {
 		if (!erepo.existsById(id)) {
 			throw new EntityNotFoundException("Event not found with id " + id);

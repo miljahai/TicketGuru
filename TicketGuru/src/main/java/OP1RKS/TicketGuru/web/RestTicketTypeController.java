@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,6 +37,7 @@ public class RestTicketTypeController {
 	
 	// REST Add TicketType
 	@PostMapping("/tickettypes")
+	@PreAuthorize("hasAnyRole('ADMIN', 'EVENTS')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public TicketType newTicketType (@Valid @RequestBody TicketType newTicketType, BindingResult result) throws MethodArgumentNotValidException {
 		if(result.hasErrors()) {
@@ -51,6 +53,7 @@ public class RestTicketTypeController {
 	
 	// REST Update TickeType
 	@PutMapping("/tickettypes/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'EVENTS')")
 	public TicketType editTicketType(@Valid @RequestBody TicketType editTicketType, @PathVariable Long id, BindingResult result) throws MethodArgumentNotValidException {
 		Optional<TicketType> ticketType = ttrepo.findById(id);
 		if(result.hasErrors()) {
@@ -83,6 +86,7 @@ public class RestTicketTypeController {
 	
 	// REST Delete TicketType
 	@DeleteMapping("tickettypes/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'EVENTS')")
 	public void deleteTicketType(@PathVariable Long id) {
 		if (!ttrepo.existsById(id)) {
 			throw new EntityNotFoundException("TicketType not found with id " + id);

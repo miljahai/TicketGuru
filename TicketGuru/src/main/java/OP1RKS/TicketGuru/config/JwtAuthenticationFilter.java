@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import OP1RKS.TicketGuru.service.JwtService;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Autowired
 	private final JwtService jwtService;
 	private final UserDetailsService userDetailsService;
+	
 	
 	@Override
 	protected void doFilterInternal(
@@ -59,8 +61,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 						
 			}
 		}
-		filterChain.doFilter(request, response);
-		
+		filterChain.doFilter(request, response); 
 	}
+
+
 	
 }
