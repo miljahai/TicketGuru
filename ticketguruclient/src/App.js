@@ -1,7 +1,7 @@
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import './App.css';
-import {BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Ylapalkki from "./components/Ylapalkki";
 import Tapahtumat from "./Tapahtumat";
 import Raportit from "./Raportit";
@@ -21,33 +21,34 @@ const theme = createTheme({
       fontWeight: 500,
       lineHeight: 1.8,
       letterSpacing: '0.08em',
-  },
-  h2: {
+    },
+    h2: {
       fontSize: '3rem',
       letterSpacing: '0.08em',
       padding: '12px'
-},
+    },
 
-}})
+  }
+})
 function App() {
 
 
   return (
     <Container>
-    <ThemeProvider theme={theme}>
-      <Box component="span" sx={{p: 2}}>
-      <CssBaseline />        
-        <BrowserRouter>
-        <Routes>
-          <Route path="/" element= { <Ylapalkki />} />
-          <Route path="tapahtumat" element = {<Tapahtumat />} />
-          <Route path="raportit" element = {< Raportit/>} />
-          <Route path="liput" element = {<Liput /> } />
-        </Routes>
-      </BrowserRouter>
-      </Box>
-    </ThemeProvider>
-    
+      <ThemeProvider theme={theme}>
+        <Box component="span" sx={{ p: 2 }}>
+          <CssBaseline />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Ylapalkki />} />
+              <Route path="tapahtumat" element={<Tapahtumat />} />
+              <Route path="raportit" element={<Raportit />} />
+              <Route path="liput" element={<Liput />} />
+            </Routes>
+          </BrowserRouter>
+        </Box>
+      </ThemeProvider>
+
     </Container>
   );
 }
