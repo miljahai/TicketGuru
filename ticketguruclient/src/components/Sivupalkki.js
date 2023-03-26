@@ -1,4 +1,4 @@
-import { Box, IconButton, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Box, IconButton, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
@@ -32,12 +32,14 @@ function Sivupalkki() {
                             <ListItemText primary='Muokkaa tapahtumia'/>
                         </ListItemButton>
                     </ListItem>
+                    <Divider />
                     <ListItem component={Link} to="Raportit">
                         <ListItemButton>
                         <ListItemIcon><ArticleIcon /></ListItemIcon>
                         <ListItemText primary="Selaa raportteja"/>
                         </ListItemButton>
                     </ListItem>
+                    <Divider />
                     <ListItem component={Link} to="Liput">
                         <ListItemButton>
                         <ListItemIcon><ShoppingBasketIcon /></ListItemIcon>
