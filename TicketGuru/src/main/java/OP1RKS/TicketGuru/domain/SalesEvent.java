@@ -41,9 +41,8 @@ public class SalesEvent {
 	@NotNull
 	private LocalDateTime sale_date;
 	
-	@NotNull
 	@Min(value = 0, message="price cannot be negative")
-	private double price;
+	private double final_price;
 	
 	@NotNull
 	private boolean deleted;
@@ -53,27 +52,27 @@ public class SalesEvent {
 	private List<Ticket> tickets;	
 	
 	
-	public SalesEvent(@NotNull LocalDateTime sale_date, @NotNull @Min(value = 0, message="price cannot be negative") double price, @NotNull boolean deleted) {
+	public SalesEvent(@NotNull LocalDateTime sale_date, @Min(value = 0, message="price cannot be negative") double final_price, @NotNull boolean deleted) {
 		super();
 		this.sale_date = sale_date;
-		this.price = price;
+		this.final_price = final_price;
 		this.deleted = deleted;
 	}
 
-	public SalesEvent(Long salesevent_id, AppUser appuser, @NotNull LocalDateTime sale_date, @NotNull @Min(value = 0, message="price cannot be negative") double price, @NotNull boolean deleted) {
+	public SalesEvent(Long salesevent_id, AppUser appuser, @NotNull LocalDateTime sale_date, @Min(value = 0, message="price cannot be negative") double final_price, @NotNull boolean deleted) {
 		super();
 		this.salesevent_id = salesevent_id;
 		this.appuser = appuser;
 		this.sale_date = sale_date;
-		this.price = price;
+		this.final_price = final_price;
 		this.deleted = deleted;
 	}
 	
 	
-	public SalesEvent(LocalDateTime sale_date, @NotNull @Min(value = 0, message="price cannot be negative") double price, @NotNull boolean deleted, List<Ticket> tickets) {
+	public SalesEvent(LocalDateTime sale_date, @Min(value = 0, message="price cannot be negative") double final_price, @NotNull boolean deleted, List<Ticket> tickets) {
 		super();
 		this.sale_date = sale_date;
-		this.price = price;
+		this.final_price = final_price;
 		this.deleted = deleted;
 		this.tickets = tickets;
 	}
@@ -117,12 +116,12 @@ public class SalesEvent {
 		this.sale_date = sale_date;
 	}
 
-	public double getPrice() {
-		return price;
+	public double getFinal_price() {
+		return final_price;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setFinal_price(double final_price) {
+		this.final_price = final_price;
 	}
 
 	public boolean isDeleted() {
@@ -136,7 +135,7 @@ public class SalesEvent {
 	@Override
 	public String toString() {
 		return "SalesEvent [salesevent_id=" + salesevent_id + ", appuser=" + appuser + ", sale_date=" + sale_date
-				+ ", price=" + price + ", deleted=" + deleted + "]";
+				+ ", final_price=" + final_price + ", deleted=" + deleted + "]";
 	}
 
 
