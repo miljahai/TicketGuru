@@ -53,7 +53,7 @@ public class RestSalesEventController {
 			} 
 			SalesEvent existingSalesEvent = salesEvent.get();
 			existingSalesEvent.setSale_date(editSalesEvent.getSale_date());
-			existingSalesEvent.setPrice(editSalesEvent.getPrice());
+			existingSalesEvent.setFinal_price(editSalesEvent.getFinal_price());
 			existingSalesEvent.setDeleted(editSalesEvent.isDeleted());
 			
 			return srepo.save(existingSalesEvent);
