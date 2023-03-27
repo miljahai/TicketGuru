@@ -22,28 +22,28 @@ function Sivupalkki() {
     return (
 
         <Box>
-            <IconButton onClick={ handleOpen }><MenuIcon /></IconButton>
+            <IconButton onClick={handleOpen}><MenuIcon /></IconButton>
             <Drawer
-            anchor="left" open={open} onClick= {handleClose}>
+                anchor="left" open={open} onClick={handleClose}>
                 <List>
-                    <ListItem component={Link} to="/tapahtumat">
+                    <ListItem component={Link} to="../tapahtumat">
                         <ListItemButton>
                             <ListItemIcon><EditIcon /></ListItemIcon>
-                            <ListItemText primary='Muokkaa tapahtumia'/>
+                            <ListItemText primary='Muokkaa tapahtumia' />
                         </ListItemButton>
                     </ListItem>
                     <Divider />
-                    <ListItem component={Link} to="/raportit">
+                    <ListItem component={Link} to="../raportit">
                         <ListItemButton>
-                        <ListItemIcon><ArticleIcon /></ListItemIcon>
-                        <ListItemText primary="Selaa raportteja"/>
+                            <ListItemIcon><ArticleIcon /></ListItemIcon>
+                            <ListItemText primary="Selaa raportteja" />
                         </ListItemButton>
                     </ListItem>
                     <Divider />
-                    <ListItem component={Link} to="/liput">
+                    <ListItem component={Link} to="../liput">
                         <ListItemButton>
-                        <ListItemIcon><ShoppingBasketIcon /></ListItemIcon>
-                        <ListItemText primary= 'Myy lippuja' />
+                            <ListItemIcon><ShoppingBasketIcon /></ListItemIcon>
+                            <ListItemText primary='Myy lippuja' />
                         </ListItemButton>
                     </ListItem>
                 </List>

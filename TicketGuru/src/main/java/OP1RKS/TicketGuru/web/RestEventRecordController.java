@@ -36,7 +36,7 @@ public class RestEventRecordController {
 	
 	// REST Add
 	@PostMapping("/events")
-	@PreAuthorize("hasAnyRole('ADMIN', 'EVENTS')")
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'EVENTS')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public EventRecord newEventRecord (@Valid @RequestBody EventRecord newEventRecord, BindingResult result) throws MethodArgumentNotValidException {
 		if(result.hasErrors()) {
@@ -47,7 +47,7 @@ public class RestEventRecordController {
 	
 	// REST Update
 	@PutMapping("/events/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN', 'EVENTS')")
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'EVENTS')")
     public EventRecord editEventRecord(@Valid @RequestBody EventRecord editEventRecord, @PathVariable Long id, BindingResult result) throws MethodArgumentNotValidException {
 		Optional<EventRecord> eventRecord = erepo.findById(id);
 		if (eventRecord.isPresent()) {
@@ -83,7 +83,7 @@ public class RestEventRecordController {
 	
 	// REST Delete
 	@DeleteMapping("/events/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN', 'EVENTS')")
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'EVENTS')")
 	public void deleteEventRecord(@PathVariable Long id) {
 		if (!erepo.existsById(id)) {
 			throw new EntityNotFoundException("Event not found with id " + id);
