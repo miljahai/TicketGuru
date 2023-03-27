@@ -24,6 +24,3 @@ function Ylapalkki () {
 
 export default Ylapalkki;
 
-/*    <IconButton onClick={handleOpen}>
-<MenuIcon />
-</IconButton> */
