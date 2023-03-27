@@ -54,15 +54,3 @@ function App() {
 }
 
 export default App;
-/* tänne talteen tavaraa
-<Ylapalkki />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element= { <ylapalkki />} ></Route>
-          <Route path="tapahtumat" element = {<Tapahtumat />} />
-          <Route path="raportit" element = {< Raportit/>} />
-          <Route path="liput" element = {<Liput /> } />
-        </Routes>
-      </BrowserRouter>
-
-*/
