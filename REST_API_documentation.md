@@ -11,7 +11,7 @@ https://ticketguru.com
 
 **Method:** `GET`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
 **Permissions required:** NO
 
@@ -55,11 +55,14 @@ https://ticketguru.com
     }
 ]
 ```
-#### Error Response
 
-**Condition** : No events exist.
+**Condition** : No events exist. Returns empty array.
 
-**Code** : `404 Not Found`
+**Code** : `200 OK`
+
+```
+[]
+```
 
 <br>
 
@@ -69,7 +72,7 @@ https://ticketguru.com
 
 **Method:** `GET`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
 **Permissions required:** NO
 
@@ -105,7 +108,11 @@ https://ticketguru.com
 
 /events/99
 ```
-Event with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 08:35:27",
+    "status": 404,
+    "message": "Event not found with id 50"
+}
 ```
 <br>
 
@@ -115,9 +122,9 @@ Event with id 99 doesn't exist
 
 **Method:** `POST`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
-**Permissions required:** NO
+**Permissions required:** ADMIN, EVENTS
 
 #### Success Response
 
@@ -144,6 +151,12 @@ Event with id 99 doesn't exist
 
 **Code** : `400 Bad Request`
 
+**Content examples**
+```
+{
+    "ticketsmax": "number of tickets cannot be negative"
+}
+```
 
 
 ### Update event
@@ -152,9 +165,9 @@ Event with id 99 doesn't exist
 
 **Method:** `PUT`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
-**Permissions required:** NO
+**Permissions required:** ADMIN, EVENTS
 
 #### Success Response
 
@@ -181,6 +194,26 @@ Response show updated name, city and ticketsmax for event with id 5
 
 **Code** : `404 Not Found`
 
+**Content examples**
+```
+{
+    "timestamp": "27-03-2023 09:18:33",
+    "status": 404,
+    "message": "Event not found with id: 50"
+}
+```
+
+**Condition** : Values given in invalid format
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+```
+{
+    "eventrecord_name": "must not be null"
+}
+```
+
 <br>
 
 ### Delete By Id
@@ -189,19 +222,13 @@ Response show updated name, city and ticketsmax for event with id 5
 
 **Method:** `DELETE`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
-**Permissions required:** NO
+**Permissions required:** ADMIN, EVENTS
 
 #### Success Response
 
 **Code** : `200 OK`
-
-**Content examples**
-
- ```
- Event with id 4 was successfully deleted
- ```
 
 #### Error response
 
@@ -213,7 +240,11 @@ Response show updated name, city and ticketsmax for event with id 5
 
 /events/99
 ```
-Event with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:20:37",
+    "status": 404,
+    "message": "Event not found with id 99"
+}
 ```
 
 <br>
@@ -226,7 +257,7 @@ Event with id 99 doesn't exist
 
 **Method:** `GET`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
 **Permissions required:** NO
 
@@ -262,7 +293,7 @@ Event with id 99 doesn't exist
         "salesEvent": {
             "salesevent_id": 1,
             "sale_date": "2023-01-01T12:01:00",
-            "price": 25.5,
+            "final_price": 25.5,
             "deleted": false,
             "appUser": null
         }
@@ -291,18 +322,20 @@ Event with id 99 doesn't exist
         "salesEvent": {
             "salesevent_id": 2,
             "sale_date": "2023-02-02T12:02:00",
-            "price": 11.1,
+            "final_price": 11.1,
             "deleted": false,
             "appUser": null
         }
     }
 ]
 ```
-#### Error response
+**Condition** : No tickets exist. Returns empty array.
 
-**Condition** : No tickets found
+**Code** : `200 OK`
 
-**Code** : `404 Not Found`
+```
+[]
+```
 
 <br>
 
@@ -312,7 +345,7 @@ Event with id 99 doesn't exist
 
 **Method:** `GET`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
 **Permissions required:** NO
 
@@ -361,7 +394,7 @@ Event with id 99 doesn't exist
     "salesEvent": {
         "salesevent_id": 5,
         "sale_date": "2023-05-05T12:05:00",
-        "price": 44.4,
+        "final_price": 44.4,
         "deleted": false,
         "appUser": null
     }
@@ -377,7 +410,11 @@ Event with id 99 doesn't exist
 
 /tickets/99
 ```
-Ticket with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:25:30",
+    "status": 404,
+    "message": "Ticket not found with id 99"
+}
 ```
 
 <br>
@@ -388,7 +425,7 @@ Ticket with id 99 doesn't exist
 
 **Method:** `POST`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
 **Permissions required:** NO
 
@@ -407,9 +444,6 @@ Ticket with id 99 doesn't exist
     "ticketType": {
         "ticket_type_id": 4
     },
-    "eventRecord": {
-        "eventrecord_id": 2
-    },
     "salesEvent": {
         "salesevent_id": 4
     }
@@ -419,8 +453,14 @@ Ticket with id 99 doesn't exist
 
 **Condition** : Values given in invalid format
 
-**Code** : `403 Forbidden`
+**Code** : `400 Bad Request`
 
+**Content examples**
+```
+{
+    "price": "price cannot be negative"
+}
+```
 
 **Condition** : Linked resources do not exist
 
@@ -428,10 +468,18 @@ Ticket with id 99 doesn't exist
 
 **Content examples**
 ```
-SalesEvent with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:32:57",
+    "status": 400,
+    "message": "SalesEvent with id 99 doesn't exist"
+}
 ```
 ```
-TicketType with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:32:42",
+    "status": 400,
+    "message": "TicketType with id 99 doesn't exist"
+}
 ```
 
 <br>
@@ -442,7 +490,7 @@ TicketType with id 99 doesn't exist
 
 **Method:** `PUT`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
 **Permissions required:** NO
 
@@ -455,9 +503,10 @@ TicketType with id 99 doesn't exist
 Response show updated price for ticket with id 5
 ```
 {
-    "ticket_id": 7,
+    "ticket_id": 5,
     "ticket_code": "CODE05",
     "deleted": false,
+    "used": false,
     "price": 180.0,
     "ticketType": {
         "ticket_type_id": 7,
@@ -466,20 +515,10 @@ Response show updated price for ticket with id 5
         "deleted": false,
         "eventRecord": null
     },
-    "eventRecord": {
-        "eventrecord_id": 3,
-        "eventrecord_name": null,
-        "venue": null,
-        "city": null,
-        "ticketsmax": 0,
-        "event_starttime": null,
-        "event_endtime": null,
-        "deleted": false
-    },
     "salesEvent": {
         "salesevent_id": 4,
         "sale_date": null,
-        "price": 0.0,
+        "final_price": 0.0,
         "deleted": false,
         "appUser": null
     }
@@ -495,7 +534,11 @@ Response show updated price for ticket with id 5
 
 /tickets/99
 ```
-Ticket with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:36:15",
+    "status": 404,
+    "message": "Ticket not found with id: 99"
+}
 ```
 
 **Condition** : Linked resources do not exist
@@ -504,15 +547,29 @@ Ticket with id 99 doesn't exist
 
 **Content examples**
 ```
-SalesEvent with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:36:58",
+    "status": 400,
+    "message": "SalesEvent with id 99 doesn't exist"
+}
 ```
 ```
-TicketType with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:36:40",
+    "status": 400,
+    "message": "TicketType with id 99 doesn't exist"
+}
 ```
 **Condition** : Values given in invalid format
 
-**Code** : `403 Forbidden`
+**Code** : `400 Bad Request`
 
+**Content examples**
+```
+{
+    "price": "price cannot be negative"
+}
+```
 <br>
 
 ### Delete By Id
@@ -521,19 +578,13 @@ TicketType with id 99 doesn't exist
 
 **Method:** `DELETE`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
 **Permissions required:** NO
 
 #### Success Response
 
 **Code** : `200 OK`
-
-**Content examples**
-
- ```
-Ticket with id 7 was successfully deleted
- ```
 
 #### Error response
 
@@ -545,7 +596,11 @@ Ticket with id 7 was successfully deleted
 
 /tickets/99
 ```
-Ticket with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:40:53",
+    "status": 404,
+    "message": "Ticket not found with id 99"
+}
 ```
 
 <br>
@@ -558,7 +613,7 @@ Ticket with id 99 doesn't exist
 
 **Method:** `GET`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
 **Permissions required:** NO
 
@@ -623,11 +678,13 @@ Ticket with id 99 doesn't exist
     }
 ]
 ```
-#### Error Response
+**Condition** : No TicketTypes exist. Returns empty array.
 
-**Condition** : Id does not exist
+**Code** : `200 OK`
 
-**Code** : `404 Not Found`
+```
+[]
+```
 
 <br>
 
@@ -637,7 +694,7 @@ Ticket with id 99 doesn't exist
 
 **Method:** `GET`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
 **Permissions required:** NO
 
@@ -649,7 +706,7 @@ Ticket with id 99 doesn't exist
 
 **Content examples**
 
-/ticketttypes/1
+/tickettypes/1
 
 ```
 {
@@ -673,13 +730,17 @@ Ticket with id 99 doesn't exist
 
 **Condition** : Id does not exist
 
-**Code** : `400 Bad Request`
+**Code** : `404 Not Found`
 
 **Content examples**
 
 /tickettypes/99
 ```
-TicketType with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:44:02",
+    "status": 404,
+    "message": "TicketType not found with id 99"
+}
 ```
 <br>
 
@@ -689,9 +750,9 @@ TicketType with id 99 doesn't exist
 
 **Method:** `POST`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
-**Permissions required:** NO
+**Permissions required:** ADMIN, EVENTS
 
 #### Success Response
 
@@ -702,12 +763,19 @@ TicketType with id 99 doesn't exist
 **Content examples**
 ```
 {
-    "ticket_type_id": 5,
-    "name": "test",
-    "price": 11.0,
+    "ticket_type_id": 11,
+    "name": "Aikuinen",
+    "price": 25.0,
     "deleted": false,
     "eventRecord": {
-        "eventrecord_id": 1
+        "eventrecord_id": 1,
+        "eventrecord_name": null,
+        "venue": null,
+        "city": null,
+        "ticketsmax": 0,
+        "event_starttime": null,
+        "event_endtime": null,
+        "deleted": false
     }
 }
 ```
@@ -721,7 +789,11 @@ TicketType with id 99 doesn't exist
 
 /tickettypes
 ```
-Event with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:45:49",
+    "status": 400,
+    "message": "Event with id 99 doesn't exist"
+}
 ```
 <br>
 
@@ -731,9 +803,9 @@ Event with id 99 doesn't exist
 
 **Method:** `PUT`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
-**Permissions required:** NO
+**Permissions required:** ADMIN, EVENTS
 
 #### Success Response
 
@@ -744,9 +816,9 @@ Event with id 99 doesn't exist
 Response show updated name for ticket type with id 1
 ```
 {
-    "ticket_type_id": 1,
+    "ticket_type_id": 11,
     "name": "Mörkö",
-    "price": 20.0,
+    "price": 30.0,
     "deleted": false,
     "eventRecord": {
         "eventrecord_id": 1,
@@ -764,13 +836,17 @@ Response show updated name for ticket type with id 1
 
 **Condition** : Id does not exist
 
-**Code** : `400 Bad Request`
+**Code** : `404 Not Found`
 
 **Content examples**
 
 /tickettypes/99
 ```
-TicketType with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:47:30",
+    "status": 404,
+    "message": "TicketType not found with id: 99"
+}
 ```
 
 **Condition** : Linked resource does not exist
@@ -779,7 +855,11 @@ TicketType with id 99 doesn't exist
 
 **Content examples**
 ```
-Event with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:48:10",
+    "status": 400,
+    "message": "Event with id 99 doesn't exist"
+}
 ```
 
 <br>
@@ -790,31 +870,29 @@ Event with id 99 doesn't exist
 
 **Method:** `DELETE`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
-**Permissions required:** NO
+**Permissions required:** ADMIN, EVENTS
 
 #### Success Response
 
 **Code** : `200 OK`
 
-**Content examples**
-
- ```
- TicketType with id 5 was successfully deleted
- ```
-
 #### Error Response
 
 **Condition** : Id does not exist
 
-**Code** : `400 Bad Request`
+**Code** : `404 Not Found`
 
 **Content examples**
 
 /tickettypes/99
 ```
-TicketType with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:49:37",
+    "status": 404,
+    "message": "TicketType not found with id 99"
+}
 ```
 
 <br>
@@ -827,7 +905,7 @@ TicketType with id 99 doesn't exist
 
 **Method:** `GET`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
 **Permissions required:** NO
 
@@ -866,7 +944,13 @@ TicketType with id 99 doesn't exist
 
 ]
 ```
-#### Error Response
+**Condition** : No SalesEvents exist. Returns empty array.
+
+**Code** : `200 OK`
+
+```
+[]
+```
 
 <br>
 
@@ -876,7 +960,7 @@ TicketType with id 99 doesn't exist
 
 **Method:** `GET`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
 **Permissions required:** NO
 
@@ -903,13 +987,17 @@ TicketType with id 99 doesn't exist
 
 **Condition** : Id does not exist
 
-**Code** : `400 Bad Request`
+**Code** : `404 Not Found`
 
 **Content examples**
 
 /salesevents/99
 ```
-SalesEvent with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:54:54",
+    "status": 404,
+    "message": "SalesEvent not found with id 99"
+}
 ```
 <br>
 
@@ -919,7 +1007,7 @@ SalesEvent with id 99 doesn't exist
 
 **Method:** `POST`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
 **Permissions required:** NO
 
@@ -943,7 +1031,14 @@ SalesEvent with id 99 doesn't exist
 
 **Condition** : Values given in invalid format
 
-**Code** : `403 Forbidden`
+**Code** : `400 Bad Request`
+
+**Content examples**
+```
+{
+    "final_price": "price cannot be negative"
+}
+```
 
 <br>
 
@@ -953,7 +1048,7 @@ SalesEvent with id 99 doesn't exist
 
 **Method:** `PUT`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
 **Permissions required:** NO
 
@@ -977,13 +1072,17 @@ Response show updated price for sales event with id 10
 
 **Condition** : Id does not exist
 
-**Code** : `400 Bad Request`
+**Code** : `404 Not Found`
 
 **Content examples**
 
 /salesevents/99
 ```
-SalesEvent with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 09:57:59",
+    "status": 404,
+    "message": "SalesEvent not found with id: 99"
+}
 ```
 <br>
 
@@ -993,9 +1092,44 @@ SalesEvent with id 99 doesn't exist
 
 **Method:** `DELETE`
 
-**Auth required:** NO (needs to be fixed)
+**Auth required:** YES
 
-**Permissions required:** NO
+**Permissions required:** ADMIN, EVENTS
+
+#### Success Response
+
+**Code** : `200 OK`
+
+#### Error Response
+
+**Condition** : Id does not exist
+
+**Code** : `404 Not Found`
+
+**Content examples**
+
+/salesevents/99
+```
+{
+    "timestamp": "27-03-2023 09:59:46",
+    "status": 404,
+    "message": "SalesEvent not found with id 99"
+}
+```
+
+<br>
+
+## AppUser
+
+### List All Users
+
+**URL:** `/users`
+
+**Method:** `GET`
+
+**Auth required:** YES
+
+**Permissions required:** ADMIN
 
 #### Success Response
 
@@ -1003,26 +1137,264 @@ SalesEvent with id 99 doesn't exist
 
 **Content examples**
 
- ```
- SalesEvent with id 10 was successfully deleted
- ```
+```
+[
+    {
+        "appuser_id": 1,
+        "firstname": "Test",
+        "lastname": "Admin",
+        "email": "test.admin@ticketguru.com",
+        "password": bcrypted password,
+        "deleted": false,
+        "userrole": "ADMIN",
+        "enabled": true,
+        "accountNonExpired": true,
+        "credentialsNonExpired": true,
+        "authorities": [
+            {
+                "authority": "ADMIN"
+            }
+        ],
+        "username": "test.admin@ticketguru.com",
+        "accountNonLocked": true
+    },
+    {
+        "appuser_id": 2,
+        "firstname": "Test",
+        "lastname": "Sales",
+        "email": "test.sales@ticketguru.com",
+        "password": bcrypted password,
+        "deleted": false,
+        "userrole": "SALES",
+        "enabled": true,
+        "accountNonExpired": true,
+        "credentialsNonExpired": true,
+        "authorities": [
+            {
+                "authority": "SALES"
+            }
+        ],
+        "username": "test.sales@ticketguru.com",
+        "accountNonLocked": true
+    },
+    {
+        "appuser_id": 3,
+        "firstname": "Test",
+        "lastname": "Events",
+        "email": "test.events@ticketguru.com",
+        "password": bcrypted password,
+        "deleted": false,
+        "userrole": "EVENTS",
+        "enabled": true,
+        "accountNonExpired": true,
+        "credentialsNonExpired": true,
+        "authorities": [
+            {
+                "authority": "EVENTS"
+            }
+        ],
+        "username": "test.events@ticketguru.com",
+        "accountNonLocked": true
+    }
+]
+```
+
+<br>
+
+### Find By Id
+
+**URL:** `/users/{id}`
+
+**Method:** `GET`
+
+**Auth required:** YES
+
+**Permissions required:** ADMIN
+
+#### Success Response
+
+**Condition**: If everything is OK and appuser_id is found
+
+**Code** : `200 OK`
+
+**Content examples**
+
+/users/3
+
+```
+{
+    "appuser_id": 3,
+    "firstname": "Test",
+    "lastname": "Events",
+    "email": "test.events@ticketguru.com",
+    "password": bcrypted password,
+    "deleted": false,
+    "userrole": "EVENTS",
+    "enabled": true,
+    "accountNonExpired": true,
+    "credentialsNonExpired": true,
+    "authorities": [
+        {
+            "authority": "EVENTS"
+        }
+    ],
+    "username": "test.events@ticketguru.com",
+    "accountNonLocked": true
+}
+```
+#### Error Response
+
+**Condition** : Id does not exist
+
+**Code** : `404 Not Found`
+
+**Content examples**
+
+/users/99
+```
+{
+    "timestamp": "27-03-2023 10:07:50",
+    "status": 404,
+    "message": "User not found with id 99"
+}
+```
+<br>
+
+### Register new AppUser
+
+**URL:** `/auth/register`
+
+**Method:** `POST`
+
+**Auth required:** YES
+
+**Permissions required:** ADMIN
+
+#### Success Response
+
+**Condition**: If everything is OK
+
+**Code** : `201 Created`
+
+**Content examples**
+```
+{
+    "token": JWT token
+}
+```
+#### Error Response
+
+**Condition** : Values given in invalid format
+
+**Code** : `400 Bad Request`
+
+**Content examples**
+```
+{
+    "email": "must be a well-formed email address"
+}
+```
+**Condition** : Email already exists
+
+**Code** : `409 Conflict`
+
+**Content examples**
+```
+{
+    "timestamp": "27-03-2023 10:12:58",
+    "status": 409,
+    "message": "Email already exists"
+}
+```
+
+<br>
+
+### Update User
+
+**URL:** `/users/{id}`
+
+**Method:** `PUT`
+
+**Auth required:** YES
+
+**Permissions required:** ADMIN
+
+#### Success Response
+
+**Code** : `200 OK`
+
+**Content examples**
+
+Response show updated authority for appUser 4
+```
+{
+    "appuser_id": 4,
+    "firstname": "Test",
+    "lastname": "Admin2",
+    "email": "test.admin2@ticketguru.com",
+    "password": bcrypted password,
+    "deleted": false,
+    "userrole": "ADMIN",
+    "enabled": true,
+    "accountNonExpired": true,
+    "credentialsNonExpired": true,
+    "authorities": [
+        {
+            "authority": "ADMIN"
+        }
+    ],
+    "username": "test.admin2@ticketguru.com",
+    "accountNonLocked": true
+}
+```
+#### Error Response
+
+**Condition** : Id does not exist
+
+**Code** : `404 Not Found`
+
+**Content examples**
+
+/users/99
+```
+{
+    "timestamp": "27-03-2023 10:21:59",
+    "status": 404,
+    "message": "User not found with id: 99"
+}
+```
+<br>
+
+### Delete By Id
+
+**URL:** `/users/{id}`
+
+**Method:** `DELETE`
+
+**Auth required:** YES
+
+**Permissions required:** ADMIN
+
+#### Success Response
+
+**Code** : `200 OK`
 
 #### Error Response
 
 **Condition** : Id does not exist
 
-**Code** : `400 Bad Request`
+**Code** : `404 Not Found`
 
 **Content examples**
 
-/salesevents/99
+/users/99
 ```
-SalesEvent with id 99 doesn't exist
+{
+    "timestamp": "27-03-2023 10:23:06",
+    "status": 404,
+    "message": "User not found with id 99"
+}
 ```
-
-<br>
-
-## AppUser
 
 <br>
 

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import OP1RKS.TicketGuru.service.AuthenticationService;
+import jakarta.validation.Valid;
 
 
 
@@ -25,7 +26,7 @@ public class AuthController {
 	
     
 	@PostMapping("/register")
-	public ResponseEntity<AuthenticationResponse> register(
+	public ResponseEntity<AuthenticationResponse> register(@Valid
 			@RequestBody RegisterRequest request
 	) {
 		return ResponseEntity.ok(aservice.register(request));

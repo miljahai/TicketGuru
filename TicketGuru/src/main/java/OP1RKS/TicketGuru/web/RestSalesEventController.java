@@ -75,7 +75,7 @@ public class RestSalesEventController {
 	
 	//Delete
 	@DeleteMapping("/salesevents/{id}")
-	@PreAuthorize("hasAnyRole('ADMIN', 'EVENTS')")
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'EVENTS')")
 	public void deleteSalesEvent(@PathVariable Long id) {
 		if (!srepo.existsById(id)) {
 			throw new EntityNotFoundException("SalesEvent not found with id " + id);
