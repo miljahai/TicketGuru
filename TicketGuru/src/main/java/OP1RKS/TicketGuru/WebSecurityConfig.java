@@ -74,7 +74,6 @@ public class WebSecurityConfig {
 			.requestMatchers(HttpMethod.POST, "/tickettypes").hasAnyAuthority("ADMIN", "EVENTS")
 			.requestMatchers(HttpMethod.PUT, "/tickettypes/**").hasAnyAuthority("ADMIN", "EVENTS")
 			.requestMatchers(HttpMethod.DELETE, "/tickettypes/**").hasAnyAuthority("ADMIN", "EVENTS")
-			.requestMatchers(HttpMethod.DELETE, "/salesevents/**").hasAnyAuthority("ADMIN", "EVENTS")
 			.requestMatchers(WHITE_LIST_URLS)
 				.permitAll()
 			.and()

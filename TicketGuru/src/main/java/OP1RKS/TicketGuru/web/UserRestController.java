@@ -24,7 +24,7 @@ public class UserRestController {
 
 	@Autowired
 	private AppUserRepository urepo;
-	
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 	
@@ -82,4 +82,5 @@ public class UserRestController {
 		}
 		urepo.deleteById(id);
 	};
+	
 }
