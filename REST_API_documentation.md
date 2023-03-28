@@ -1094,7 +1094,7 @@ Response show updated price for sales event with id 10
 
 **Auth required:** YES
 
-**Permissions required:** ADMIN, EVENTS
+**Permissions required:** NO
 
 #### Success Response
 
@@ -1398,5 +1398,5 @@ Response show updated authority for appUser 4
 
 <br>
 
-## UserRole
+
 
