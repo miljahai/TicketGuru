@@ -60,7 +60,7 @@ Lippujen myyntitilanteessa avoimet kohteet listataan selattavaksi ja saatavuus t
 
 <img src="https://github.com/miljahai/TicketGuru/blob/develop/images/tietokantamalli.jpg?raw=true" width="700" alt="Tietokantamalli_korjattu">
 
-
+// kuvasta pitää muuttaa/poistaa UserRole
 
 
 ### EventRecord
@@ -113,7 +113,6 @@ appuser_id | int FK | Ostotapahtuman myyjän käyttäjä id
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 
 ### AppUser
-Sisältää ManyToOne-viittauksen UserRole-tauluun.
 
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
@@ -123,15 +122,7 @@ last_name | varchar(150) | Käyttäjän sukunimi
 email | varchar(50) | Käyttäjän sähköposti
 password | varchar(50) | Käyttäjän salasana
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
-userrole_id | int FK | Viittaus rooliin Role-taulussa
-
-### UserRole
-UserRole-taulusta OneToMany-viittaus User-tauluun.
-
-Kenttä | Tyyppi | Kuvaus
------- | ------ | ------
-userrole_id | int PK | Roolin id
-userrole_name | varchar (100) | Roolin nimi
+userrole | varchar(50)/enum | Viittaus rooliin UserRole-taulussa
 
 
 > ## Tekninen kuvaus
