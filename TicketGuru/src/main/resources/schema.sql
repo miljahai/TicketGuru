@@ -11,7 +11,7 @@ CREATE TABLE userrole (
 userRole VARCHAR(10) NOT NULL PRIMARY KEY );
 INSERT INTO userrole VALUES ('ADMIN'), ('SALES'), ('EVENTS');
 CREATE TABLE appuser (
-appuser_id INTEGER NOT NULL AUTO_INCREMENT UNIQUE , firstname CHAR(100) NOT NULL, lastname CHAR(100) NOT NULL, email VARCHAR(100) NOT NULL, password VARCHAR(50) NOT NULL, deleted BOOLEAN DEFAULT false, userRole VARCHAR(10) NOT NULL, PRIMARY KEY (appuser_id), FOREIGN KEY (userRole) REFERENCES userrole (Userrole)
+appuser_id INTEGER NOT NULL AUTO_INCREMENT UNIQUE , firstname CHAR(100) NOT NULL, lastname CHAR(100) NOT NULL, email VARCHAR(100) NOT NULL, password VARCHAR(200) NOT NULL, deleted BOOLEAN DEFAULT false, userRole VARCHAR(10) NOT NULL, PRIMARY KEY (appuser_id), FOREIGN KEY (userRole) REFERENCES userrole (Userrole)
 );
 CREATE TABLE eventrecord (
 eventrecord_id INTEGER NOT NULL AUTO_INCREMENT UNIQUE , eventrecord_name VARCHAR(100) NOT NULL, venue VARCHAR(100), city CHAR(100), ticketsmax INTEGER, event_starttime DATETIME NOT NULL, event_endtime DATETIME, deleted BOOLEAN DEFAULT false, PRIMARY KEY (eventrecord_id) 
