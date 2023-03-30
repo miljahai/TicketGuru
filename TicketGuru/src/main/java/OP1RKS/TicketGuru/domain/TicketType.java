@@ -22,7 +22,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name= "ticketType")
+@Table(name= "tickettype")
 
 @SQLDelete(sql = "UPDATE ticket_type SET deleted = true WHERE ticket_type_id=?")
 @Where(clause="deleted=false")
@@ -34,7 +34,7 @@ public class TicketType {
 	
 	@NotNull
 	@Size(max = 20, message = "name is too long")
-	private String name;
+	private String ticket_type_name;
 	
 	@NotNull
 	@Min(value = 0, message="price cannot be negative")
@@ -58,7 +58,7 @@ public class TicketType {
 			@Min(value = 0, message="price cannot be negative") double price, boolean deleted,
 			EventRecord eventRecord) {
 		super();
-		this.name = name;
+		this.ticket_type_name = name;
 		this.price = price;
 		this.deleted = deleted;
 		this.eventRecord = eventRecord;
@@ -69,7 +69,7 @@ public class TicketType {
 			@NotNull @Min(value = 0, message="price cannot be negative") double price, boolean deleted, EventRecord eventRecord) {
 		super();
 		this.ticket_type_id = ticket_type_id;
-		this.name = name;
+		this.ticket_type_name = name;
 		this.price = price;
 		this.deleted = deleted;
 		this.eventRecord = eventRecord;
@@ -80,7 +80,7 @@ public class TicketType {
 			@NotNull @Min(value = 0, message="price cannot be negative") double price, boolean deleted, List<Ticket> tickets, EventRecord eventRecord) {
 		super();
 		this.ticket_type_id = ticket_type_id;
-		this.name = name;
+		this.ticket_type_name = name;
 		this.price = price;
 		this.deleted = deleted;
 		this.tickets = tickets;
@@ -102,11 +102,11 @@ public class TicketType {
 	}
 
 	public String getName() {
-		return name;
+		return ticket_type_name;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.ticket_type_name = name;
 	}
 
 	public double getPrice() {
@@ -143,7 +143,7 @@ public class TicketType {
 
 	@Override
 	public String toString() {
-		return "TicketType [ticket_type_id=" + ticket_type_id + ", name=" + name + ", price=" + price + ", deleted="
+		return "TicketType [ticket_type_id=" + ticket_type_id + ", ticket_type_name=" + ticket_type_name + ", price=" + price + ", deleted="
 				+ deleted + ", tickets= + tickets" + ", eventRecord=" + eventRecord + "]";
 	}
 
