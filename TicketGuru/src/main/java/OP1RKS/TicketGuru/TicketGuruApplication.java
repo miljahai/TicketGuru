@@ -3,9 +3,13 @@ package OP1RKS.TicketGuru;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;  
+import java.time.format.DateTimeFormatter;
+
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,11 +29,12 @@ public class TicketGuruApplication {
 	// Logger
 	private static final Logger Log = LoggerFactory.getLogger(TicketGuruApplication.class);
 	
+	@Profile("h2")
 	@Bean
 	public CommandLineRunner demo(EventRecordRepository erepo, SalesEventRepository srepo, TicketRepository tickets, TicketTypeRepository ttrepo, AppUserRepository urepo) {
 		return (args) -> {
 			
-			/*
+			
 			// Fake Data for H2
 			Log.info("create EventRecords");
 			erepo.save(new EventRecord("Tapahtuma 1","Paikka 1","Kaupunki 1",100,LocalDateTime.of(2023,1,1,11,11),LocalDateTime.of(2023,1,1,23,23),false));
@@ -116,7 +121,7 @@ public class TicketGuruApplication {
 			urepo.save(new AppUser("Test","Admin","test.admin@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.ADMIN));
 			urepo.save(new AppUser("Test","Sales","test.sales@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.SALES));
 			urepo.save(new AppUser("Test","Events","test.events@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.EVENTS));
-			*/
+			
 			
 			// Check Fake Data
 			// Tämä failaa, jos Eventrecordin toStringissä on tickettypes
