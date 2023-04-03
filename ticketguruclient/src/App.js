@@ -6,13 +6,13 @@ import Ylapalkki from "./components/Ylapalkki";
 import Tapahtumat from "./Tapahtumat";
 import Raportit from "./Raportit";
 import Liput from "./Liput";
-import { blue } from "@mui/material/colors";
+import { cyan } from "@mui/material/colors";
 import { Box, Container } from "@mui/system";
 
 
 const theme = createTheme({
   palette: {
-    primary: blue
+    primary: cyan,
   },
   typography: {
     fontFamily: ['apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'],

@@ -8,8 +8,8 @@ function Ylapalkki () {
 
     return (
         <Container>
-        <Box>
-            <AppBar position='static'>
+        <Box component="span" sx={{p: 2}}>
+             <AppBar position='static' sx={{borderRadius: '15px 50px'}}>
                 <Toolbar>                 
                     {<Sivupalkki />}
                     <Typography component={Link} to="/" sx = { {flexGrow:1, textAlign:'center' } }variant="h1">TicketGuru</Typography>
