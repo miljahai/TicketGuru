@@ -54,7 +54,6 @@ public class AppUser implements UserDetails {
 	private String email;
 	
 	@NotNull
-	@Size(min = 6, message="password is too short")
 	private String password;
 	
 	@Builder.Default
