@@ -61,6 +61,8 @@ Lippujen myyntitilanteessa avoimet kohteet listataan selattavaksi ja saatavuus t
 <img src="https://github.com/miljahai/TicketGuru/blob/develop/images/tietokantamalli.jpg?raw=true" width="700" alt="Tietokantamalli_korjattu">
 
 // kuvasta pitää muuttaa/poistaa UserRole
+// Ticket-EventRecord-riippuvuus poistettava
+// Lisättävä Ticket.used
 
 
 ### EventRecord
@@ -78,7 +80,7 @@ eventrecord_endtime | LocalDateTime | Tapahtuman päättymisaika
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 
 ### Ticket
-Ticket-taulu sisältää myytävät liput. Sisältää ManyToOne- viittaukset TicketType- ja EventRecord-tauluihin.
+Ticket-taulu sisältää myytävät liput. Sisältää ManyToOne- viittaukset TicketType- ja SalesEvent-tauluihin.
 
 Kenttä | Tyyppi | Kuvaus
 ----- | ----- | -----
@@ -86,8 +88,8 @@ ticket_id | int PK | Lipun id
 ticket_code | varchar(50) | Tarkistuskoodi
 price | double | Lipun hinta
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
-used | boolean | Onko lippu käytetty. Oletuksena false. Kun lippu on tarkastettu, muuttuu trueksi.
-eventrecord_id | int FK | Viittaus tapahtumaan EventRecord-taulussa
+used | LocalDateTime | Onko lippu käytetty. Oletuksena null. Kun lippu on tarkastettu, lisätään tarkastuksen ajankohta.
+salesevent_id | int FK | Viittaus myyntitapahtumaan SalesEvent-taulussa
 ticket_type_id | int FK | Viittaus lipputyyppiin TicketType-taulussa
 
 ### TicketType
