@@ -1,5 +1,7 @@
 package OP1RKS.TicketGuru.domain;
 
+import java.time.LocalDateTime;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -14,10 +16,17 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name= "ticket")
-
 @SQLDelete(sql = "UPDATE ticket SET deleted = true WHERE ticket_id=?")
 @Where(clause="deleted=false")
 public class Ticket {
@@ -32,8 +41,7 @@ public class Ticket {
 	@NotNull
 	private boolean deleted;
 	
-	@NotNull
-	private boolean used;
+	private LocalDateTime used;
 	
 	@NotNull
 	@Min(value = 0, message="price cannot be negative")
@@ -48,104 +56,6 @@ public class Ticket {
 	@JoinColumn(name = "salesevent_id")
 	private SalesEvent salesEvent;
 	
-	
-	public Ticket() {
-	}	
-			
-	
-	public Ticket(Long ticket_id, @Size(max = 50, message = "code is too long") String ticket_code,
-			@NotNull boolean deleted, @NotNull boolean used,
-			@NotNull @Min(value = 0, message = "price cannot be negative") double price, TicketType ticketType,
-			SalesEvent salesEvent) {
-		super();
-		this.ticket_id = ticket_id;
-		this.ticket_code = ticket_code;
-		this.deleted = deleted;
-		this.used = used;
-		this.price = price;
-		this.ticketType = ticketType;
-		this.salesEvent = salesEvent;
-	}
-
-
-	public Ticket(@Size(max = 50, message = "code is too long") String ticket_code, @NotNull boolean deleted,
-			@NotNull boolean used, @NotNull @Min(value = 0, message = "price cannot be negative") double price,
-			TicketType ticketType, SalesEvent salesEvent) {
-		super();
-		this.ticket_code = ticket_code;
-		this.deleted = deleted;
-		this.used = used;
-		this.price = price;
-		this.ticketType = ticketType;
-		this.salesEvent = salesEvent;
-	}
-
-
-	public Long getTicket_id() {
-		return ticket_id;
-	}
-
-	public void setTicket_id(Long ticket_id) {
-		this.ticket_id = ticket_id;
-	}
-
-	public String getTicket_code() {
-		return ticket_code;
-	}
-
-	public void setTicket_code(String ticket_code) {
-		this.ticket_code = ticket_code;
-	}
-
-	public boolean isDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
-		
-
-	public boolean isUsed() {
-		return used;
-	}
-
-
-	public void setUsed(boolean used) {
-		this.used = used;
-	}
-
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public TicketType getTicketType() {
-		return ticketType;
-	}
-
-	public void setTicketType(TicketType ticketType) {
-		this.ticketType = ticketType;
-	}
-
-	public SalesEvent getSalesEvent() {
-		return salesEvent;
-	}
-
-	public void setSalesEvent(SalesEvent salesEvent) {
-		this.salesEvent = salesEvent;
-	}
-
-	@Override
-	public String toString() {
-		return "Ticket [ticket_id=" + ticket_id + ", ticket_code=" + ticket_code + ", deleted=" + deleted + ", used =" + used + " , price="
-				+ price + ", ticketType=" + ticketType + ", salesEvent=" + salesEvent
-				+ "]";
-	}
 
 
 }
