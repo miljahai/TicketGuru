@@ -32,3 +32,6 @@ SELECT * FROM tickettype;
 SELECT * FROM salesevent;
 SELECT * FROM userrole;
 SELECT * FROM appuser;
+
+INSERT INTO appuser (appuser_id, firstname, lastname, email, password, deleted, userRole)
+VALUES (1, "TEST2", "ADMIN2", "test2.admin2@ticketguru.com", "$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS", FALSE, "ADMIN");
