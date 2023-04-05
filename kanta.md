@@ -27,7 +27,7 @@ ticket_type_id INTEGER NOT NULL AUTO_INCREMENT UNIQUE , ticket_type_name VARCHAR
 );
 
 CREATE TABLE ticket ( 
-ticket_id INTEGER NOT NULL AUTO_INCREMENT UNIQUE , ticket_code VARCHAR(50), ticket_type_id INTEGER NOT NULL, deleted BOOLEAN DEFAULT false, used BOOLEAN DEFAULT false, price DOUBLE NOT NULL, salesevent_id INTEGER NOT NULL, PRIMARY KEY (ticket_id), FOREIGN KEY (ticket_type_id) REFERENCES tickettype (ticket_type_id), FOREIGN KEY (salesevent_id) REFERENCES salesevent (salesevent_id)
+ticket_id INTEGER NOT NULL AUTO_INCREMENT UNIQUE , ticket_code VARCHAR(50), ticket_type_id INTEGER NOT NULL, deleted BOOLEAN DEFAULT false, used DATETIME, price DOUBLE NOT NULL, salesevent_id INTEGER NOT NULL, PRIMARY KEY (ticket_id), FOREIGN KEY (ticket_type_id) REFERENCES tickettype (ticket_type_id), FOREIGN KEY (salesevent_id) REFERENCES salesevent (salesevent_id)
 );
 
 SELECT * FROM ticket;
