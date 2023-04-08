@@ -1,5 +1,6 @@
 package OP1RKS.TicketGuru.web;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -105,5 +107,28 @@ public class RestTicketController {
 			throw new EntityNotFoundException("Ticket not found with id " + id);
 		}
 		trepo.deleteById(id);
+	};
+	
+	// REST Set Ticket used
+	@PatchMapping("/tickets/{id}")
+	public Ticket useTicket(@Valid @RequestBody Ticket editTicket, @PathVariable Long id, BindingResult result) throws MethodArgumentNotValidException {
+		Optional<Ticket> ticket = trepo.findById(id);
+		if(result.hasErrors()) {
+			throw new MethodArgumentNotValidException(null, result);
+		} 
+		if (!ticket.isPresent()) {
+			throw new EntityNotFoundException("Ticket not found with id: " + id);
+		} 
+		
+		Ticket existingTicket = ticket.get();
+		existingTicket.setTicket_id(editTicket.getTicket_id());
+		existingTicket.setTicket_code(editTicket.getTicket_code());
+		existingTicket.setDeleted(editTicket.isDeleted());
+		existingTicket.setUsed(LocalDateTime.now());
+		existingTicket.setPrice(editTicket.getPrice());
+		existingTicket.setSalesEvent(editTicket.getSalesEvent());
+		existingTicket.setTicketType(editTicket.getTicketType());
+		
+		return trepo.save(existingTicket);
 	};
 };

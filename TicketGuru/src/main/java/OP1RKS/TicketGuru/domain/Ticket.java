@@ -19,13 +19,13 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name= "ticket")
 @SQLDelete(sql = "UPDATE ticket SET deleted = true WHERE ticket_id=?")
 @Where(clause="deleted=false")
@@ -55,7 +55,6 @@ public class Ticket {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "salesevent_id")
 	private SalesEvent salesEvent;
-	
 
 
 }
