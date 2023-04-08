@@ -1,10 +1,12 @@
 package OP1RKS.TicketGuru.domain;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -35,8 +37,9 @@ public class Ticket {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long ticket_id;
 	
+	@Column(name="ticket_code", nullable=false, unique=true)
 	@Size(max = 50, message="code is too long")
-	private String ticket_code;
+	private final String ticket_code = UUID.randomUUID().toString();
 	
 	@NotNull
 	private boolean deleted;

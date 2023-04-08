@@ -81,7 +81,7 @@ public class RestTicketController {
 		} 
 		
 		Ticket existingTicket = ticket.get();
-		existingTicket.setTicket_code(editTicket.getTicket_code());
+		//existingTicket.setTicket_code(editTicket.getTicket_code());
 		existingTicket.setPrice(editTicket.getPrice());
 		existingTicket.setDeleted(editTicket.isDeleted());
 		existingTicket.setSalesEvent(editTicket.getSalesEvent());
@@ -123,7 +123,7 @@ public class RestTicketController {
 		
 		Ticket existingTicket = ticket.get();
 		existingTicket.setTicket_id(editTicket.getTicket_id());
-		existingTicket.setTicket_code(editTicket.getTicket_code());
+		//existingTicket.setTicket_code(editTicket.getTicket_code());
 		existingTicket.setDeleted(editTicket.isDeleted());
 		existingTicket.setUsed(LocalDateTime.now());
 		existingTicket.setPrice(editTicket.getPrice());
