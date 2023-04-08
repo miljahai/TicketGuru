@@ -39,7 +39,7 @@ public class Ticket {
 	
 	@Column(name="ticket_code", nullable=false, unique=true)
 	@Size(max = 50, message="code is too long")
-	private final String ticket_code = UUID.randomUUID().toString();
+	private final String code = UUID.randomUUID().toString();
 	
 	@NotNull
 	private boolean deleted;

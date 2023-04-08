@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import OP1RKS.TicketGuru.domain.EventRecordRepository;
 import OP1RKS.TicketGuru.domain.TicketType;
 import OP1RKS.TicketGuru.domain.TicketTypeRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -27,6 +28,9 @@ public class RestTicketTypeController {
 	
 	@Autowired
 	private TicketTypeRepository ttrepo;
+	
+	@Autowired
+	private EventRecordRepository erepo;
 	
 	// REST TicketType
 	// REST List all TicketTypes
@@ -44,7 +48,7 @@ public class RestTicketTypeController {
 			throw new MethodArgumentNotValidException(null, result);
 		} 
 		Long eventrecord_id = newTicketType.getEventRecord().getEventrecord_id();
-		if(!ttrepo.existsById(eventrecord_id)) {
+		if(!erepo.existsById(eventrecord_id)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Event with id " + eventrecord_id + " doesn't exist");
 		}
 		return ttrepo.save(newTicketType);

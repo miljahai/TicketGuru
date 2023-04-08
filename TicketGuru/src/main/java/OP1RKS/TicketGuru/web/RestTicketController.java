@@ -1,6 +1,7 @@
 package OP1RKS.TicketGuru.web;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -40,10 +42,20 @@ public class RestTicketController {
 	private SalesEventRepository srepo;
 	
 	// REST Ticket
-	// REST List all Tickets
+	// REST List all Tickets or find by Code
 	@GetMapping("/tickets")
-	 public Iterable<Ticket> getTickets() { 
-		return trepo.findAll();
+	 public Iterable<Ticket> getTickets(@RequestParam(required = false) String code) { 
+		if (code != null) {
+			System.out.println(code);
+	        Ticket ticket = trepo.findByCode(code);
+	        if (ticket != null) {
+	            return Collections.singletonList(ticket);
+	        } else {
+	            throw new EntityNotFoundException("Ticket not found with code " + code);
+	        }
+	    } else {
+	        return trepo.findAll();
+	    }
 	};
 	
 	// REST Add Ticket
@@ -81,7 +93,7 @@ public class RestTicketController {
 		} 
 		
 		Ticket existingTicket = ticket.get();
-		//existingTicket.setTicket_code(editTicket.getTicket_code());
+		//existingTicket.setCode(editTicket.getCode());
 		existingTicket.setPrice(editTicket.getPrice());
 		existingTicket.setDeleted(editTicket.isDeleted());
 		existingTicket.setSalesEvent(editTicket.getSalesEvent());
@@ -109,6 +121,7 @@ public class RestTicketController {
 		}
 		trepo.deleteById(id);
 	};
+
 	
 	// REST Set Ticket used
 	@PatchMapping("/tickets/{id}")
@@ -123,7 +136,7 @@ public class RestTicketController {
 		
 		Ticket existingTicket = ticket.get();
 		existingTicket.setTicket_id(editTicket.getTicket_id());
-		//existingTicket.setTicket_code(editTicket.getTicket_code());
+		//existingTicket.setCode(editTicket.getCode());
 		existingTicket.setDeleted(editTicket.isDeleted());
 		existingTicket.setUsed(LocalDateTime.now());
 		existingTicket.setPrice(editTicket.getPrice());
