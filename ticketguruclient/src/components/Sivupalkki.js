@@ -5,6 +5,8 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import ArticleIcon from '@mui/icons-material/Article';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import LocalActivityIcon from '@mui/icons-material/LocalActivity';
+
 
 import { Link } from "react-router-dom";
 
@@ -46,7 +48,14 @@ function Sivupalkki() {
                             <ListItemText primary='Myy lippuja' />
                         </ListItemButton>
                     </ListItem>
-                </List>
+                    <Divider />
+                    <ListItem component={Link} to="../lipuntarkastus">
+                        <ListItemButton>
+                            <ListItemIcon><LocalActivityIcon /></ListItemIcon>
+                            <ListItemText primary="Tarkasta lippuja" />
+                        </ListItemButton>
+                    </ListItem>
+                    </List>
             </Drawer>
         </Box>
     );

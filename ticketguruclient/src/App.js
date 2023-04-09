@@ -6,8 +6,10 @@ import Ylapalkki from "./components/Ylapalkki";
 import Tapahtumat from "./Tapahtumat";
 import Raportit from "./Raportit";
 import Liput from "./Liput";
+import LipunTarkastus from "./LipunTarkastus";
 import { cyan } from "@mui/material/colors";
 import { Box, Container } from "@mui/system";
+
 
 
 const theme = createTheme({
@@ -44,6 +46,7 @@ function App() {
               <Route path="tapahtumat" element={<Tapahtumat />} />
               <Route path="raportit" element={<Raportit />} />
               <Route path="liput" element={<Liput />} />
+              <Route path="lipuntarkastus" element={<LipunTarkastus />} />
             </Routes>
           </BrowserRouter>
         </Box>
