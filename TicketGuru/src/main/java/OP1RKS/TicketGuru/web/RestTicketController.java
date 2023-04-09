@@ -1,11 +1,15 @@
 package OP1RKS.TicketGuru.web;
 
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,6 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 
 import OP1RKS.TicketGuru.domain.SalesEventRepository;
 import OP1RKS.TicketGuru.domain.Ticket;
@@ -145,4 +154,22 @@ public class RestTicketController {
 		
 		return trepo.save(existingTicket);
 	};
+	
+	// Generate QR-code
+	@GetMapping("/qrcode/{code}")
+	  public ResponseEntity<byte[]> generateQRCode(@PathVariable String code) throws Exception {
+	    // Create a BitMatrix representing the QR code
+	    BitMatrix matrix = new MultiFormatWriter().encode(code, BarcodeFormat.QR_CODE, 200, 200);
+	    
+	    // Convert the BitMatrix to a byte array
+	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	    MatrixToImageWriter.writeToStream(matrix, "png", outputStream);
+	    byte[] qrCodeBytes = outputStream.toByteArray();
+	    
+	    // Set the Content-Type header and return the byte array as a ResponseEntity
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.IMAGE_PNG);
+	    return new ResponseEntity<byte[]>(qrCodeBytes, headers, HttpStatus.OK);
+	  }
+
 };

@@ -7,6 +7,7 @@ function LipunTarkastus() {
     const [code, setCode] = useState("");
     const [ticket, setTicket] = useState(null);
     const [error, setError] = useState(null);
+    const [qrCode, setQRCode] = useState(null);
 
     const handleCodeChange = (event) => {
         setCode(event.target.value);
@@ -31,6 +32,16 @@ function LipunTarkastus() {
       });
   }
 
+  const showQr = () => {
+    async function fetchQRCode() {
+      const response = await fetch(`http://localhost:8080/qrcode/${code}`);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      setQRCode(url);
+    }
+    fetchQRCode();
+  }
+
   return (
     <Container>
       <Box component="span" sx={{p: 2}}>
@@ -53,6 +64,8 @@ function LipunTarkastus() {
               <p>Lipputyyppi: {ticket.ticketType.name}</p>
               <p>Hinta: {(ticket.ticketType.price).toFixed(2)} €</p>
               <p>Koodi: {ticket.code}</p>
+              {qrCode == null && <Button onClick={showQr}>Näytä QR-koodi</Button>}
+              {qrCode && <img src={qrCode} alt="QR Code" />}
           </div>
         )}
         {error && <div>Error: {error}</div>}

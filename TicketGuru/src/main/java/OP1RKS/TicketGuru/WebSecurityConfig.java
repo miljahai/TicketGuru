@@ -71,6 +71,7 @@ public class WebSecurityConfig {
 			.requestMatchers("/events/**").authenticated()
 			.requestMatchers("/tickets").permitAll()
 			.requestMatchers("/tickets/**").authenticated()
+			.requestMatchers("/qrcode/**").permitAll()
 			.requestMatchers("/tickettypes").authenticated()
 			.requestMatchers("/tickettypes/**").authenticated()
 			.requestMatchers("/salesevents").authenticated()
