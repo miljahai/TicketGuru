@@ -1,5 +1,7 @@
 package OP1RKS.TicketGuru;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +14,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import OP1RKS.TicketGuru.config.JwtAuthenticationFilter;
 import OP1RKS.TicketGuru.exception.CustomAccessDeniedHandler;
@@ -50,6 +55,8 @@ public class WebSecurityConfig {
 		// vaatii ehkä korjauksia
 		// kts. https://github.com/ali-bouali/spring-boot-3-jwt-security/blob/main/src/main/java/com/alibou/security/config/SecurityConfiguration.java
 		http
+			.cors()
+			.and()
 			.csrf()
 			.disable()
 			.headers()
@@ -62,7 +69,7 @@ public class WebSecurityConfig {
 			.requestMatchers("/auth/register").hasAuthority("ADMIN")
 			.requestMatchers("/events").authenticated()
 			.requestMatchers("/events/**").authenticated()
-			.requestMatchers("/tickets").authenticated()
+			.requestMatchers("/tickets").permitAll()
 			.requestMatchers("/tickets/**").authenticated()
 			.requestMatchers("/tickettypes").authenticated()
 			.requestMatchers("/tickettypes/**").authenticated()
@@ -97,6 +104,17 @@ public class WebSecurityConfig {
 		return http.build();
 		
     }
+	
+	@Bean
+	CorsConfigurationSource corsConfigurationSource()
+	{
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/"));
+		configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
 
 	
 }
