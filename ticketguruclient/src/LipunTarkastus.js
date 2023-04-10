@@ -8,11 +8,11 @@ function LipunTarkastus() {
   const [ticket, setTicket] = useState(null);
   const [error, setError] = useState(null);
   const [qrCode, setQRCode] = useState(null);
-  const [used, setUsed] = useState(false);
+  const [id, setId] = useState(null);
+  const [used, setUsed] = useState(null);
 
   const handleCodeChange = (event) => {
       setCode(event.target.value);
-      console.log(code);
   };
 
   const handleSubmit = () => {
@@ -22,6 +22,7 @@ function LipunTarkastus() {
       if (data.length > 0) {
         setTicket(data[0]);
         console.log(ticket);
+        setId(parseInt(data[0].ticket_id));
         setError(null);
       } else {
         setTicket(null);
@@ -36,6 +37,7 @@ function LipunTarkastus() {
   }
 
   const showQr = () => {
+
     async function fetchQRCode() {
       const response = await fetch(`http://localhost:8080/qrcode/${code}`);
       const blob = await response.blob();
@@ -46,23 +48,24 @@ function LipunTarkastus() {
   }
 
   const markAsUsed = () => {
-    fetch(`http://localhost:8080/tickets/${code}`, {
+    fetch(`http://localhost:8080/tickets/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ used: true })
+      body: JSON.stringify({ used: new Date().toISOString() })
     })
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      setUsed(true);
+      setUsed(new Date().toISOString());
     })
     .catch(error => {
       console.error(error);
       setError('Tapahtui virhe merkittäessä lippua käytetyksi.');
     });
   }
+
 
 
   return (
@@ -87,6 +90,7 @@ function LipunTarkastus() {
               <p>Lipputyyppi: {ticket.ticketType.name}</p>
               <p>Hinta: {(ticket.ticketType.price).toFixed(2)} €</p>
               <p>Koodi: {ticket.code}</p>
+              {used && <p>Käytetty: {new Date(used).toLocaleString()}</p>}
               {qrCode == null && <Button onClick={showQr}>Näytä QR-koodi</Button>}
               {qrCode && <img src={qrCode} alt="QR Code" />}
               <Button variant="contained" color="primary" onClick={markAsUsed}>Merkitse lippu käytetyksi</Button>

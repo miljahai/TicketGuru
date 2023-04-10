@@ -144,14 +144,7 @@ public class RestTicketController {
 		} 
 		
 		Ticket existingTicket = ticket.get();
-		existingTicket.setTicket_id(editTicket.getTicket_id());
-		//existingTicket.setCode(editTicket.getCode());
-		existingTicket.setDeleted(editTicket.isDeleted());
 		existingTicket.setUsed(LocalDateTime.now());
-		existingTicket.setPrice(editTicket.getPrice());
-		existingTicket.setSalesEvent(editTicket.getSalesEvent());
-		existingTicket.setTicketType(editTicket.getTicketType());
-		
 		return trepo.save(existingTicket);
 	};
 	

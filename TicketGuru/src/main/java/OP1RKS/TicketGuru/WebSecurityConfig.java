@@ -70,7 +70,7 @@ public class WebSecurityConfig {
 			.requestMatchers("/events").authenticated()
 			.requestMatchers("/events/**").authenticated()
 			.requestMatchers("/tickets").permitAll()
-			.requestMatchers("/tickets/**").authenticated()
+			.requestMatchers("/tickets/**").permitAll()
 			.requestMatchers("/qrcode/").permitAll()
 			.requestMatchers("/qrcode/**").permitAll()
 			.requestMatchers("/tickettypes").authenticated()
@@ -112,7 +112,8 @@ public class WebSecurityConfig {
 	{
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/"));
-		configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
+		configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","PATCH"));
+		configuration.setAllowedHeaders(Arrays.asList("*"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
