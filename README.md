@@ -60,10 +60,6 @@ Lippujen myyntitilanteessa avoimet kohteet listataan selattavaksi ja saatavuus t
 
 <img src="https://github.com/miljahai/TicketGuru/blob/develop/images/tietokantamalli.jpg?raw=true" width="700" alt="Tietokantamalli_korjattu">
 
-// kuvasta pitää muuttaa/poistaa UserRole
-// Ticket-EventRecord-riippuvuus poistettava
-// Lisättävä Ticket.used
-
 
 ### EventRecord
 EventRecord-taulu sisältää Tapahtumat, joille lippuja myydään. EventRecordista on OneToMany-viittaus Ticket-tauluun ja OneToMany-viittaus TicketTypes-tauluun. Taulu on nimetty muotoon EventRecord, koska Event on varattu sana Javassa.
@@ -73,7 +69,7 @@ Kenttä | Tyyppi | Kuvaus
 eventrecord_id | int PK | Tapahtuman id
 eventrecord_name | varchar(100) |  Tapahtuman nimi
 venue | varchar(100) | Tapahtumapaikan nimi 
-city | varchar(100> | Tapahtumapaikan kaupunki
+city | varchar(100) | Tapahtumapaikan kaupunki
 ticketsmax | int | Lippujen maksimimäärä
 eventrecord_starttime | LocalDateTime | Tapahtuman aloitusaika
 eventrecord_endtime | LocalDateTime | Tapahtuman päättymisaika
@@ -98,7 +94,7 @@ TicketType-taulu sisältää lipputyypit. Sisältää OneToMany-viittauksen Tick
 Kenttä | Tyyppi | Kuvaus
 ----- | ----- | -----
 ticket_type_id | int PK | Lipputyypin id
-name | varchar(50) | Lipputyypin nimi
+ticket_type_name | varchar(50) | Lipputyypin nimi
 price | double | Lipputyypin hinta
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 eventrecord_id | int FK | Viittaus tapahtumaan EventRecord-taulussa
@@ -119,10 +115,10 @@ deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan,
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
 appuser_id | int PK | Käyttäjän id
-first_name | varchar(150) | Käyttäjän etunimi
-last_name | varchar(150) | Käyttäjän sukunimi
-email | varchar(50) | Käyttäjän sähköposti
-password | varchar(50) | Käyttäjän salasana
+first_name | varchar(100) | Käyttäjän etunimi
+last_name | varchar(100) | Käyttäjän sukunimi
+email | varchar(100) | Käyttäjän sähköposti
+password | varchar(200) | Käyttäjän salasana
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 userrole | varchar(50)/enum | Viittaus rooliin UserRole-taulussa
 
