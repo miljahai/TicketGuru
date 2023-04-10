@@ -8,6 +8,7 @@ function LipunTarkastus() {
   const [ticket, setTicket] = useState(null);
   const [error, setError] = useState(null);
   const [qrCode, setQRCode] = useState(null);
+  const [used, setUsed] = useState(false);
 
   const handleCodeChange = (event) => {
       setCode(event.target.value);
@@ -44,6 +45,26 @@ function LipunTarkastus() {
     fetchQRCode();
   }
 
+  const markAsUsed = () => {
+    fetch(`http://localhost:8080/tickets/${code}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ used: true })
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      setUsed(true);
+    })
+    .catch(error => {
+      console.error(error);
+      setError('Tapahtui virhe merkittäessä lippua käytetyksi.');
+    });
+  }
+
+
   return (
     <Container>
       <Box component="span" sx={{p: 2}}>
@@ -68,6 +89,7 @@ function LipunTarkastus() {
               <p>Koodi: {ticket.code}</p>
               {qrCode == null && <Button onClick={showQr}>Näytä QR-koodi</Button>}
               {qrCode && <img src={qrCode} alt="QR Code" />}
+              <Button variant="contained" color="primary" onClick={markAsUsed}>Merkitse lippu käytetyksi</Button>
           </div>
         )}
         {error && <div>Error: {error}</div>}
