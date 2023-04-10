@@ -22,7 +22,6 @@ function LipunTarkastus() {
         setTicket(data[0]);
         console.log(ticket);
         setError(null);
-        setCode('');
       } else {
         setTicket(null);
         setError(`Ticket not found with code ${code}`);
