@@ -4,32 +4,35 @@ import { Link, Outlet } from "react-router-dom";
 import { useState } from "react";
 
 function LipunTarkastus() {
-    const [code, setCode] = useState("");
-    const [ticket, setTicket] = useState(null);
-    const [error, setError] = useState(null);
-    const [qrCode, setQRCode] = useState(null);
+  const [code, setCode] = useState("");
+  const [ticket, setTicket] = useState(null);
+  const [error, setError] = useState(null);
+  const [qrCode, setQRCode] = useState(null);
 
-    const handleCodeChange = (event) => {
-        setCode(event.target.value);
-    };
+  const handleCodeChange = (event) => {
+      setCode(event.target.value);
+      console.log(code);
+  };
 
-    const handleSubmit = (event) => {
-        fetch(`http://localhost:8080/tickets?/tickets?code=${code}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.length > 0) {
-          setTicket(data[0]);
-          setError(null);
-        } else {
-          setTicket(null);
-          setError(`Ticket not found with code ${code}`);
-        }
-      })
-      .catch(error => {
-        console.error(error);
+  const handleSubmit = () => {
+      fetch(`http://localhost:8080/tickets?code=${code}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.length > 0) {
+        setTicket(data[0]);
+        console.log(ticket);
+        setError(null);
+        setCode('');
+      } else {
         setTicket(null);
-        setError('An error occurred while fetching ticket data.');
-      });
+        setError(`Ticket not found with code ${code}`);
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      setTicket(null);
+      setError('An error occurred while fetching ticket data.');
+    });
   }
 
   const showQr = () => {
