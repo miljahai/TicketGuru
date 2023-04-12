@@ -155,6 +155,7 @@ userrole | varchar(50)/enum | Viittaus rooliin UserRole-taulussa
 [PUT /tickets/{id}](./API%20documentation/tickets/putbyid.md)<br>
 [PATCH /tickets/{id}](./API%20documentation/tickets/patchbyid.md)<br>
 [DELETE /tickets/{id}](./API%20documentation/tickets/deletebyid.md)<br>
+
 <br>
 
 ### QR Code
@@ -174,6 +175,7 @@ userrole | varchar(50)/enum | Viittaus rooliin UserRole-taulussa
 [GET /users/{id}](./API%20documentation/users/getbyid.md)<br>
 [PUT /users/{id}](./API%20documentation/users/putbyid.md)<br>
 [DELETE /users/{id}](./API%20documentation/users/deletebyid.md)<br>
+
 <br>
 
 
