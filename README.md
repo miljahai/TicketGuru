@@ -15,7 +15,7 @@ Lippuja pitää voida myydä ja tulostaa sekä lippujen on sisällettävä helpo
 
 Myytyjen lippujen määrää voidaan seurata raporteilta tapahtumakohtaisesti.
 
-Järjestelmä toteutetaan palvelinpuolen osalta Javalla, Spring Boot -viitekehyksellä. Käyttöliittymä rakennetaan Reactilla. Tavoitteena on, että käyttöliittymä olisi käyettävissä kaikilla tavanomaisilla päätelaitteilla (puhelin, taulutietokone, tietokone).
+Järjestelmä toteutetaan palvelinpuolen osalta Javalla, Spring Boot -viitekehyksellä. Käyttöliittymä rakennetaan Reactilla. Tavoitteena on, että käyttöliittymä olisi käytettävissä kaikilla tavanomaisilla päätelaitteilla (puhelin, taulutietokone, tietokone).
 
 ## Järjestelmän määrittely
 
@@ -123,8 +123,60 @@ deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan,
 userrole | varchar(50)/enum | Viittaus rooliin UserRole-taulussa
 
 
-> ## Tekninen kuvaus
-> 
+## Tekninen kuvaus
+
+### REST-rajapinta
+
+### Auth
+[POST /auth/authenticate](./API%20documentation/auth/post_authenticate.md)
+[POST /auth/register](./API%20documentation/auth/post_register.md)
+<br>
+
+### Events
+[GET /events](./API%20documentation/events/get.md)
+[GET /events/{id}](./API%20documentation/events/getbyid.md)
+[POST /events](./API%20documentation/events/post.md)
+[PUT /events/{id}](./API%20documentation/events/putbyid.md)
+[DELETE /events/{id}](./API%20documentation/events/deletebyid.md)
+<br>
+
+### Salesevents
+[GET /salesevents](./API%20documentation/salesevents/get.md)
+[GET /salesevents/{id}](./API%20documentation/salesevents/getbyid.md)
+[POST /salesevents](./API%20documentation/salesevents/post.md)
+[PUT /salesevents/{id}](./API%20documentation/salesevents/putbyid.md)
+[DELETE /salesevents/{id}](./API%20documentation/salesevents/deletebyid.md)
+<br>
+
+### Tickets
+[GET /tickets](./API%20documentation/tickets/get.md)
+[GET /tickets/{id}](./API%20documentation/tickets/getbyid.md)
+[POST /tickets](./API%20documentation/tickets/post.md)
+[PUT /tickets/{id}](./API%20documentation/tickets/putbyid.md)
+[PATCH /tickets/{id}](./API%20documentation/tickets/patchbyid.md)
+[DELETE /tickets/{id}](./API%20documentation/tickets/deletebyid.md)
+<br>
+
+### QR Code
+[GET /grcode/code](./API%20documentation/qrcode/getbycode.md)
+<br>
+
+### Tickettypes
+[GET /tickettypes](./API%20documentation/tickettypes/get.md)
+[GET /tickettypes/{id}](./API%20documentation/tickets/getbyid.md)
+[POST /tickettypes](./API%20documentation/tickettypes/post.md)
+[PUT /tickettypes/{id}](./API%20documentation/tickettypes/putbyid.md)
+[DELETE /tickettypes/{id}](./API%20documentation/tickettypes/deletebyid.md)
+<br>
+
+### Users
+[GET /users](./API%20documentation/users/get.md)
+[GET /users/{id}](./API%20documentation/users/getbyid.md)
+[PUT /users/{id}](./API%20documentation/users/putbyid.md)
+[DELETE /users/{id}](./API%20documentation/users/deletebyid.md)
+<br>
+
+
 > Teknisessä kuvauksessa esitetään järjestelmän toteutuksen suunnittelussa tehdyt tekniset
 > ratkaisut, esim.
 > 
