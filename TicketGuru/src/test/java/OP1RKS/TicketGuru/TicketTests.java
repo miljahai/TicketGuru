@@ -76,7 +76,7 @@ class TicketTests {
     }
 
     @Test
-    public void testValidationErrors() {
+    public void testTicketPriceNegative() {
         Ticket ticket = new Ticket();
         ticket.setPrice(-1.0);
 
