@@ -2,12 +2,16 @@ package OP1RKS.TicketGuru;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 import OP1RKS.TicketGuru.domain.SalesEvent;
 import OP1RKS.TicketGuru.domain.Ticket;
 import OP1RKS.TicketGuru.domain.TicketType;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 
 
 
@@ -72,10 +76,17 @@ class TicketTests {
     }
 
     @Test
-    void testTicketPriceNegative() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            Ticket.builder().price(-1.0).build();
-        });
+    public void testValidationErrors() {
+        Ticket ticket = new Ticket();
+        ticket.setPrice(-1.0);
+
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<Ticket>> violations = validator.validate(ticket);
+
+        assertEquals(1, violations.size());
+        ConstraintViolation<Ticket> violation = violations.iterator().next();
+        assertEquals("price cannot be negative", violation.getMessage());
+        System.out.println(violation.getMessage());
     }
     
     @Test
