@@ -86,7 +86,6 @@ class TicketTests {
         assertEquals(1, violations.size());
         ConstraintViolation<Ticket> violation = violations.iterator().next();
         assertEquals("price cannot be negative", violation.getMessage());
-        System.out.println(violation.getMessage());
     }
     
     @Test
