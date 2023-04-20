@@ -9,7 +9,7 @@ function Tapahtumat() {
 
     const [events, setEvents] = useState([]);
 
-    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0LmFkbWluQHRpY2tldGd1cnUuY29tIiwiaWF0IjoxNjgxOTkxMTM5LCJleHAiOjE2ODE5OTI1Nzl9.yQdSrY89tnubVEntg94K1xR8_rTnzeBxraIMG-fZd38';
+    const token = //Tähän token';
 
     useEffect(() => {
         Promise.all([
