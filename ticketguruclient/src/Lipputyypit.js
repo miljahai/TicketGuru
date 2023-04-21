@@ -3,27 +3,27 @@ import Sivupalkki from "./components/Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Events from "./components/Events";
+import TicketTypes from "./components/TicketTypes";
 import { useUser } from './UserProvider';
-import EditIcon from '@mui/icons-material/Edit';
+import ArrowBack from '@mui/icons-material/Edit';
 
-function Tapahtumat() {
+function Lipputyypit() {
 
-    const [events, setEvents] = useState([]);
+    const [tickettypes, setTickettypes] = useState([]);
     const user = useUser();
 
     useEffect(() => {
         Promise.all([
-            axios.get('http://localhost:8080/events', {
+            axios.get('http://localhost:8080/tickettypes', {
                 headers: {
                     'Authorization': `Bearer ${user.jwt}`
                 }
             })
-        ]).then(([eventsResponse]) => {
-            console.log('Events fetched:', eventsResponse.data);
-            setEvents(eventsResponse.data);
+        ]).then(([tickettypesResponse]) => {
+            console.log('TicketTypes fetched:', tickettypesResponse.data);
+            setTickettypes(tickettypesResponse.data);
         }).catch(error => {
-            console.log('Error fetching events: ', error);
+            console.log('Error fetching TicketTypes: ', error);
         });
     }, [user.jwt]);
 
@@ -37,13 +37,14 @@ function Tapahtumat() {
                     </Toolbar>
                 </AppBar>
                 <Outlet />
-                <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Tapahtumat</Typography>
-                <Button href='../lipputyypit' variant="outlined"><EditIcon />Lipputyypit</Button>
+                <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Lipputyypit</Typography>
+                <Button href='../tapahtumat' variant="contained"><ArrowBack />Tapahtumat</Button>
             </Box>
-            <Events events={events} />
-
+            <Box sx={{ width: 0.5, p: 0 }}>
+                <TicketTypes tickettypes={tickettypes} />
+            </Box>
         </Container>
     )
 }
 
-export default Tapahtumat;
+export default Lipputyypit;

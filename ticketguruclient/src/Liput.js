@@ -1,7 +1,7 @@
-import {Box, Typography, AppBar, Toolbar, Container} from "@mui/material";
+import { Box, Typography, AppBar, Toolbar, Container, Select } from "@mui/material";
 import Sivupalkki from "./components/Sivupalkki";
-import {Link, Outlet} from "react-router-dom";
-import {useEffect, useState} from "react";
+import { Link, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useUser } from './UserProvider';
 import axios from "axios";
 
@@ -64,7 +64,7 @@ function Liput() {
     };
 
     const handleInputChange = (event) => {
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: parseInt(value)
@@ -75,7 +75,7 @@ function Liput() {
 
         event.preventDefault();
         console.log(formData);
-        const {quantity} = formData;
+        const { quantity } = formData;
         const price = selectedTicketType.price;
         const ticketFinalPrice = quantity * price;
 
@@ -106,10 +106,10 @@ function Liput() {
             event.preventDefault();
             axios
                 .post('http://localhost:8080/salesevents', data, {
-                headers: {
-                    'Authorization': `Bearer ${user.jwt}`
-                }
-            })
+                    headers: {
+                        'Authorization': `Bearer ${user.jwt}`
+                    }
+                })
                 .then(response => {
                     console.log('SalesEvent created:', response.data);
                     setFormData({});
@@ -128,50 +128,50 @@ function Liput() {
                 <AppBar
                     position="static"
                     sx={{
-                    borderRadius: "15px 50px"
-                }}>
+                        borderRadius: "15px 50px"
+                    }}>
                     <Toolbar>
                         {< Sivupalkki />}
                         <Typography
                             component={Link}
                             to="/"
                             sx={{
-                            flexGrow: 1,
-                            textAlign: "center"
-                        }}
+                                flexGrow: 1,
+                                textAlign: "center"
+                            }}
                             variant="h1">
                             TicketGuru
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <Outlet/>
+                <Outlet />
                 <Typography
                     variant="h2"
                     sx={{
-                    p: 2,
-                    flexGrow: 1,
-                    textAlign: "center"
-                }}>
+                        p: 2,
+                        flexGrow: 1,
+                        textAlign: "center"
+                    }}>
                     Myy lippuja
                 </Typography>
             </Box>
             <Box
                 sx={{
-                display: "flex",
-                gap: "16px"
-            }}>
+                    display: "flex",
+                    gap: "16px"
+                }}>
                 <Box sx={{
                     flex: 1
                 }}>
                     <Typography variant="h4">Valitse tapahtuma:</Typography>
                     <select
                         value={selectedEvent
-                        ? selectedEvent.eventrecord_id
-                        : null}
+                            ? selectedEvent.eventrecord_id
+                            : null}
                         onChange={(e) => handleSelect(e.target.value)}
                         style={{
-                        width: "100%"
-                    }}>
+                            width: "100%"
+                        }}>
                         <option value={null}>-- Valitse tapahtuma --</option>
                         {events.map((event) => (
                             <option key={event.eventrecord_id} value={event.eventrecord_id}>
@@ -199,12 +199,12 @@ function Liput() {
                         <Typography variant="h4">Valitse lipputyyppi:</Typography>
                         <select
                             value={selectedTicketType
-                            ? selectedTicketType.ticket_type_id
-                            : null}
+                                ? selectedTicketType.ticket_type_id
+                                : null}
                             onChange={(e) => handleTicketTypeSelect(e.target.value)}
                             style={{
-                            width: "100%"
-                        }}>
+                                width: "100%"
+                            }}>
                             <option value={null}>-- Valitse lipputyyppi --</option>
                             {ticketTypes.filter((tt) => tt.eventRecord.eventrecord_id === selectedEvent.eventrecord_id).map((tt) => (
                                 <option key={tt.ticket_type_id} value={tt.ticket_type_id}>
@@ -223,8 +223,8 @@ function Liput() {
                                     value={formData.quantity || ""}
                                     onChange={handleInputChange}
                                     style={{
-                                    marginBottom: "16px"
-                                }}/>
+                                        marginBottom: "16px"
+                                    }} />
                                 <button type="submit" disabled={!formData.quantity}>Lisää ostoskoriin</button>
                                 {errorMessage && <p className="error-message">{errorMessage}</p>}
                             </form>

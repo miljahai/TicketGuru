@@ -19,7 +19,7 @@ function Sivupalkki() {
   const [roles, setRoles] = useState([]);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  
+
   const handleOpen = () => {
     setOpen(true);
   }
@@ -32,7 +32,7 @@ function Sivupalkki() {
       setRoles(decodedJwt.authorities);
     }
   }, [user, user.jwt]);
-  
+
   return (
     <Box>
       <IconButton onClick={handleOpen}><MenuIcon /></IconButton>
@@ -48,8 +48,8 @@ function Sivupalkki() {
           <Divider />
           <ListItem component={Link} to="../liput">
             <ListItemButton>
-                <ListItemIcon><ShoppingBasketIcon /></ListItemIcon>
-                <ListItemText primary='Myy lippuja' />
+              <ListItemIcon><ShoppingBasketIcon /></ListItemIcon>
+              <ListItemText primary='Myy lippuja' />
             </ListItemButton>
           </ListItem>
           <Divider />
@@ -61,15 +61,15 @@ function Sivupalkki() {
           </ListItem>
           <Divider />
           {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
-          <React.Fragment>
-            <ListItem component={Link} to="../raportit">      
-              <ListItemButton>
-                <ListItemIcon><ArticleIcon /></ListItemIcon>
-                <ListItemText primary="Selaa raportteja" />
-              </ListItemButton>
-            </ListItem>
-            <Divider />
-          </React.Fragment>
+            <React.Fragment>
+              <ListItem component={Link} to="../raportit">
+                <ListItemButton>
+                  <ListItemIcon><ArticleIcon /></ListItemIcon>
+                  <ListItemText primary="Selaa raportteja" />
+                </ListItemButton>
+              </ListItem>
+              <Divider />
+            </React.Fragment>
           ) : (
             <></>
           )}
@@ -77,23 +77,23 @@ function Sivupalkki() {
             <ListItemButton>
               <ListItemIcon><LogoutIcon /></ListItemIcon>
               {user && user.jwt ? (
-              <div onClick={() => {
-                user.setJwt(null);
-                navigate("/login");
-              }} >
-                Kirjaudu ulos
-              </div>
+                <div onClick={() => {
+                  user.setJwt(null);
+                  navigate("/login");
+                }} >
+                  Kirjaudu ulos
+                </div>
               ) : pathname !== "/login" ? (
                 <div onClick={() => {
-                    navigate("/login");
+                  navigate("/login");
                 }} >
                   Kirjaudu sisään
                 </div>
               ) : (
-                <></>   
+                <></>
               )}
             </ListItemButton>
-          </ListItem> 
+          </ListItem>
         </List>
       </Drawer>
     </Box>
