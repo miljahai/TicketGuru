@@ -2,6 +2,7 @@ import { Box, Typography, AppBar, Toolbar, Container, TextField, Button } from "
 import Sivupalkki from "./components/Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
 import { useState } from "react";
+import { useUser } from './UserProvider';
 
 function LipunTarkastus() {
   const [code, setCode] = useState("");
@@ -10,13 +11,18 @@ function LipunTarkastus() {
   const [qrCode, setQRCode] = useState(null);
   const [id, setId] = useState(null);
   const [used, setUsed] = useState(null);
+  const user = useUser();
 
   const handleCodeChange = (event) => {
     setCode(event.target.value);
   };
 
   const handleSubmit = () => {
-    fetch(`http://localhost:8080/tickets?code=${code}`)
+    fetch(`http://localhost:8080/tickets?code=${code}`, {
+      headers: {
+        'Authorization': `Bearer ${user.jwt}`
+      },
+    })
       .then(response => response.json())
       .then(data => {
         if (data.length > 0) {
@@ -39,7 +45,11 @@ function LipunTarkastus() {
   const showQr = () => {
 
     async function fetchQRCode() {
-      const response = await fetch(`http://localhost:8080/qrcode/${code}`);
+      const response = await fetch(`http://localhost:8080/qrcode/${code}`, {
+        headers: {
+          'Authorization': `Bearer ${user.jwt}`
+          },
+        });
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       setQRCode(url);
@@ -51,7 +61,8 @@ function LipunTarkastus() {
     fetch(`http://localhost:8080/tickets/${id}`, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user.jwt}`
       },
       body: JSON.stringify({ ticket_id: id })
     })
@@ -65,8 +76,6 @@ function LipunTarkastus() {
         setError('Tapahtui virhe merkittäessä lippua käytetyksi.');
       });
   }
-
-
 
   return (
     <Container>

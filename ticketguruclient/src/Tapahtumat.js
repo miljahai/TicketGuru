@@ -4,18 +4,18 @@ import { Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Events from "./components/Events";
+import { useUser } from './UserProvider';
 
 function Tapahtumat() {
 
     const [events, setEvents] = useState([]);
-
-    const token = //Tähän token';
+    const user = useUser();
 
     useEffect(() => {
         Promise.all([
             axios.get('http://localhost:8080/events', {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${user.jwt}`
                 }
             })
         ]).then(([eventsResponse]) => {
@@ -24,7 +24,7 @@ function Tapahtumat() {
         }).catch(error => {
             console.log('Error fetching events: ', error);
         });
-    }, []);
+    }, [user.jwt]);
 
     return (
         <Container>

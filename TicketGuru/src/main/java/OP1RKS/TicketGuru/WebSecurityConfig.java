@@ -37,12 +37,14 @@ public class WebSecurityConfig {
 	CustomAccessDeniedHandler accessDeniedHandler;
 	@Autowired
 	CustomAuthenticationFailureHandler authenticationFailureHandler;
+	
     
 	// TODO: tätä listaa pitää siivota
     private static final AntPathRequestMatcher[] WHITE_LIST_URLS = {
     		new AntPathRequestMatcher("/auth"),
     		new AntPathRequestMatcher("/auth/**"),
-            new AntPathRequestMatcher("/login*"),
+            new AntPathRequestMatcher("/login"),
+            new AntPathRequestMatcher("/login**"),
             new AntPathRequestMatcher("/h2-console"),
             new AntPathRequestMatcher("/h2-console/**")
     };
@@ -69,10 +71,10 @@ public class WebSecurityConfig {
 			.requestMatchers("/auth/register").hasAuthority("ADMIN")
 			.requestMatchers("/events").authenticated()
 			.requestMatchers("/events/**").authenticated()
-			.requestMatchers("/tickets").permitAll()
-			.requestMatchers("/tickets/**").permitAll()
-			.requestMatchers("/qrcode/").permitAll()
-			.requestMatchers("/qrcode/**").permitAll()
+			.requestMatchers("/tickets").authenticated()
+			.requestMatchers("/tickets/**").authenticated()
+			.requestMatchers("/qrcode/").authenticated()
+			.requestMatchers("/qrcode/**").authenticated()
 			.requestMatchers("/tickettypes").authenticated()
 			.requestMatchers("/tickettypes/**").authenticated()
 			.requestMatchers("/salesevents").authenticated()
@@ -111,13 +113,13 @@ public class WebSecurityConfig {
 	CorsConfigurationSource corsConfigurationSource()
 	{
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/"));
+		configuration.setAllowedOrigins(Arrays.asList("*"));
 		configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","PATCH"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));
+		configuration.addExposedHeader("*");
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
 
-	
 }

@@ -2,16 +2,28 @@ package OP1RKS.TicketGuru.auth;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.Collections;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import OP1RKS.TicketGuru.domain.AppUser;
 import OP1RKS.TicketGuru.service.AuthenticationService;
+import OP1RKS.TicketGuru.service.JwtService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.Valid;
+
 
 
 
@@ -19,12 +31,16 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = {"http://localhost:3000/", "http://localhost:8080"}, allowCredentials = "true")
 public class AuthController {
 	
 	protected final Log logger = LogFactory.getLog(getClass());
 	
 	@Autowired
 	private final AuthenticationService aservice;
+	@Autowired
+	private final AuthenticationManager authenticationManager;
+	@Autowired JwtService jwtservice;
 	
     
 	@PostMapping("/register")
@@ -48,6 +64,36 @@ public class AuthController {
 	) {
 			return ResponseEntity.ok(aservice.authenticate(request));
 	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody AuthenticationRequest request) {
+        try {
+            Authentication authenticate = authenticationManager
+                    .authenticate(
+                            new UsernamePasswordAuthenticationToken(
+                                    request.getEmail(), request.getPassword()));
 
+            AppUser user = (AppUser) authenticate.getPrincipal();
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.AUTHORIZATION, jwtservice.generateToken(user))
+                    .body(user);
+        } catch (BadCredentialsException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Collections.singletonMap("error", "Invalid email or password"));
+        }
+    }
+
+	// /auth/validate?token={jwt-token}
+	@GetMapping("/validate")
+	public ResponseEntity<?> validateToken (@RequestParam String token, @AuthenticationPrincipal AppUser user) {
+		try {
+			Boolean isTokenValid = jwtservice.isTokenValid(token, user);
+			return ResponseEntity.ok(isTokenValid);
+		} catch (ExpiredJwtException e) {
+			return ResponseEntity.ok(false);
+		}
+		
+	}
 
 }

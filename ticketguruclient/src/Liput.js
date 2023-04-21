@@ -2,6 +2,7 @@ import {Box, Typography, AppBar, Toolbar, Container} from "@mui/material";
 import Sivupalkki from "./components/Sivupalkki";
 import {Link, Outlet} from "react-router-dom";
 import {useEffect, useState} from "react";
+import { useUser } from './UserProvider';
 import axios from "axios";
 
 function Liput() {
@@ -25,19 +26,19 @@ function Liput() {
     const [totalQuantity,
         setTotalQuantity] = useState(0);
 
-    const token = //TÄHÄN OMA JWT TOKENI;
+    const user = useUser();
 
     useEffect(() => {
         console.log('Fetching events and tickettypes...');
         Promise.all([
             axios.get('http://localhost:8080/events', {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${user.jwt}`
                 }
             }),
             axios.get('http://localhost:8080/tickettypes', {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${user.jwt}`
                 }
             })
         ]).then(([eventsResponse, ttResponse]) => {
@@ -48,7 +49,7 @@ function Liput() {
         }).catch(error => {
             console.log('Error fetching events and users:', error);
         });
-    }, []);
+    }, [user.jwt]);
 
     const handleTicketTypeSelect = (value) => {
         const selected = ticketTypes.find((tt) => tt.ticket_type_id === parseInt(value));
@@ -106,7 +107,7 @@ function Liput() {
             axios
                 .post('http://localhost:8080/salesevents', data, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${user.jwt}`
                 }
             })
                 .then(response => {
