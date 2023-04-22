@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import TicketTypes from "./components/TicketTypes";
 import { useUser } from './UserProvider';
-import ArrowBack from '@mui/icons-material/Edit';
 
 function Lipputyypit() {
 
@@ -30,19 +29,22 @@ function Lipputyypit() {
     return (
         <Container>
             <Box component="span" sx={{ p: 2 }}>
+
                 <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
                     <Toolbar>
                         {<Sivupalkki />}
                         <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
                     </Toolbar>
                 </AppBar>
-                <Outlet />
+
                 <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Lipputyypit</Typography>
-                <Button href='../tapahtumat' variant="contained"><ArrowBack />Tapahtumat</Button>
+
             </Box>
+
             <Box sx={{ width: 0.5, p: 0 }}>
-                <TicketTypes tickettypes={tickettypes} />
+                <TicketTypes tickettypes={tickettypes} user={user} />
             </Box>
+
         </Container>
     )
 }

@@ -24,7 +24,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name= "tickettype")
 
-@SQLDelete(sql = "UPDATE ticket_type SET deleted = true WHERE ticket_type_id=?")
+@SQLDelete(sql = "UPDATE tickettype SET deleted = true WHERE ticket_type_id=?")
 @Where(clause="deleted=false")
 public class TicketType {
 	
