@@ -5,6 +5,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
 import axios from "axios";
 import { ArrowBack, Add, Delete } from '@mui/icons-material';
+import AddTicketTypes from './AddTicketTypes';
 
 function TicketTypes(props) {
 
@@ -16,15 +17,17 @@ function TicketTypes(props) {
 
         if (selected.length > 0) {
             if (window.confirm("Vahvista lipputyyppin poisto?")) {
-                gridRef.current.api.applyTransaction({ remove: row });
+                // Make a delete call to backend and set tickettype matching row deleted in database 
                 Promise.all([
                     axios.delete(`http://localhost:8080/tickettypes/` + selected[0].data.ticket_type_id, {
                         headers: {
                             'Authorization': `Bearer ${props.user.jwt}`
                         }
                     })
-                ]).then(([res]) => {
-                    console.log(`TicketType ${selected[0].data.ticket_type_id} deleted: ` + res.data);
+                ]).then((response) => {
+                    console.log(`TicketType ${selected[0].data.ticket_type_id} deleted: ` + response.data);
+                    // Hide row from view and update client:
+                    gridRef.current.api.applyTransaction({ remove: row });
                 }).catch(error => {
                     console.log('Error deleting TicketType: ', error);
                 });
@@ -34,10 +37,20 @@ function TicketTypes(props) {
         };
     };
 
-    // Todo: Add Tickettype
     const saveTickettype = (tickettype) => {
-        console.log('not yet implemented')
-    }
+        console.log(tickettype)
+        Promise.all([
+            axios.post(`http://localhost:8080/tickettypes/`, tickettype, {
+                headers: {
+                    'Authorization': `Bearer ${props.user.jwt}`
+                }
+            })
+        ]).then((response) => {
+            console.log('TicketType created: ', response.data);
+        }).catch(error => {
+            console.log('Error creating TicketType: ', error)
+        });
+    };
 
     // Todo: Edit Tickettype
     const editTicketype = (tickettype) => {
@@ -64,7 +77,7 @@ function TicketTypes(props) {
 
             <Typography variant='body2' sx={{ p: 0, textAlign: 'left' }}>
                 <Button href='../tapahtumat' variant="outlined" sx={{ m: 1 }}><ArrowBack />Tapahtumat</Button>
-                <Button href='#' variant="contained" sx={{ m: 1 }}><Add />Lisää lipputyyppi</Button>
+                <AddTicketTypes saveTickettype={saveTickettype} />
                 <Button onClick={deleteTickettype} variant="contained" color='error' sx={{ m: 1 }}><Delete />Poista valittu</Button>
             </Typography>
 

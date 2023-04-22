@@ -60,7 +60,7 @@ public class TicketType {
 		super();
 		this.ticket_type_name = name;
 		this.price = price;
-		this.deleted = deleted;
+		this.deleted = false;
 		this.eventRecord = eventRecord;
 	}
 
@@ -71,7 +71,7 @@ public class TicketType {
 		this.ticket_type_id = ticket_type_id;
 		this.ticket_type_name = name;
 		this.price = price;
-		this.deleted = deleted;
+		this.deleted = false;
 		this.eventRecord = eventRecord;
 	}
 
@@ -82,7 +82,7 @@ public class TicketType {
 		this.ticket_type_id = ticket_type_id;
 		this.ticket_type_name = name;
 		this.price = price;
-		this.deleted = deleted;
+		this.deleted = false;
 		this.tickets = tickets;
 		this.eventRecord = eventRecord;
 	}
