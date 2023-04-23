@@ -53,7 +53,14 @@ function TicketTypes(props) {
                 })
         ]).then((response) => {
             console.log('TicketType created: ', response[0].data);
-            gridRef.current.api.refreshCells();
+            if (gridRef.current) {
+                console.log('refreshing grid')
+                // Get updated data from server
+                // TODO
+
+                // Refresh grid with new data
+                gridRef.current.api.refreshCells();
+            }
         }).catch(error => {
             console.log('Error creating TicketType: ', error)
         });
