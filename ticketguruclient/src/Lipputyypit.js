@@ -40,7 +40,7 @@ function Lipputyypit() {
                 <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Lipputyypit</Typography>
                 <Typography variant="caption" sx={{ flexGrow: 1, textAlign: 'left' }}>
                     <div>Todo:<ul>
-                        <li>Gridin päivittyminen</li>
+                        <li>Tapahtuman päivittäminen Gridissä (nyt päivittyy vain nimi, ei event_id)</li>
                         <li>Dialogin päivittyminen</li>
                         <li>Gridissä muokatun lipputyypin muokkaus PUTtaus</li>
                         <li>id pois gridistä (vasta kun muuten valmis! näkyvillä devausapuna)</li>
