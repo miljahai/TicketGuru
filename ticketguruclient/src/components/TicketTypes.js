@@ -71,14 +71,24 @@ function TicketTypes(props) {
         console.log('not yet implemented')
     }
 
+    var numberValueFormatter = function (params) {
+        return params.value.toFixed(2);
+    };
+
     // Grid Configuration
     const gridRef = useRef();
     const columns = [
         { headerName: 'Tapahtuma', field: 'eventRecord.eventrecord_name', sortable: true, filter: true, editable: true, checkboxSelection: true },
         { headerName: 'Id', field: 'ticket_type_id', sortable: true, filter: true },
         { headerName: 'Lipputyyppi', field: 'name', sortable: true, filter: true, editable: true },
-        { headerName: 'Hinta', field: 'price', sortable: true, filter: true, editable: true },
-        { headerName: 'Muokkaa' }
+        {
+            headerName: 'Hinta',
+            field: 'price',
+            sortable: true,
+            editable: true,
+            filter: 'agNumberColumnFilter',
+            valueFormatter: numberValueFormatter
+        }
     ];
     const defaultColDef = {
         cellStyle: () => ({ display: 'flex', alignItems: 'left', justifyContent: 'left' })
@@ -93,7 +103,7 @@ function TicketTypes(props) {
                 <Button onClick={deleteTickettype} variant="contained" color='error' sx={{ m: 1 }}><Delete />Poista valittu</Button>
             </Typography>
 
-            <div className='ag-theme-material' style={{ height: '60vmin', width: '140vmin' }}>
+            <div className='ag-theme-material' style={{ height: '50vmin', width: '50rem' }}>
                 <div style={{ display: 'flex' }}>
 
                 </div>
