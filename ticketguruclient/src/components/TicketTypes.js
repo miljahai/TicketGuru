@@ -6,8 +6,11 @@ import 'ag-grid-community/styles/ag-theme-material.css';
 import axios from "axios";
 import { ArrowBack, Add, Delete } from '@mui/icons-material';
 import AddTicketTypes from './AddTicketTypes';
+import { useUser } from '../UserProvider';
 
 function TicketTypes(props) {
+
+    const user = useUser();
 
     // Delete selected TicketType
     const deleteTickettype = () => {
@@ -37,14 +40,19 @@ function TicketTypes(props) {
         };
     };
 
+    // Save a new tickettype
     const saveTickettype = (tickettype) => {
-        console.log(tickettype)
+
+        console.log('saveTickettype', tickettype)
         Promise.all([
-            axios.post(`http://localhost:8080/tickettypes/`, tickettype, {
-                headers: {
-                    'Authorization': `Bearer ${props.user.jwt}`
-                }
-            })
+            axios.post(
+                `http://localhost:8080/tickettypes`,
+                tickettype,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${user.jwt}`
+                    }
+                })
         ]).then((response) => {
             console.log('TicketType created: ', response.data);
         }).catch(error => {
@@ -77,7 +85,7 @@ function TicketTypes(props) {
 
             <Typography variant='body2' sx={{ p: 0, textAlign: 'left' }}>
                 <Button href='../tapahtumat' variant="outlined" sx={{ m: 1 }}><ArrowBack />Tapahtumat</Button>
-                <AddTicketTypes saveTickettype={saveTickettype} />
+                <AddTicketTypes saveTickettype={saveTickettype} user={props.user} />
                 <Button onClick={deleteTickettype} variant="contained" color='error' sx={{ m: 1 }}><Delete />Poista valittu</Button>
             </Typography>
 

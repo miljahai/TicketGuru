@@ -1,12 +1,15 @@
-import * as React from 'react';
-import { Button, Dialog, DialogTitle, DialogActions, DialogContent, TextField } from '@mui/material'
+import React, { useState, useRef, useEffect } from 'react';
+import axios from "axios";
+import { Button, Dialog, DialogTitle, DialogActions, DialogContent, TextField, Autocomplete } from '@mui/material'
 import { Add } from '@mui/icons-material';
 
 export default function AddTicketTypes(props) {
 
-    const [open, setOpen] = React.useState(false);
-    const [tickettype, setTickettype] = React.useState({
-        'eventRecord.name': '', name: '', price: ''
+    const [events, setEvents] = useState({});
+    const [selectedEvent, setSelectedEvent] = useState({ id: '', name: '' })
+    const [open, setOpen] = useState(false);
+    const [tickettype, setTickettype] = useState({
+        name: '', price: '', eventrecord_id: 0
     });
 
     const handleClickOpen = () => {
@@ -20,12 +23,40 @@ export default function AddTicketTypes(props) {
         setTickettype({ ...tickettype, [event.target.name]: event.target.value })
         //console.log(tickettype)
     };
-
     const addTickettype = () => {
-        console.log(tickettype)
-        props.saveTickettype(tickettype);
+        //console.log(tickettype);
+        //console.log('vals: ', events);
+        //console.log('eventrecord: ', tickettype.eventrecord_name, tickettype.eventrecord_id)
+        const tickettypetosent = {
+            name: tickettype.name,
+            price: tickettype.price,
+            eventRecord: { eventrecord_id: tickettype.eventrecord_id }
+        }
+        console.log(tickettypetosent);
+        props.saveTickettype(tickettypetosent);
         handleClose();
+        setTickettype({ eventrecord_name: '', name: '', price: '', eventrecord_id: 0 })
     }
+
+    // Configuration for event selector
+    //
+    // get events:
+    useEffect(() => {
+        Promise.all([
+            axios.get('http://localhost:8080/events', {
+                headers: {
+                    'Authorization': `Bearer ${props.user.jwt}`
+                }
+            })
+        ]).then(([response]) => {
+            console.log('Events fetched:', response.data);
+            setEvents(response.data);
+        }).catch(error => {
+            console.log('Error fetching events: ', error);
+        });
+    }, [props.user.jwt]);
+
+
 
     return (
         <span>
@@ -36,22 +67,25 @@ export default function AddTicketTypes(props) {
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Lisää uusi lipputtyypi</DialogTitle>
                 <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin='dense'
-                        name='eventRecord.name'
-                        value={tickettype.eventRecord}
-                        label='Tapahtuma'
-                        onChange={e => handleInputChange(e)}
-                        fullWidth
-                        variant='standard'
+                    <Autocomplete
+                        sx={{ margin: 'dense' }}
+                        options={Object.values(events).map((event) => event)}
+                        getOptionLabel={(option) => option.eventrecord_name}
+                        renderInput={(params) => <TextField {...params} label="Tapahtuma" />}
+                        value={selectedEvent.eventrecord_name}
+                        name='eventrecord_name'
+                        onChange={(event, value) => {
+                            setSelectedEvent(value);
+                            setTickettype({ ...tickettype, eventrecord_id: value.eventrecord_id });
+                            //console.log(tickettype)
+                        }}
                     />
                     <TextField
                         margin='dense'
                         name='name'
                         value={tickettype.ticket_type_name}
-                        label='Lipputyyppi'
-                        onChange={e => handleInputChange(e)}
+                        label='Lipputyypin nimi'
+                        onChange={(e, newValue) => handleInputChange(e)}
                         fullWidth
                         variant='standard'
                     />
