@@ -24,9 +24,6 @@ export default function AddTicketTypes(props) {
         //console.log(tickettype)
     };
     const addTickettype = () => {
-        //console.log(tickettype);
-        //console.log('vals: ', events);
-        //console.log('eventrecord: ', tickettype.eventrecord_name, tickettype.eventrecord_id)
         const tickettypetosent = {
             name: tickettype.name,
             price: tickettype.price,
@@ -70,14 +67,14 @@ export default function AddTicketTypes(props) {
                     <Autocomplete
                         sx={{ margin: 'dense' }}
                         options={Object.values(events).map((event) => event)}
-                        getOptionLabel={(option) => option.eventrecord_name}
+                        getOptionLabel={(option) => option.eventrecord_name || ''}
                         renderInput={(params) => <TextField {...params} label="Tapahtuma" />}
                         value={selectedEvent.eventrecord_name}
+                        freeSolo={true}
                         name='eventrecord_name'
                         onChange={(event, value) => {
                             setSelectedEvent(value);
                             setTickettype({ ...tickettype, eventrecord_id: value.eventrecord_id });
-                            //console.log(tickettype)
                         }}
                     />
                     <TextField
@@ -88,6 +85,7 @@ export default function AddTicketTypes(props) {
                         onChange={(e, newValue) => handleInputChange(e)}
                         fullWidth
                         variant='standard'
+                        required
                     />
                     <TextField
                         margin='dense'
@@ -97,6 +95,7 @@ export default function AddTicketTypes(props) {
                         onChange={e => handleInputChange(e)}
                         fullWidth
                         variant='standard'
+                        required
                     />
                 </DialogContent>
                 <DialogActions>

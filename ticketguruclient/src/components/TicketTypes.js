@@ -1,5 +1,5 @@
 import { Box, Typography, Button } from "@mui/material";
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
@@ -42,8 +42,6 @@ function TicketTypes(props) {
 
     // Save a new tickettype
     const saveTickettype = (tickettype) => {
-
-        console.log('saveTickettype', tickettype)
         Promise.all([
             axios.post(
                 `http://localhost:8080/tickettypes`,
@@ -54,7 +52,8 @@ function TicketTypes(props) {
                     }
                 })
         ]).then((response) => {
-            console.log('TicketType created: ', response.data);
+            console.log('TicketType created: ', response[0].data);
+            gridRef.current.api.refreshCells();
         }).catch(error => {
             console.log('Error creating TicketType: ', error)
         });
@@ -80,16 +79,14 @@ function TicketTypes(props) {
 
 
     return (
-
         <Box>
-
             <Typography variant='body2' sx={{ p: 0, textAlign: 'left' }}>
                 <Button href='../tapahtumat' variant="outlined" sx={{ m: 1 }}><ArrowBack />Tapahtumat</Button>
                 <AddTicketTypes saveTickettype={saveTickettype} user={props.user} />
                 <Button onClick={deleteTickettype} variant="contained" color='error' sx={{ m: 1 }}><Delete />Poista valittu</Button>
             </Typography>
 
-            <div className='ag-theme-material' style={{ height: '80vmin', width: '140vmin' }}>
+            <div className='ag-theme-material' style={{ height: '60vmin', width: '140vmin' }}>
                 <div style={{ display: 'flex' }}>
 
                 </div>
@@ -102,6 +99,7 @@ function TicketTypes(props) {
                     animateRows={true}
                     defaultColDef={defaultColDef}
                     pagination={true}
+                    paginationAutoPageSize={true}
                 >
                 </AgGridReact>
             </div>
