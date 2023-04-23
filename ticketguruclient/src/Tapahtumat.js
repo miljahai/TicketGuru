@@ -1,15 +1,17 @@
-import { Box, Typography, AppBar, Toolbar, Container } from "@mui/material";
+import { Box, Typography, AppBar, Toolbar, Container, Button } from "@mui/material";
 import Sivupalkki from "./components/Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Events from "./components/Events";
+import AddIcon from '@mui/icons-material/Add';
+
 
 function Tapahtumat() {
 
     const [events, setEvents] = useState([]);
 
-    const token = //Tähän token';
+    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0LmFkbWluQHRpY2tldGd1cnUuY29tIiwiaWF0IjoxNjgyMDY5Njk0LCJleHAiOjE2ODIwNzExMzR9.3M1K6mmpyr_lcPUpEX2sif9Tc4dsevZu8MMoKYbbsVU';
 
     useEffect(() => {
         Promise.all([
@@ -38,6 +40,7 @@ function Tapahtumat() {
             <Outlet/>
             <Typography variant="h2" sx={{ flexGrow:1, textAlign:'center'}}>Tapahtumat</Typography>
         </Box>
+        <Button component={Link} to ="../tapahtumanlisäys" endIcon={<AddIcon />} >Lisää tapahtuma</Button>
         <Events events = {events} />
 
     </Container>

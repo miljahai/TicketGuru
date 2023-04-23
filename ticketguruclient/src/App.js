@@ -7,6 +7,7 @@ import Tapahtumat from "./Tapahtumat";
 import Raportit from "./Raportit";
 import Liput from "./Liput";
 import LipunTarkastus from "./LipunTarkastus";
+import LisaaTapahtuma from "./LisaaTapahtuma";
 import { cyan } from "@mui/material/colors";
 import { Box, Container } from "@mui/system";
 
@@ -47,6 +48,7 @@ function App() {
               <Route path="raportit" element={<Raportit />} />
               <Route path="liput" element={<Liput />} />
               <Route path="lipuntarkastus" element={<LipunTarkastus />} />
+              <Route path="tapahtumanlisäys" element={<LisaaTapahtuma />} />
             </Routes>
           </BrowserRouter>
         </Box>
