@@ -45,9 +45,10 @@ export default function SignUp() {
         }
       })
       .then(([body, headers]) => {
-        console.log(body);
-        user.setJwt(body.token);
+        //console.log(body);
+        //user.setJwt(body.token);
         navigate("/");
+        //Tästä ohjaus käyttäjät sivulle, kun sellainen luotu
       })
       .catch((message) => {
         alert(message);
