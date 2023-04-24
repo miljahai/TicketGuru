@@ -1,5 +1,5 @@
 import { Box, Typography, Button } from "@mui/material";
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
@@ -66,9 +66,29 @@ function TicketTypes(props) {
         });
     };
 
-    // Todo: Edit Tickettype
-    const editTicketype = (tickettype) => {
-        console.log('not yet implemented')
+    // Edit Tickettype
+    // Todo: if changed value is event_name, also change event_id 
+    const editTickettype = (value) => {
+        // Build link and body for value update call
+        const link = 'http://localhost:8080/tickettypes/' + value.data.ticket_type_id
+        const body = JSON.stringify(value.data)
+        //console.log(body)
+        // Call PUT to server
+        Promise.all([
+            axios.put(
+                link,
+                body,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${user.jwt}`,
+                        'Content-Type': 'application/json;charset=utf-8'
+                    }
+                })
+        ]).then((response) => {
+            console.log('TicketType changed: ', response[0].data);
+        }).catch(error => {
+            console.log('Error updating TicketType: ', error)
+        });
     }
 
     var numberValueFormatter = function (params) {
@@ -117,6 +137,8 @@ function TicketTypes(props) {
                     defaultColDef={defaultColDef}
                     pagination={true}
                     paginationAutoPageSize={true}
+                    enableCellChangeFlash={true}
+                    onCellValueChanged={(event) => editTickettype(event)}
                 >
                 </AgGridReact>
             </div>
