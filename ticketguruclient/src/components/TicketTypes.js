@@ -1,16 +1,24 @@
 import { Box, Typography, Button } from "@mui/material";
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
 import axios from "axios";
-import { ArrowBack, Add, Delete } from '@mui/icons-material';
+import { ArrowBack, Delete } from '@mui/icons-material';
 import AddTicketTypes from './AddTicketTypes';
 import { useUser } from '../UserProvider';
+import jwt_decode from "jwt-decode";
 
 function TicketTypes(props) {
-
     const user = useUser();
+    const [roles, setRoles] = useState([]);
+
+    useEffect(() => {
+      if (user && user.jwt) {
+        const decodedJwt = jwt_decode(user.jwt);
+        setRoles(decodedJwt.authorities);
+      }
+    }, [user, user.jwt]);
 
     // Delete selected TicketType
     const deleteTickettype = () => {
@@ -119,15 +127,22 @@ function TicketTypes(props) {
         <Box>
             <Typography variant='body2' sx={{ p: 0, textAlign: 'left' }}>
                 <Button href='../tapahtumat' variant="outlined" sx={{ m: 1 }}><ArrowBack />Tapahtumat</Button>
-                <AddTicketTypes saveTickettype={saveTickettype} user={props.user} />
-                <Button onClick={deleteTickettype} variant="contained" color='error' sx={{ m: 1 }}><Delete />Poista valittu</Button>
+                {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
+                  <>
+                    <AddTicketTypes saveTickettype={saveTickettype} user={props.user} />
+                    <Button onClick={deleteTickettype} variant="contained" color='error' sx={{ m: 1 }}><Delete />Poista valittu</Button>
+                  </>
+                ) : (
+                  <></>
+                )}
+                
             </Typography>
 
             <div className='ag-theme-material' style={{ height: '50vmin', width: '50rem' }}>
                 <div style={{ display: 'flex' }}>
 
                 </div>
-                <AgGridReact
+                    <AgGridReact
                     ref={gridRef}
                     onGridkey={params => gridRef.current = params.api}
                     rowSelection='single'

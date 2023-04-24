@@ -8,15 +8,21 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useUser } from './UserProvider';
+import jwt_decode from "jwt-decode";
 
 const Login = () => {
   const user = useUser();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
-    if (user.jwt) navigate("/");
+    if (user && user.jwt) {
+      const decodedJwt = jwt_decode(user.jwt);
+      setRoles(decodedJwt.authorities);
+      navigate("/");
+    }
   }, [user, navigate]);
 
   const sendLoginRequest = (event) => {
@@ -109,13 +115,17 @@ const Login = () => {
             >
               Sign In
             </Button>
+            {roles && roles.filter((role) => role === "ADMIN") ? (
             <Grid container>
-              <Grid item>
-                <Link component={Link} to="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+            <Grid item>
+              <Link component={Link} to="/signup" variant="body2">
+                {"Add new user"}
+              </Link>
             </Grid>
+          </Grid>
+            ) : (
+                <></>
+            )}
           </Box>
         </Box>
     </Box>

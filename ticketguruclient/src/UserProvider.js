@@ -4,9 +4,15 @@ import { useLocalState } from './util/useLocalStorage';
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-    const [jwt, setJwt] = useLocalState("", "jwt");
-    const value = { jwt, setJwt };
-    return <UserContext.Provider value={value}>{children}</UserContext.Provider>
+  const [jwt, setJwt] = useLocalState("", "jwt");
+  const [authorities, setAuthorities] = useLocalState([], "authorities");
+  const value = { jwt, setJwt, authorities, setAuthorities };
+  const roles = { authorities, setAuthorities };
+  return (
+    <UserContext.Provider value={value} roles={roles}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 function useUser() {

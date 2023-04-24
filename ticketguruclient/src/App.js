@@ -45,17 +45,11 @@ function App() {
   const [roles, setRoles] = useState([]);
 
   useEffect(() => {
-    setRoles(getRolesFromJWT());
-  }, [user.jwt]);
-
-  const getRolesFromJWT = () => {
-    if (user.jwt) {
+    if (user && user.jwt) {
       const decodedJwt = jwt_decode(user.jwt);
-      return decodedJwt.authorities;
+      setRoles(decodedJwt.authorities);
     }
-    return [];
-  }
-
+  }, [user, user.jwt]);
 
   return (
     <Container>
@@ -69,7 +63,7 @@ function App() {
               <Route path="/signup" element={<SignUp />} />
               <Route path="tapahtumat" element={
                 <PrivateRoute>
-                  <Tapahtumat />
+                  <Tapahtumat roles={roles}/>
                 </PrivateRoute>} />
               <Route
                 path="raportit"

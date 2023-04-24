@@ -42,7 +42,7 @@ function Sivupalkki() {
           <ListItem component={Link} to="../tapahtumat">
             <ListItemButton>
               <ListItemIcon><EditIcon /></ListItemIcon>
-              <ListItemText primary='Muokkaa tapahtumia' />
+              <ListItemText primary='Tapahtumat' />
             </ListItemButton>
           </ListItem>
           <Divider />
@@ -61,7 +61,7 @@ function Sivupalkki() {
           </ListItem>
           <Divider />
           {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
-            <React.Fragment>
+            <>
               <ListItem component={Link} to="../raportit">
                 <ListItemButton>
                   <ListItemIcon><ArticleIcon /></ListItemIcon>
@@ -69,7 +69,7 @@ function Sivupalkki() {
                 </ListItemButton>
               </ListItem>
               <Divider />
-            </React.Fragment>
+            </>
           ) : (
             <></>
           )}

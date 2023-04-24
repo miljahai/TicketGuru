@@ -2,8 +2,20 @@ import {  Box, Button, Card, CardContent, CardHeader, Typography } from "@mui/ma
 import axios from "axios";
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useEffect, useState } from "react";
+import { useUser } from '../UserProvider';
+import jwt_decode from "jwt-decode";
 
 function Events (props) {
+    const user = useUser();
+    const [roles, setRoles] = useState([]);
+
+    useEffect(() => {
+      if (user && user.jwt) {
+        const decodedJwt = jwt_decode(user.jwt);
+        setRoles(decodedJwt.authorities);
+      }
+    }, [user, user.jwt]);
 
     const deleteEvent = async (e) => {
         try {
@@ -12,7 +24,6 @@ function Events (props) {
             console.log ("Poistaminen ei onnistunut");
         }
     }
-
 
     return (
         <Box>
@@ -28,10 +39,14 @@ function Events (props) {
                                 <Typography>Lopetusaika: {(new Date(event.event_endtime)).toLocaleString()}</Typography>
                                 <Typography>Lippujen enimmäismäärä: {event.ticketsmax}</Typography>
                             </CardContent>
+                            {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
                             <Box>
                                 <Button  variant="contained" startIcon={<CreateIcon/>}>Muokkaa tapahtumaa</Button>
                                 <Button onClick={(e) => deleteEvent(e)} color="secondary" variant="contained" startIcon={<DeleteIcon />}>Poista tapahtuma</Button>
-                            </Box>
+                            </Box>  
+                            ) : (
+                                <></>
+                            )}
                         </Card>
                     )
                 })
