@@ -10,7 +10,11 @@ import Tapahtumat from "./Tapahtumat";
 import Raportit from "./Raportit";
 import Liput from "./Liput";
 import LipunTarkastus from "./LipunTarkastus";
+<<<<<<< HEAD
 import Lipputyypit from "./Lipputyypit";
+=======
+import LisaaTapahtuma from "./LisaaTapahtuma";
+>>>>>>> feat3
 import { cyan } from "@mui/material/colors";
 import { Box, Container } from "@mui/system";
 import { useUser } from './UserProvider';
@@ -63,6 +67,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Ylapalkki />} />
+<<<<<<< HEAD
               <Route path="/login" element={<Login />} />
               <Route path="tapahtumat" element={
                 <PrivateRoute>
@@ -92,6 +97,13 @@ function App() {
                 <PrivateRoute>
                   <Lipputyypit />
                 </PrivateRoute>} />
+=======
+              <Route path="tapahtumat" element={<Tapahtumat />} />
+              <Route path="raportit" element={<Raportit />} />
+              <Route path="liput" element={<Liput />} />
+              <Route path="lipuntarkastus" element={<LipunTarkastus />} />
+              <Route path="tapahtumanlisäys" element={<LisaaTapahtuma />} />
+>>>>>>> feat3
             </Routes>
           </BrowserRouter>
         </Box>

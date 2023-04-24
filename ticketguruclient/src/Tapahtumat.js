@@ -6,6 +6,8 @@ import axios from "axios";
 import Events from "./components/Events";
 import { useUser } from './UserProvider';
 import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
+
 
 function Tapahtumat() {
 
@@ -29,18 +31,19 @@ function Tapahtumat() {
 
     return (
         <Container>
-            <Box component="span" sx={{ p: 2 }}>
-                <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
-                    <Toolbar>
-                        {<Sivupalkki />}
-                        <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
+            <Box component="span" sx={{ p: 2}}>
+                <AppBar position='static' sx={{borderRadius: '15px 50px'}}>
+                    <Toolbar>                 
+                    {<Sivupalkki />}
+                        <Typography component={Link} to="/" sx = { {flexGrow:1, textAlign:'center' } }variant="h1">TicketGuru</Typography>
                     </Toolbar>
                 </AppBar>
-                <Outlet />
-                <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Tapahtumat</Typography>
+                <Outlet/>
+                <Typography variant="h2" sx={{ flexGrow:1, textAlign:'center'}}>Tapahtumat</Typography>
                 <Button href='../lipputyypit' variant="outlined"><EditIcon />Lipputyypit</Button>
             </Box>
-            <Events events={events} />
+            <Button component={Link} to ="../tapahtumanlisäys" endIcon={<AddIcon />} >Lisää tapahtuma</Button>
+            <Events events = {events} />
 
         </Container>
     )
