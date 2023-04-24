@@ -5,24 +5,17 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useUser } from './UserProvider';
-import jwt_decode from "jwt-decode";
 
 const Login = () => {
   const user = useUser();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
-    if (user && user.jwt) {
-      const decodedJwt = jwt_decode(user.jwt);
-      setRoles(decodedJwt.authorities);
-      navigate("/");
-    }
+    if (user.jwt) navigate("/");
   }, [user, navigate]);
 
   const sendLoginRequest = (event) => {
@@ -115,17 +108,6 @@ const Login = () => {
             >
               Sign In
             </Button>
-            {roles && roles.filter((role) => role === "ADMIN") ? (
-            <Grid container>
-            <Grid item>
-              <Link component={Link} to="/signup" variant="body2">
-                {"Add new user"}
-              </Link>
-            </Grid>
-          </Grid>
-            ) : (
-                <></>
-            )}
           </Box>
         </Box>
     </Box>

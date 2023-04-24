@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import ArticleIcon from '@mui/icons-material/Article';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LogoutIcon from '@mui/icons-material/Logout';
 import jwt_decode from "jwt-decode";
 
@@ -66,6 +67,19 @@ function Sivupalkki() {
                 <ListItemButton>
                   <ListItemIcon><ArticleIcon /></ListItemIcon>
                   <ListItemText primary="Selaa raportteja" />
+                </ListItemButton>
+              </ListItem>
+              <Divider />
+            </>
+          ) : (
+            <></>
+          )}
+          {roles && roles.filter((role) => role === "ADMIN").length > 0 ? (
+            <>
+              <ListItem component={Link} to="../signup">
+                <ListItemButton>
+                  <ListItemIcon><PersonAddIcon /></ListItemIcon>
+                  <ListItemText primary="Lisää käyttäjä" />
                 </ListItemButton>
               </ListItem>
               <Divider />

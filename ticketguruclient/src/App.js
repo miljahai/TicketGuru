@@ -60,7 +60,6 @@ function App() {
             <Routes>
               <Route path="/" element={<Ylapalkki />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<SignUp />} />
               <Route path="tapahtumat" element={
                 <PrivateRoute>
                   <Tapahtumat roles={roles}/>
@@ -71,6 +70,18 @@ function App() {
                   roles.find((role) => role === "ADMIN" || role === "EVENT") ? (
                     <PrivateRoute>
                       <Raportit />
+                    </PrivateRoute>
+                  ) : (
+                    <AccessDenied></AccessDenied>
+                  )
+                }
+              />
+               <Route
+                path="signup"
+                element={
+                  roles.find((role) => role === "ADMIN") ? (
+                    <PrivateRoute>
+                      <SignUp />
                     </PrivateRoute>
                   ) : (
                     <AccessDenied></AccessDenied>
