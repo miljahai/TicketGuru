@@ -3,9 +3,15 @@ import Sivupalkki from "./components/Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import { useUser } from "./UserProvider";
+import { DateTimePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import 'dayjs/locale/fi';
 
 
 function LisaaTapahtuma () {
+    const user = useUser();
     const [event, setEvent] = useState({
         eventrecord_name: '',
         venue: '',
@@ -16,7 +22,7 @@ function LisaaTapahtuma () {
     });
 
     const [viesti, setViesti] = useState('');
-
+  
     const muuta = (e) => {
         setEvent({
             ...event,
@@ -25,26 +31,29 @@ function LisaaTapahtuma () {
         setViesti('');
     };    
 
-    const token = 'tähän oma token';
+    const [selectedStartDate, setSelectedStartDate] =useState(null);
+    const [selectedEndDate, setSelectedEndDate] = useState(null);    
     
     const config = {
         headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${user.jwt}`
         }
     }
 
     const lisaa = async (e) => {
+        e.preventDefault();
+
         const formData = {
             eventrecord_name: event.eventrecord_name,
             venue: event.venue,
             city: event.city,
-            event_starttime: event.event_starttime,
-            event_endtime: event.event_endtime,
-            ticketsmax: event.ticketsmax,
+            event_starttime: selectedStartDate.toISOString(),
+            event_endtime: selectedEndDate.toISOString(),
+            ticketsmax: event.ticketsmax, 
         }
 
         try {
-            await axios.post('http://localhost:8080/events', config, formData);
+            await axios.post('http://localhost:8080/events', formData, config);
             setEvent({
                 eventrecord_name: '',
                 venue: '',
@@ -91,11 +100,13 @@ function LisaaTapahtuma () {
                         <TextField label= 'Tapahtumakaupunki' name="city" value={event.city}
                         onChange={(e) => muuta(e)} fullWidth/>
 
-                        <TextField label= 'Alkamisaika' name="event_starttime" value={event.event_starttime}
-                        onChange={(e) => muuta(e)} required fullWidth/>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='fi'>
+                        <DateTimePicker label= 'Alkamisaika' name="event_starttime" value={event.event_starttime}
+                        onChange={(e) => setSelectedStartDate(e)} required fullWidth/>
 
-                        <TextField label= 'Päättymisaika' name="event_endtime" value={event.event_endtime}
-                        onChange={(e) => muuta(e)} required fullWidth/>
+                        <DateTimePicker label= 'Päättymisaika' name="event_endtime" value={event.event_endtime}
+                        onChange={(e) => setSelectedEndDate(e)} required fullWidth/>
+                        </LocalizationProvider>
 
                         <TextField label="Lippujen enimmäismäärä" name="ticketsmax" value={event.ticketsmax}
                         onChange={(e) => muuta(e)} fullWidth/>

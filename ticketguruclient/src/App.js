@@ -93,8 +93,10 @@ function App() {
                 <PrivateRoute>
                   <Lipputyypit />
                 </PrivateRoute>} />
-           
-              <Route path="tapahtumanlisäys" element={<LisaaTapahtuma />} />
+              <Route path="tapahtumanlisays" element={
+              <PrivateRoute>
+                <LisaaTapahtuma />
+                </PrivateRoute>} />
             </Routes>
           </BrowserRouter>
         </Box>

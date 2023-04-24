@@ -42,7 +42,7 @@ function Tapahtumat() {
                 <Typography variant="h2" sx={{ flexGrow:1, textAlign:'center'}}>Tapahtumat</Typography>
                 <Button href='../lipputyypit' variant="outlined"><EditIcon />Lipputyypit</Button>
             </Box>
-            <Button component={Link} to ="../tapahtumanlisäys" endIcon={<AddIcon />} >Lisää tapahtuma</Button>
+            <Button component={Link} to ="../tapahtumanlisays" endIcon={<AddIcon />} >Lisää tapahtuma</Button>
             <Events events = {events} />
 
         </Container>
