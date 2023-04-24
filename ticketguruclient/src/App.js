@@ -4,6 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Login';
+import SignUp from './SignUp';
 import PrivateRoute from './PrivateRoute';
 import Ylapalkki from "./components/Ylapalkki";
 import Tapahtumat from "./Tapahtumat";
@@ -63,6 +64,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Ylapalkki />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
               <Route path="tapahtumat" element={
                 <PrivateRoute>
                   <Tapahtumat />
