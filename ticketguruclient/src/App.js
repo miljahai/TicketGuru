@@ -11,11 +11,13 @@ import Tapahtumat from "./Tapahtumat";
 import Raportit from "./Raportit";
 import Liput from "./Liput";
 import LipunTarkastus from "./LipunTarkastus";
+import Lipputyypit from "./Lipputyypit";
+import LisaaTapahtuma from "./LisaaTapahtuma";
 import { cyan } from "@mui/material/colors";
 import { Box, Container } from "@mui/system";
-import jwt_decode from "jwt-decode";
 import { useUser } from './UserProvider';
 import AccessDenied from './AccessDenied';
+import jwt_decode from "jwt-decode";
 
 const theme = createTheme({
   palette: {
@@ -41,16 +43,16 @@ const theme = createTheme({
 function App() {
   const user = useUser();
   const [roles, setRoles] = useState([]);
-  
+
   useEffect(() => {
     setRoles(getRolesFromJWT());
   }, [user.jwt]);
 
   const getRolesFromJWT = () => {
     if (user.jwt) {
-      const  decodedJwt = jwt_decode(user.jwt);
+      const decodedJwt = jwt_decode(user.jwt);
       return decodedJwt.authorities;
-    } 
+    }
     return [];
   }
 
@@ -69,18 +71,18 @@ function App() {
                 <PrivateRoute>
                   <Tapahtumat />
                 </PrivateRoute>} />
-              <Route 
-                path="raportit" 
+              <Route
+                path="raportit"
                 element={
                   roles.find((role) => role === "ADMIN" || role === "EVENT") ? (
                     <PrivateRoute>
                       <Raportit />
                     </PrivateRoute>
-                     ) : (
-                      <AccessDenied></AccessDenied>                      
-                      )
-                    }
-                  />
+                  ) : (
+                    <AccessDenied></AccessDenied>
+                  )
+                }
+              />
               <Route path="liput" element={
                 <PrivateRoute>
                   <Liput />
@@ -88,6 +90,14 @@ function App() {
               <Route path="lipuntarkastus" element={
                 <PrivateRoute>
                   <LipunTarkastus />
+                </PrivateRoute>} />
+              <Route path="lipputyypit" element={
+                <PrivateRoute>
+                  <Lipputyypit />
+                </PrivateRoute>} />
+              <Route path="tapahtumanlisays" element={
+              <PrivateRoute>
+                <LisaaTapahtuma />
                 </PrivateRoute>} />
             </Routes>
           </BrowserRouter>

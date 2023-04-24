@@ -24,7 +24,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name= "tickettype")
 
-@SQLDelete(sql = "UPDATE ticket_type SET deleted = true WHERE ticket_type_id=?")
+@SQLDelete(sql = "UPDATE tickettype SET deleted = true WHERE ticket_type_id=?")
 @Where(clause="deleted=false")
 public class TicketType {
 	
@@ -60,7 +60,7 @@ public class TicketType {
 		super();
 		this.ticket_type_name = name;
 		this.price = price;
-		this.deleted = deleted;
+		this.deleted = false;
 		this.eventRecord = eventRecord;
 	}
 
@@ -71,7 +71,7 @@ public class TicketType {
 		this.ticket_type_id = ticket_type_id;
 		this.ticket_type_name = name;
 		this.price = price;
-		this.deleted = deleted;
+		this.deleted = false;
 		this.eventRecord = eventRecord;
 	}
 
@@ -82,12 +82,20 @@ public class TicketType {
 		this.ticket_type_id = ticket_type_id;
 		this.ticket_type_name = name;
 		this.price = price;
-		this.deleted = deleted;
+		this.deleted = false;
 		this.tickets = tickets;
 		this.eventRecord = eventRecord;
 	}
-
 	
+		public TicketType(@NotNull @Size(max = 20, message = "name is too long") String ticket_type_name,
+			@NotNull @Min(value = 0, message = "price cannot be negative") double price, boolean deleted) {
+		super();
+		this.ticket_type_name = ticket_type_name;
+		this.price = price;
+		this.deleted = false;
+	}
+
+
 	public TicketType(Long ticket_type_id) {
 		super();
 		this.ticket_type_id = ticket_type_id;

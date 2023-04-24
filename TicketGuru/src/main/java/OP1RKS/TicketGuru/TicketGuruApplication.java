@@ -40,16 +40,18 @@ public class TicketGuruApplication {
 			erepo.save(new EventRecord("Tapahtuma 4","Paikka 4","Kaupunki 4",400,LocalDateTime.of(2023,4,4,14,44),LocalDateTime.of(2023,4,5,03,28),false));
 
 			Log.info("create TicketTypes");
-			ttrepo.save(new TicketType("Aikuinen",20.0,false,erepo.findById((long) 1).orElse(new EventRecord()) ));
-			ttrepo.save(new TicketType("Lapsi",20.0,false,erepo.findById((long) 1).orElse(new EventRecord()) ));
-			ttrepo.save(new TicketType("Eläkeläinen",20.0,false,erepo.findById((long) 1).orElse(new EventRecord()) ));
-			ttrepo.save(new TicketType("Aikuinen",20.0,false,erepo.findById((long) 2).orElse(new EventRecord()) ));
-			ttrepo.save(new TicketType("Lapsi",20.0,false,erepo.findById((long) 2).orElse(new EventRecord()) ));
-			ttrepo.save(new TicketType("Eläkeläinen",20.0,false,erepo.findById((long) 2).orElse(new EventRecord()) ));
-			ttrepo.save(new TicketType("Aikuinen",20.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
-			ttrepo.save(new TicketType("Lapsi",20.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
-			ttrepo.save(new TicketType("Aikuinen",20.0,false,erepo.findById((long) 4).orElse(new EventRecord()) ));
-			ttrepo.save(new TicketType("Eläkeläinen",20.0,false,erepo.findById((long) 4).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Aikuinen",100.0,false,erepo.findById((long) 1).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Lapsi",10.0,false,erepo.findById((long) 1).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Eläkeläinen",10.0,false,erepo.findById((long) 1).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Aikuinen",300.0,false,erepo.findById((long) 2).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Lapsi",200.0,false,erepo.findById((long) 2).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Eläkeläinen",200.0,false,erepo.findById((long) 2).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Aikuinen",35.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Lapsi",30.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Varusmies",30.0,false,erepo.findById((long) 3).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Aikuinen",44.0,false,erepo.findById((long) 4).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Eläkeläinen",40.0,false,erepo.findById((long) 4).orElse(new EventRecord()) ));
+			ttrepo.save(new TicketType("Ilmaislippu",0.0,false,erepo.findById((long) 4).orElse(new EventRecord()) ));
 			
 			Log.info("create SalesEvents");							
 			srepo.save(new SalesEvent(LocalDateTime.of(2023, 1, 1, 12, 1), 25.5, false));
