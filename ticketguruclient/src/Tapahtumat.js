@@ -7,6 +7,7 @@ import Events from "./components/Events";
 import { useUser } from './UserProvider';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import ArticleIcon from '@mui/icons-material/Article';
 
 
 function Tapahtumat() {
@@ -31,21 +32,22 @@ function Tapahtumat() {
 
     return (
         <Container>
-            <Box component="span" sx={{ p: 2}}>
-                <AppBar position='static' sx={{borderRadius: '15px 50px'}}>
-                    <Toolbar>                 
-                    {<Sivupalkki />}
-                        <Typography component={Link} to="/" sx = { {flexGrow:1, textAlign:'center' } }variant="h1">TicketGuru</Typography>
+            <Box component="span" sx={{ p: 2 }}>
+                <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
+                    <Toolbar>
+                        {<Sivupalkki />}
+                        <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
                     </Toolbar>
                 </AppBar>
-                <Outlet/>
-                <Typography variant="h2" sx={{ flexGrow:1, textAlign:'center'}}>Tapahtumat</Typography>
-                <Button href='../lipputyypit' variant="outlined"><EditIcon />Lipputyypit</Button>
+                <Outlet />
+                <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Tapahtumat</Typography>
             </Box>
-            <Button component={Link} to ="../tapahtumanlisays" endIcon={<AddIcon />} >Lisää tapahtuma</Button>
-            <Events events = {events} />
+            <Button component={Link} to="../tapahtumat" endIcon={<ArticleIcon />} variant='outlined' color='primary' >Tapahtumat</Button>
+            <Button component={Link} to="../tapahtumanlisays" endIcon={<AddIcon />}  >Lisää tapahtuma</Button>
+            <Button component={Link} to='../lipputyypit' endIcon={<EditIcon />}  >Lipputyypit</Button>
+            <Events events={events} />
 
-        </Container>
+        </Container >
     )
 }
 
