@@ -59,9 +59,7 @@ public class SalesEvent {
 		this.deleted = deleted;
 	}
 
-	public SalesEvent(Long salesevent_id, AppUser appuser, @NotNull LocalDateTime sale_date, @Min(value = 0, message="price cannot be negative") double final_price, @NotNull boolean deleted) {
-		super();
-		this.salesevent_id = salesevent_id;
+	public SalesEvent(AppUser appuser, @NotNull LocalDateTime sale_date, @Min(value = 0, message="price cannot be negative") double final_price, @NotNull boolean deleted) {
 		this.appuser = appuser;
 		this.sale_date = sale_date;
 		this.final_price = final_price;

@@ -1,9 +1,11 @@
-import { Box, Typography, AppBar, Toolbar, Container, Select, MenuItem, Button, TextField } from "@mui/material";
+import { Box, Typography, AppBar, Toolbar, Container, Select, MenuItem, Button, TextField, List, ListItem, ListItemIcon, ListItemText, ListItemButton } from "@mui/material";
+import { Person, Add, Remove } from '@mui/icons-material';
 import Sivupalkki from "./components/Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useUser } from './UserProvider';
 import axios from "axios";
+import dayjs from 'dayjs'
 
 function Liput() {
 
@@ -15,6 +17,7 @@ function Liput() {
         setTicketTypes] = useState(null);
     const [selectedTicketType,
         setSelectedTicketType] = useState(null);
+    const [ticketTypeArray, setTicketTypeArray] = useState([]);
     const [formData,
         setFormData] = useState({});
     const [ticketQuantities,
@@ -27,6 +30,8 @@ function Liput() {
         setTotalQuantity] = useState(0);
 
     const user = useUser();
+
+    const dayjs = require('dayjs')
 
     // Haetaan Tapahtumat ja Lipputyypit
     // Todo: Suodatetaan pois menneisyydessä olevet tapahtumat
@@ -52,6 +57,21 @@ function Liput() {
             console.log('Error fetching events and/or tickettypes:', error);
         });
     }, [user.jwt]);
+
+    function handleAddTicket(id) {
+        setTicketTypeArray([...ticketTypeArray, id])
+    };
+
+    function handleRemoveTicket(id) {
+        const index = ticketTypeArray.indexOf(Number(id));
+        console.log(ticketTypeArray.indexOf(Number(id)));
+        if (index !== -1) {
+            const newArray = [...ticketTypeArray];
+            newArray.splice(index, 1);
+            setTicketTypeArray(newArray);
+        };
+        console.log(ticketTypeArray);
+    };
 
     // 
     const handleTicketTypeSelect = (value) => {
@@ -127,14 +147,10 @@ function Liput() {
 
     return (
         <Container>
-            <Box component="span" sx={{
-                p: 2
-            }}>
+            <Box component="span" sx={{ p: 2 }}>
                 <AppBar
                     position="static"
-                    sx={{
-                        borderRadius: "15px 50px"
-                    }}>
+                    sx={{ borderRadius: "15px 50px" }}>
                     <Toolbar>
                         {< Sivupalkki />}
                         <Typography
@@ -152,24 +168,16 @@ function Liput() {
                 <Outlet />
                 <Typography
                     variant="h2"
-                    sx={{
-                        p: 2,
-                        flexGrow: 1,
-                        textAlign: "center"
-                    }}>
+                    sx={{ p: 2, flexGrow: 1, textAlign: "center" }}>
                     Myy lippuja
                 </Typography>
             </Box>
 
-            <Box
-                sx={{
-                    display: "flex",
-                    gap: "16px"
-                }}>
-                <Box sx={{
-                    flex: 1
-                }}>
+            <Box>
+                <Box>
+                    {/* 
                     <Typography variant="h4">Valitse tapahtuma:</Typography>
+                    */}
                     <Select
                         value={selectedEvent
                             ? selectedEvent.eventrecord_id
@@ -188,20 +196,22 @@ function Liput() {
                     {selectedEvent && (
                         <div>
                             <h4>{selectedEvent.eventrecord_name}</h4>
-                            <p>
-                                Sijainti: {selectedEvent.venue}, {selectedEvent.city}
-                            </p>
+                            <p><div>Sijainti: {selectedEvent.venue}, {selectedEvent.city}</div>
+                                <div>Alkaa: {dayjs(selectedEvent.event_starttime).format('DD.M.YYYY HH:mm')}</div>
+                                <div>Päättyy: {dayjs(selectedEvent.event_endtime).format('DD.M.YYYY HH:mm')}</div></p>
                             <p>Lippuja myynnissä: {selectedEvent.ticketsmax}</p>
-                            <p>Alkaa: {selectedEvent.event_starttime.toLocaleString()}</p>
-                            <p>Loppuu: {selectedEvent.event_endtime.toLocaleString()}</p>
                         </div>
                     )}
                 </Box>
+
+
                 {selectedEvent && ticketTypes && (
                     <Box component="span" sx={{
                         p: 2
                     }}>
+                        {/** 
                         <Typography variant="h4">Valitse lipputyyppi:</Typography>
+                        
                         <Select
                             label='Lipputyyppi'
                             value={selectedTicketType
@@ -210,18 +220,36 @@ function Liput() {
                             onChange={(e) => handleTicketTypeSelect(e.target.value)}
                             sx={{ mt: '10px', width: '100%' }}
                         >
+                        */}
+                        <Typography variant="h4">Lipputyyppit:</Typography>
+                        <List>
                             {ticketTypes.filter((tt) => tt.eventRecord.eventrecord_id === selectedEvent.eventrecord_id).map((tt) => (
-                                <MenuItem key={tt.ticket_type_id} value={tt.ticket_type_id}>
-                                    {tt.name}
-                                    ({tt.price}€)
-                                </MenuItem>
+                                <ListItem sx={{ gridAutoColumns: '1fr', width: '60%', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }} key={tt.ticket_type_id} value={tt.ticket_type_id}>
+                                    <ListItemText sx={{ gridColumn: '1' }}>
+                                        {tt.ticket_type_id} {tt.name} ({tt.price}€)
+                                    </ListItemText>
+                                    <ListItemButton sx={{ gridColumn: '2' }} onClick={() => handleAddTicket(tt.ticket_type_id)} ><Add /></ListItemButton>
+                                    <ListItemText sx={{ gridColumn: '3' }}>{(ticketTypeArray.filter((counter) => counter === tt.ticket_type_id)).length}</ListItemText>
+                                    <ListItemButton sx={{ gridColumn: '4' }} onClick={() => handleRemoveTicket(tt.ticket_type_id)} ><Remove /></ListItemButton>
+                                </ListItem>
                             ))}
+                        </List>
+                        {/** Alla oleva lista on vain devausta varten, pois lopullisesta */}
+                        <Typography>array: {ticketTypeArray}</Typography>
+                        <Typography>Tähän lista lipuista hintoineen</Typography>
+                        <Typography>Tähän lipuista laskettu finalprice</Typography>
+                        <Button>Tähän nappi tms. jolla voi muokata finalpriceä</Button>
+                        <Button>Tähän nappi, jolla vahvistetaan myyntitapahtuma. Tämä käynnistää POST SalesEventin ja sitten looppaa yllä olevan id-arrayn ja POSTaa jokaisesta Ticketin</Button>
+                        <Button>Tähän peruuta nappi, jolla id-array yms. tyhjennetään.</Button>
+                        {/*
                         </Select>
+                        * /}
 
+                        {/*
                         {selectedTicketType && (
-                            <form onSubmit={handleSubmit}>
+                            <div>
+                                <Typography variant="h4">Valitse lippujen määrä:</Typography>
                                 <div>
-                                    <Typography variant="h4">Valitse lippujen määrä:</Typography>
                                     <TextField
                                         name='tickets'
                                         label='Lippujen lukumäärä'
@@ -230,9 +258,9 @@ function Liput() {
                                         sx={{ mt: '10px' }}
                                     />
                                 </div>
-                                <Button type="submit" variant='contained' disabled={!formData.tickets}>Lisää ostoskoriin</Button>
+                                <Button onClick={handleSubmit} type="submit" variant='contained' disabled={!formData.tickets}>Lisää ostoskoriin</Button>
                                 {errorMessage && <p className="error-message">{errorMessage}</p>}
-                            </form>
+                            </div>
                         )}
 
                         {selectedTicketType && (
@@ -247,10 +275,11 @@ function Liput() {
                                 <Button variant='contained' onClick={handleSubmit}>Myy</Button>
                             </div>
                         )}
+                */}
                     </Box>
                 )}
             </Box>
-        </Container>
+        </Container >
     );
 };
 
