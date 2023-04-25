@@ -17,12 +17,23 @@ function Events (props) {
       }
     }, [user, user.jwt]);
 
-    const deleteEvent = async (e) => {
-        try {
-            await axios.delete('http://localhost:8080/events/{id}');
-        }catch (error) {
-            console.log ("Poistaminen ei onnistunut");
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${user.jwt}`
         }
+    }
+
+    const deleteEvent = (e, eventId) => {
+        e.preventDefault();
+
+        axios.delete(`http://localhost:8080/events/${eventId}`,  config)
+            .then(response => {
+                console.log(response);
+                window.location.reload();
+            })
+            .catch (error => {
+            console.error(error);
+        });
     }
 
     return (
@@ -42,7 +53,7 @@ function Events (props) {
                             {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
                             <Box>
                                 <Button  variant="contained" startIcon={<CreateIcon/>}>Muokkaa tapahtumaa</Button>
-                                <Button onClick={(e) => deleteEvent(e)} color="secondary" variant="contained" startIcon={<DeleteIcon />}>Poista tapahtuma</Button>
+                                <Button onClick={(e) => deleteEvent(e, event.eventrecord_id)} color="secondary" variant="contained" startIcon={<DeleteIcon />}>Poista tapahtuma</Button>
                             </Box>  
                             ) : (
                                 <></>
