@@ -15,7 +15,7 @@ Lippuja pitää voida myydä ja tulostaa sekä lippujen on sisällettävä helpo
 
 Myytyjen lippujen määrää voidaan seurata raporteilta tapahtumakohtaisesti.
 
-Järjestelmä toteutetaan palvelinpuolen osalta Javalla, Spring Boot -viitekehyksellä. Käyttöliittymä rakennetaan Reactilla. Tavoitteena on, että käyttöliittymä olisi käyettävissä kaikilla tavanomaisilla päätelaitteilla (puhelin, taulutietokone, tietokone).
+Järjestelmä toteutetaan palvelinpuolen osalta Javalla, Spring Boot -viitekehyksellä. Käyttöliittymä rakennetaan Reactilla. Tavoitteena on, että käyttöliittymä olisi käytettävissä kaikilla tavanomaisilla päätelaitteilla (puhelin, taulutietokone, tietokone).
 
 ## Järjestelmän määrittely
 
@@ -60,10 +60,6 @@ Lippujen myyntitilanteessa avoimet kohteet listataan selattavaksi ja saatavuus t
 
 <img src="https://github.com/miljahai/TicketGuru/blob/develop/images/tietokantamalli.jpg?raw=true" width="700" alt="Tietokantamalli_korjattu">
 
-// kuvasta pitää muuttaa/poistaa UserRole
-// Ticket-EventRecord-riippuvuus poistettava
-// Lisättävä Ticket.used
-
 
 ### EventRecord
 EventRecord-taulu sisältää Tapahtumat, joille lippuja myydään. EventRecordista on OneToMany-viittaus Ticket-tauluun ja OneToMany-viittaus TicketTypes-tauluun. Taulu on nimetty muotoon EventRecord, koska Event on varattu sana Javassa.
@@ -73,7 +69,7 @@ Kenttä | Tyyppi | Kuvaus
 eventrecord_id | int PK | Tapahtuman id
 eventrecord_name | varchar(100) |  Tapahtuman nimi
 venue | varchar(100) | Tapahtumapaikan nimi 
-city | varchar(100> | Tapahtumapaikan kaupunki
+city | varchar(100) | Tapahtumapaikan kaupunki
 ticketsmax | int | Lippujen maksimimäärä
 eventrecord_starttime | LocalDateTime | Tapahtuman aloitusaika
 eventrecord_endtime | LocalDateTime | Tapahtuman päättymisaika
@@ -98,7 +94,7 @@ TicketType-taulu sisältää lipputyypit. Sisältää OneToMany-viittauksen Tick
 Kenttä | Tyyppi | Kuvaus
 ----- | ----- | -----
 ticket_type_id | int PK | Lipputyypin id
-name | varchar(50) | Lipputyypin nimi
+ticket_type_name | varchar(50) | Lipputyypin nimi
 price | double | Lipputyypin hinta
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 eventrecord_id | int FK | Viittaus tapahtumaan EventRecord-taulussa
@@ -119,16 +115,70 @@ deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan,
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
 appuser_id | int PK | Käyttäjän id
-first_name | varchar(150) | Käyttäjän etunimi
-last_name | varchar(150) | Käyttäjän sukunimi
-email | varchar(50) | Käyttäjän sähköposti
-password | varchar(50) | Käyttäjän salasana
+first_name | varchar(100) | Käyttäjän etunimi
+last_name | varchar(100) | Käyttäjän sukunimi
+email | varchar(100) | Käyttäjän sähköposti
+password | varchar(200) | Käyttäjän salasana
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 userrole | varchar(50)/enum | Viittaus rooliin UserRole-taulussa
 
 
-> ## Tekninen kuvaus
-> 
+## Tekninen kuvaus
+
+### REST-rajapinta
+
+### Auth
+[POST /auth/authenticate](./API%20documentation/auth/post_authenticate.md)<br>
+[POST /auth/register](./API%20documentation/auth/post_register.md)<br>
+<br>
+
+### Events
+[GET /events](./API%20documentation/events/get.md)<br>
+[GET /events/{id}](./API%20documentation/events/getbyid.md)<br>
+[POST /events](./API%20documentation/events/post.md)<br>
+[PUT /events/{id}](./API%20documentation/events/putbyid.md)<br>
+[DELETE /events/{id}](./API%20documentation/events/deletebyid.md)<br>
+<br>
+
+### Salesevents
+[GET /salesevents](./API%20documentation/salesevents/get.md)<br>
+[GET /salesevents/{id}](./API%20documentation/salesevents/getbyid.md)<br>
+[POST /salesevents](./API%20documentation/salesevents/post.md)<br>
+[PUT /salesevents/{id}](./API%20documentation/salesevents/putbyid.md)<br>
+[DELETE /salesevents/{id}](./API%20documentation/salesevents/deletebyid.md)<br>
+<br>
+
+### Tickets
+[GET /tickets](./API%20documentation/tickets/get.md)<br>
+[GET /tickets/{id}](./API%20documentation/tickets/getbyid.md)<br>
+[POST /tickets](./API%20documentation/tickets/post.md)<br>
+[PUT /tickets/{id}](./API%20documentation/tickets/putbyid.md)<br>
+[PATCH /tickets/{id}](./API%20documentation/tickets/patchbyid.md)<br>
+[DELETE /tickets/{id}](./API%20documentation/tickets/deletebyid.md)<br>
+
+<br>
+
+### QR Code
+[GET /grcode/code](./API%20documentation/qrcode/getbycode.md)
+<br>
+
+### Tickettypes
+[GET /tickettypes](./API%20documentation/tickettypes/get.md)<br>
+[GET /tickettypes/{id}](./API%20documentation/tickets/getbyid.md)<br>
+[POST /tickettypes](./API%20documentation/tickettypes/post.md)<br>
+[PUT /tickettypes/{id}](./API%20documentation/tickettypes/putbyid.md)<br>
+[DELETE /tickettypes/{id}](./API%20documentation/tickettypes/deletebyid.md)<br>
+<br>
+
+### Users
+[GET /users](./API%20documentation/users/get.md)<br>
+[GET /users/{id}](./API%20documentation/users/getbyid.md)<br>
+[PUT /users/{id}](./API%20documentation/users/putbyid.md)<br>
+[DELETE /users/{id}](./API%20documentation/users/deletebyid.md)<br>
+
+<br>
+
+
 > Teknisessä kuvauksessa esitetään järjestelmän toteutuksen suunnittelussa tehdyt tekniset
 > ratkaisut, esim.
 > 

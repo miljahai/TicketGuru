@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,12 @@ public class JwtService {
 	
 	// Hakee käyttäjän tiedot tokenin luontia varten
 	public String generateToken(UserDetails userDetails) {
-	    return generateToken(new HashMap<>(), userDetails);
+		Map<String, Object> claims = new HashMap<>();
+		claims.put("authorities", userDetails.getAuthorities()
+                .stream()
+                .map(auth -> auth.getAuthority())
+                .collect(Collectors.toList()));
+	    return generateToken(claims, userDetails);
 	    }
 	
 	// Tämä luo tokenin.
@@ -57,7 +63,7 @@ public class JwtService {
 	        .setClaims(extraClaims)
 	        .setSubject(userDetails.getUsername())
 	        .setIssuedAt(new Date(System.currentTimeMillis()))
-	        .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+	        .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
 	        .signWith(getSignInKey(), SignatureAlgorithm.HS256)
 	        .compact();
 	  }
@@ -66,7 +72,7 @@ public class JwtService {
 	// Tarkistetaan, onko Token yhä voimassa.
 	public boolean isTokenValid(String token, UserDetails userDetails) {
 		    final String username = extractUsername(token);
-		    return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+		    return (userDetails != null && username.equals(userDetails.getUsername())) && !isTokenExpired(token);
 		  }
 	
 	// Voimassaolon tarkistusta

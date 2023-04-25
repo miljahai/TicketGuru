@@ -51,9 +51,7 @@ public class AuthenticationService {
 				.build();
 		urepo.save(user);
 		var jwtToken = jwtService.generateToken(user);
-		return AuthenticationResponse.builder()
-				.token(jwtToken)
-				.build();
+		return new AuthenticationResponse(jwtToken, user);
 	}
 	
 	/*	Tarkistaa onko POST-kutsussa oleva käyttäjä AppUserRepositoryssa.
