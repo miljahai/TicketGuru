@@ -8,9 +8,6 @@ import { Box } from "@mui/material";
 export default function Reports(props) {
 
     const user = useUser();
-    const [roles, setRoles] = useState([]);
-
-
 
     // Grid Configuration
     const gridRef = useRef();

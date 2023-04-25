@@ -120,7 +120,6 @@ function TicketTypes(props) {
     return (
         <Box>
             <Typography variant='body2' sx={{ p: 0, textAlign: 'left' }}>
-                <Button href='../tapahtumat' variant="outlined" sx={{ m: 1 }}><ArrowBack />Tapahtumat</Button>
                 {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
                     <>
                         <AddTicketTypes saveTickettype={saveTickettype} user={props.user} />
@@ -133,9 +132,6 @@ function TicketTypes(props) {
             </Typography>
 
             <div className='ag-theme-material' style={{ height: '50vmin', width: '40rem' }}>
-                <div style={{ display: 'flex' }}>
-
-                </div>
                 <AgGridReact
                     ref={gridRef}
                     onGridkey={params => gridRef.current = params.api}

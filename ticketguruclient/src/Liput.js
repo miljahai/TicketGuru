@@ -1,4 +1,4 @@
-import { Box, Typography, AppBar, Toolbar, Container, Select} from "@mui/material";
+import { Box, Typography, AppBar, Toolbar, Container, Select, MenuItem, Button, TextField } from "@mui/material";
 import Sivupalkki from "./components/Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -28,6 +28,8 @@ function Liput() {
 
     const user = useUser();
 
+    // Haetaan Tapahtumat ja Lipputyypit
+    // Todo: Suodatetaan pois menneisyydessä olevet tapahtumat
     useEffect(() => {
         console.log('Fetching events and tickettypes...');
         Promise.all([
@@ -47,22 +49,25 @@ function Liput() {
             setEvents(eventsResponse.data);
             setTicketTypes(ttResponse.data);
         }).catch(error => {
-            console.log('Error fetching events and users:', error);
+            console.log('Error fetching events and/or tickettypes:', error);
         });
     }, [user.jwt]);
 
+    // 
     const handleTicketTypeSelect = (value) => {
         const selected = ticketTypes.find((tt) => tt.ticket_type_id === parseInt(value));
         setSelectedTicketType(selected);
         setFormData({});
     };
 
+    //
     const handleSelect = (value) => {
         const selected = events.find((event) => event.eventrecord_id === parseInt(value));
         setSelectedEvent(selected);
         setFormData({});
     };
 
+    // 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData({
@@ -155,6 +160,7 @@ function Liput() {
                     Myy lippuja
                 </Typography>
             </Box>
+
             <Box
                 sx={{
                     display: "flex",
@@ -164,21 +170,20 @@ function Liput() {
                     flex: 1
                 }}>
                     <Typography variant="h4">Valitse tapahtuma:</Typography>
-                    <select
+                    <Select
                         value={selectedEvent
                             ? selectedEvent.eventrecord_id
                             : null}
                         onChange={(e) => handleSelect(e.target.value)}
-                        style={{
-                            width: "100%"
-                        }}>
-                        <option value={null}>-- Valitse tapahtuma --</option>
+                        label="Tapahtuma"
+                        sx={{ mt: '10px', width: '50%' }}
+                    >
                         {events.map((event) => (
-                            <option key={event.eventrecord_id} value={event.eventrecord_id}>
+                            <MenuItem key={event.eventrecord_id} value={event.eventrecord_id}>
                                 {event.eventrecord_name}
-                            </option>
+                            </MenuItem>
                         ))}
-                    </select>
+                    </Select>
 
                     {selectedEvent && (
                         <div>
@@ -187,8 +192,8 @@ function Liput() {
                                 Sijainti: {selectedEvent.venue}, {selectedEvent.city}
                             </p>
                             <p>Lippuja myynnissä: {selectedEvent.ticketsmax}</p>
-                            <p>Alkaa: {selectedEvent.event_starttime}</p>
-                            <p>Loppuu: {selectedEvent.event_endtime}</p>
+                            <p>Alkaa: {selectedEvent.event_starttime.toLocaleString()}</p>
+                            <p>Loppuu: {selectedEvent.event_endtime.toLocaleString()}</p>
                         </div>
                     )}
                 </Box>
@@ -197,35 +202,35 @@ function Liput() {
                         p: 2
                     }}>
                         <Typography variant="h4">Valitse lipputyyppi:</Typography>
-                        <select
+                        <Select
+                            label='Lipputyyppi'
                             value={selectedTicketType
                                 ? selectedTicketType.ticket_type_id
                                 : null}
                             onChange={(e) => handleTicketTypeSelect(e.target.value)}
-                            style={{
-                                width: "100%"
-                            }}>
-                            <option value={null}>-- Valitse lipputyyppi --</option>
+                            sx={{ mt: '10px', width: '100%' }}
+                        >
                             {ticketTypes.filter((tt) => tt.eventRecord.eventrecord_id === selectedEvent.eventrecord_id).map((tt) => (
-                                <option key={tt.ticket_type_id} value={tt.ticket_type_id}>
+                                <MenuItem key={tt.ticket_type_id} value={tt.ticket_type_id}>
                                     {tt.name}
                                     ({tt.price}€)
-                                </option>
+                                </MenuItem>
                             ))}
-                        </select>
+                        </Select>
 
                         {selectedTicketType && (
                             <form onSubmit={handleSubmit}>
-                                <Typography variant="h4">Valitse lippujen määrä:</Typography>
-                                <input
-                                    type="number"
-                                    name="quantity"
-                                    value={formData.quantity || ""}
-                                    onChange={handleInputChange}
-                                    style={{
-                                        marginBottom: "16px"
-                                    }} />
-                                <button type="submit" disabled={!formData.quantity}>Lisää ostoskoriin</button>
+                                <div>
+                                    <Typography variant="h4">Valitse lippujen määrä:</Typography>
+                                    <TextField
+                                        name='tickets'
+                                        label='Lippujen lukumäärä'
+                                        value={formData.tickets || ""}
+                                        onChange={e => handleInputChange(e)}
+                                        sx={{ mt: '10px' }}
+                                    />
+                                </div>
+                                <Button type="submit" variant='contained' disabled={!formData.tickets}>Lisää ostoskoriin</Button>
                                 {errorMessage && <p className="error-message">{errorMessage}</p>}
                             </form>
                         )}
@@ -239,7 +244,7 @@ function Liput() {
                                 <h4>Ostoskorissa:</h4>
                                 <p>Lopullinen hinta: {finalPrice}
                                     €</p>
-                                <button onClick={handleSubmit}>Myy</button>
+                                <Button variant='contained' onClick={handleSubmit}>Myy</Button>
                             </div>
                         )}
                     </Box>
