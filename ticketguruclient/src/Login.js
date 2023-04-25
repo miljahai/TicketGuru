@@ -5,7 +5,6 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useUser } from './UserProvider';
 
@@ -109,13 +108,6 @@ const Login = () => {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
     </Box>

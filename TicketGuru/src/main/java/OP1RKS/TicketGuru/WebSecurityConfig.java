@@ -43,8 +43,8 @@ public class WebSecurityConfig {
     private static final AntPathRequestMatcher[] WHITE_LIST_URLS = {
     		new AntPathRequestMatcher("/auth"),
     		new AntPathRequestMatcher("/auth/**"),
-            new AntPathRequestMatcher("/login"),
-            new AntPathRequestMatcher("/login**"),
+            new AntPathRequestMatcher("/login*"),
+            new AntPathRequestMatcher("/auth/register"),
             new AntPathRequestMatcher("/h2-console"),
             new AntPathRequestMatcher("/h2-console/**")
     };
@@ -68,7 +68,7 @@ public class WebSecurityConfig {
 			.authorizeHttpRequests()
 			.requestMatchers("/users").hasAuthority("ADMIN")
 			.requestMatchers("/users/**").hasAuthority("ADMIN")
-			.requestMatchers("/auth/register").hasAuthority("ADMIN")
+			//.requestMatchers("/auth/register").hasAuthority("ADMIN")
 			.requestMatchers("/events").authenticated()
 			.requestMatchers("/events/**").authenticated()
 			.requestMatchers("/tickets").authenticated()

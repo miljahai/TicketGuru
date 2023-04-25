@@ -4,6 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Login';
+import SignUp from './SignUp';
 import PrivateRoute from './PrivateRoute';
 import Ylapalkki from "./components/Ylapalkki";
 import Tapahtumat from "./Tapahtumat";
@@ -44,17 +45,11 @@ function App() {
   const [roles, setRoles] = useState([]);
 
   useEffect(() => {
-    setRoles(getRolesFromJWT());
-  }, [user.jwt]);
-
-  const getRolesFromJWT = () => {
-    if (user.jwt) {
+    if (user && user.jwt) {
       const decodedJwt = jwt_decode(user.jwt);
-      return decodedJwt.authorities;
+      setRoles(decodedJwt.authorities);
     }
-    return [];
-  }
-
+  }, [user, user.jwt]);
 
   return (
     <Container>
@@ -67,7 +62,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="tapahtumat" element={
                 <PrivateRoute>
-                  <Tapahtumat />
+                  <Tapahtumat roles={roles}/>
                 </PrivateRoute>} />
               <Route
                 path="raportit"
@@ -75,6 +70,18 @@ function App() {
                   roles.find((role) => role === "ADMIN" || role === "EVENT") ? (
                     <PrivateRoute>
                       <Raportit />
+                    </PrivateRoute>
+                  ) : (
+                    <AccessDenied></AccessDenied>
+                  )
+                }
+              />
+               <Route
+                path="signup"
+                element={
+                  roles.find((role) => role === "ADMIN") ? (
+                    <PrivateRoute>
+                      <SignUp />
                     </PrivateRoute>
                   ) : (
                     <AccessDenied></AccessDenied>

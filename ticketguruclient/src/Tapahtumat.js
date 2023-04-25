@@ -8,12 +8,21 @@ import { useUser } from './UserProvider';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import ArticleIcon from '@mui/icons-material/Article';
+import jwt_decode from "jwt-decode";
 
 
-function Tapahtumat() {
 
+function Tapahtumat({ props }) {
     const [events, setEvents] = useState([]);
     const user = useUser();
+    const [roles, setRoles] = useState([]);
+
+    useEffect(() => {
+        if (user && user.jwt) {
+            const decodedJwt = jwt_decode(user.jwt);
+            setRoles(decodedJwt.authorities);
+        }
+    }, [user, user.jwt]);
 
     useEffect(() => {
         Promise.all([
@@ -46,6 +55,11 @@ function Tapahtumat() {
             <Button component={Link} to="../tapahtumanlisays" endIcon={<AddIcon />}  >Lisää tapahtuma</Button>
             <Button component={Link} to='../lipputyypit' endIcon={<EditIcon />}  >Lipputyypit</Button>
             <Events events={events} />
+            {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
+                <Button component={Link} to="../tapahtumanlisays" endIcon={<AddIcon />} >Lisää tapahtuma</Button>
+            ) : (
+                <></>
+            )}
 
         </Container >
     )

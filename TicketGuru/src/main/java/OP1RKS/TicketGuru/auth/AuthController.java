@@ -52,7 +52,7 @@ public class AuthController {
 
         if (!password.matches(passwordRegex)) {
         	throw new ResponseStatusException(HttpStatus.BAD_REQUEST, 
-        	"The password must be between 8 and 30 characters long and include at least one uppercase letter, one lowercase letter, one special character, and one number.");
+        			"{\"message\":\"The password must be between 8 and 30 characters long and include at least one uppercase letter, one lowercase letter, one special character, and one number.\"}");
         }
 		return ResponseEntity.ok(aservice.register(request));
 	}

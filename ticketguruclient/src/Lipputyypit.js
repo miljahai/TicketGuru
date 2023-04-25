@@ -1,6 +1,6 @@
 import { Box, Typography, AppBar, Toolbar, Container, Button } from "@mui/material";
 import Sivupalkki from "./components/Sivupalkki";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import TicketTypes from "./components/TicketTypes";
