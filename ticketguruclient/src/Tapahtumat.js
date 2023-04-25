@@ -7,7 +7,9 @@ import Events from "./components/Events";
 import { useUser } from './UserProvider';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import ArticleIcon from '@mui/icons-material/Article';
 import jwt_decode from "jwt-decode";
+import Reports from "./components/Reports"
 
 
 
@@ -17,10 +19,10 @@ function Tapahtumat({ props }) {
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
-      if (user && user.jwt) {
-        const decodedJwt = jwt_decode(user.jwt);
-        setRoles(decodedJwt.authorities);
-      }
+        if (user && user.jwt) {
+            const decodedJwt = jwt_decode(user.jwt);
+            setRoles(decodedJwt.authorities);
+        }
     }, [user, user.jwt]);
 
     useEffect(() => {
@@ -40,25 +42,21 @@ function Tapahtumat({ props }) {
 
     return (
         <Container>
-            <Box component="span" sx={{ p: 2}}>
-                <AppBar position='static' sx={{borderRadius: '15px 50px'}}>
-                    <Toolbar>                 
-                    {<Sivupalkki />}
-                        <Typography component={Link} to="/" sx = { {flexGrow:1, textAlign:'center' } }variant="h1">TicketGuru</Typography>
+            <Box component="span" sx={{ p: 2 }}>
+                <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
+                    <Toolbar>
+                        {<Sivupalkki />}
+                        <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
                     </Toolbar>
                 </AppBar>
-                <Outlet/>
-                <Typography variant="h2" sx={{ flexGrow:1, textAlign:'center'}}>Tapahtumat</Typography>
-                <Button href='../lipputyypit' variant="outlined"><EditIcon />Lipputyypit</Button>
+                <Outlet />
+                <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Tapahtumat</Typography>
             </Box>
-            {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
-            <Button component={Link} to ="../tapahtumanlisays" endIcon={<AddIcon />} >Lisää tapahtuma</Button>
-            ) : (
-                <></>
-            )}
-            <Events events = {events} />
-
-        </Container>
+            <Button component={Link} to="../tapahtumat" endIcon={<ArticleIcon />} variant='outlined' color='primary' >Tapahtumat</Button>
+            <Button component={Link} to="../tapahtumanlisays" endIcon={<AddIcon />}  >Lisää tapahtuma</Button>
+            <Button component={Link} to='../lipputyypit' endIcon={<EditIcon />}  >Lipputyypit</Button>
+            <Events events={events} />
+        </Container >
     )
 }
 
