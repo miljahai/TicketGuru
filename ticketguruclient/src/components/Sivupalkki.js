@@ -74,8 +74,8 @@ function Sivupalkki() {
           ) : (
             <></>
           )}
-          {roles && roles.filter((role) => role === "ADMIN").length > 0 ? (
-            <>
+         {roles && roles.filter((role) => role === "ADMIN").length > 0 ? (
+            <> 
               <ListItem component={Link} to="../signup">
                 <ListItemButton>
                   <ListItemIcon><PersonAddIcon /></ListItemIcon>

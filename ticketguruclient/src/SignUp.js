@@ -29,6 +29,7 @@ export default function SignUp() {
     fetch("http://localhost:8080/auth/register", {
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${user.jwt}`
       },
       method: "post",
       body: JSON.stringify(reqBody),
