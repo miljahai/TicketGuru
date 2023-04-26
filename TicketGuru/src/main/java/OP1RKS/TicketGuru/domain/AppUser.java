@@ -9,7 +9,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -61,7 +65,7 @@ public class AppUser implements UserDetails {
 	
 	@Enumerated(EnumType.STRING)
 	private UserRole userrole;
-	
+		
 
 	public AppUser(@NotNull @Size(max = 100, message = "name is too long") String firstname,
 			@NotNull @Size(max = 100, message = "name is too long") String lastname, @NotNull @Email String email,

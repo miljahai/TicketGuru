@@ -23,7 +23,7 @@ function Lipputyypit() {
             })
         ]).then(([tickettypesResponse]) => {
             console.log('TicketTypes fetched:', tickettypesResponse.data);
-            const ttdata = tickettypesResponse.data
+            const ttdata = tickettypesResponse.data.filter(tt => tt.eventRecord != null)
             setTickettypes(ttdata);
         }).catch(error => {
             console.log('Error fetching TicketTypes: ', error);

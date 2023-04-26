@@ -20,9 +20,9 @@ function TicketTypes(props) {
         }
     }, [user, user.jwt]);
 
-    // Delete selected TicketType
-    const deleteTickettype = () => {
 
+    const deleteTickettype = () => {
+        // Delete selected TicketType
         const selected = gridRef.current.api.getSelectedNodes();
         const row = gridRef.current.api.getSelectedRows();
 
@@ -36,7 +36,7 @@ function TicketTypes(props) {
                         }
                     })
                 ]).then((response) => {
-                    console.log(`TicketType ${selected[0].data.ticket_type_id} deleted: ` + response.data);
+                    console.log(`TicketType ${selected[0].data.ticket_type_id} deleted: ` + response);
                     // Hide row from view and update client:
                     gridRef.current.api.applyTransaction({ remove: row });
                 }).catch(error => {
@@ -48,8 +48,9 @@ function TicketTypes(props) {
         };
     };
 
-    // Save a new tickettype
+
     const saveTickettype = (tickettype) => {
+        // Save a new tickettype
         Promise.all([
             axios.post(
                 `http://localhost:8080/tickettypes`,
@@ -74,9 +75,10 @@ function TicketTypes(props) {
         });
     };
 
-    // Edit Tickettype
-    // Editing eventrecord_name is not allowed. 
+
     const editTickettype = (value) => {
+        // Edit Tickettype
+        // Editing eventrecord_name is not allowed. 
         // Build link and body for value update call
         const link = 'http://localhost:8080/tickettypes/' + value.data.ticket_type_id
         const body = JSON.stringify(value.data)

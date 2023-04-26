@@ -6,36 +6,40 @@ import { useEffect, useState } from "react";
 import { useUser } from './UserProvider';
 import axios from "axios";
 import dayjs from 'dayjs'
+import Table from '@mui/material/Table';
+import Paper from '@mui/material/Paper';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableFooter from '@mui/material/TableFooter';
 
 function Liput() {
 
-    const [events,
-        setEvents] = useState([]);
-    const [selectedEvent,
-        setSelectedEvent] = useState(null);
-    const [ticketTypes,
-        setTicketTypes] = useState(null);
-    const [selectedTicketType,
-        setSelectedTicketType] = useState(null);
+    const [events, setEvents] = useState([]);
+    const [selectedEvent, setSelectedEvent] = useState(null);
+    const [ticketTypes, setTicketTypes] = useState(null);
+    const [selectedTicketTypes, setSelectedTicketTypes] = useState([]);
     const [ticketTypeArray, setTicketTypeArray] = useState([]);
-    const [formData,
-        setFormData] = useState({});
-    const [ticketQuantities,
-        setTicketQuantities] = useState({});
-    const [finalPrice,
-        setFinalPrice] = useState(0);
-    const [errorMessage,
-        setErrorMessage] = useState('');
-    const [totalQuantity,
-        setTotalQuantity] = useState(0);
-
+    const [invoiceSubtotal, setInvoiceSubtotal] = useState(0);
+    const [finalPrice, setFinalPrice] = useState(0);
+    const [newTickets, setNewTickets] = useState({});
     const user = useUser();
-
     const dayjs = require('dayjs')
 
-    // Haetaan Tapahtumat ja Lipputyypit
-    // Todo: Suodatetaan pois menneisyydessä olevet tapahtumat
+    // Constants for Ticket table
+    // Calculate tax for selected tickets
+    const TAX_RATE = 0.1
+    const invoiceTaxes = TAX_RATE * invoiceSubtotal;
+    // Calculate total price of selected tickets
+    const invoiceTotal = invoiceTaxes + invoiceSubtotal;
+
+
     useEffect(() => {
+        // Fetch events and tickettypes from server
+        // Tickettypes with eventRecord == null are filtered to avoid fatal errors
+        // Todo: filter events with enddate in the past
         console.log('Fetching events and tickettypes...');
         Promise.all([
             axios.get('http://localhost:8080/events', {
@@ -50,100 +54,124 @@ function Liput() {
             })
         ]).then(([eventsResponse, ttResponse]) => {
             console.log('Events fetched:', eventsResponse.data);
-            console.log('Ticket types fetched:', ttResponse.data);
+            console.log('Ticket types fetched:', ttResponse.data.filter(tt => tt.eventRecord != null));
             setEvents(eventsResponse.data);
-            setTicketTypes(ttResponse.data);
+            setTicketTypes(ttResponse.data.filter(tt => tt.eventRecord != null));
         }).catch(error => {
             console.log('Error fetching events and/or tickettypes:', error);
         });
     }, [user.jwt]);
 
+
     function handleAddTicket(id) {
+        // Add a chosen ticket_type_id to the ticketTypeArray, which will add it to the Ticket cart
         setTicketTypeArray([...ticketTypeArray, id])
+        const addTtById = ticketTypes.filter((tt) => tt.ticket_type_id === id)
+        setSelectedTicketTypes([...selectedTicketTypes, addTtById])
+        setInvoiceSubtotal(invoiceSubtotal + Number(addTtById[0].price))
     };
+
 
     function handleRemoveTicket(id) {
-        const index = ticketTypeArray.indexOf(Number(id));
-        console.log(ticketTypeArray.indexOf(Number(id)));
+        // Remove chosen ticket_type_id from ticketTypeArray, which will remove it from Ticket cart
+        const index = ticketTypeArray.lastIndexOf(Number(id));
         if (index !== -1) {
-            const newArray = [...ticketTypeArray];
-            newArray.splice(index, 1);
-            setTicketTypeArray(newArray);
+            const newIdArray = [...ticketTypeArray];
+            newIdArray.splice(index, 1);
+            setTicketTypeArray(newIdArray);
         };
-        console.log(ticketTypeArray);
+
+        // remove last occurrence of ticket type with matching ID from selectedTicketTypes
+        let subtract = 0;
+        const lastIndex = selectedTicketTypes.findLastIndex((tt) => {
+            subtract = tt[0].price
+            return Number(tt[0].ticket_type_id) === Number(id);
+        });
+        if (lastIndex !== -1) {
+            const newSelectedTicketTypes = [...selectedTicketTypes];
+            newSelectedTicketTypes.splice(lastIndex, 1);
+            setSelectedTicketTypes(newSelectedTicketTypes);
+        }
+        const checkSubTotal = (invoiceSubtotal - Number(subtract)) < 0 ? 0 : (invoiceSubtotal - Number(subtract));
+        setInvoiceSubtotal(checkSubTotal);
     };
 
-    // 
-    const handleTicketTypeSelect = (value) => {
-        const selected = ticketTypes.find((tt) => tt.ticket_type_id === parseInt(value));
-        setSelectedTicketType(selected);
-        setFormData({});
-    };
-
-    //
     const handleSelect = (value) => {
+        // Select Event
         const selected = events.find((event) => event.eventrecord_id === parseInt(value));
         setSelectedEvent(selected);
-        setFormData({});
     };
 
-    // 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: parseInt(value)
-        });
-    };
+    const handleSubmit = (props) => {
+        // Create a Salesevent and then create Tickets by looping selectedTicketTypes
 
-    const handleSubmit = (event) => {
-
-        event.preventDefault();
-        console.log(formData);
-        const { quantity } = formData;
-        const price = selectedTicketType.price;
-        const ticketFinalPrice = quantity * price;
-
-        if (quantity > selectedEvent.ticketsmax) {
-            setErrorMessage(`Cannot purchase more than ${selectedEvent.ticketsmax} tickets per person.`);
-            return;
-        } else if (quantity < 1) {
-            setErrorMessage('Cannot purchase less than 1 ticket.');
-            return;
-        }
-
-        setFinalPrice(finalPrice + ticketFinalPrice);
-        setTotalQuantity(totalQuantity + quantity); // Add quantity to total quantity
-        setTicketQuantities({
-            ...ticketQuantities,
-            [selectedTicketType.ticket_type_id]: quantity
-        });
-
-        const data = {
-            event_id: selectedEvent.eventrecord_id,
-            ticket_type_id: selectedTicketType.ticket_type_id,
-            quantity,
-            price: selectedTicketType.price,
-            total_price: ticketFinalPrice
+        // Build body for SalesEvent call
+        // Todo: user id and user role
+        setFinalPrice(invoiceTotal);
+        const saleseventbody = {
+            sale_date: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+            deleted: false,
+            final_price: finalPrice,
+            appUser: { appuser_id: 1, userrole: "ADMIN" }
         };
 
-        const handleFormSubmit = () => {
-            event.preventDefault();
-            axios
-                .post('http://localhost:8080/salesevents', data, {
-                    headers: {
-                        'Authorization': `Bearer ${user.jwt}`
-                    }
-                })
-                .then(response => {
-                    console.log('SalesEvent created:', response.data);
-                    setFormData({});
-                })
-                .catch(error => {
-                    console.log('Error creating SalesEvent:', error);
-                });
-        }
+        // Call POST /salesevents to create SalesEvent
+        // After creating Salesevent, start looping TicketTypes and creating Tickets:
+        //      Build body for Ticket call
+        //      Create Tickets by calling POST /tickets
+        axios.post(`http://localhost:8080/salesevents`, saleseventbody,
+            {
+                headers: {
+                    'Authorization': `Bearer ${user.jwt}`
+                }
+            }).then((response) => {
+                console.log('SalesEvent created: ', response.data);
+                const selectedSalesEvent = response.data.salesevent_id
+                {
+                    selectedTicketTypes.map((tt) => {
+
+                        const ticketbody = {
+                            ticketType: { ticket_type_id: tt[0].ticket_type_id },
+                            salesEvent: { salesevent_id: selectedSalesEvent }
+                        };
+                        axios.post(`http://localhost:8080/tickets`, ticketbody,
+                            {
+                                headers: {
+                                    'Authorization': `Bearer ${user.jwt}`
+                                }
+                            }).then((ticketresponse) => {
+                                console.log('Ticket created: ', ticketresponse.data);
+                                const add = {
+                                    code: ticketresponse.data.code,
+                                    price: ticketresponse.data.price,
+                                    ticketType: ticketresponse.data.ticketType,
+                                    salesEvent: ticketresponse.data.salesEvent
+                                }
+                                setNewTickets({ ...newTickets, [ticketresponse.data.ticket_id]: add });
+                            }).catch((ticketerror) => {
+                                console.log('Error creating Ticket: ', ticketerror)
+                            })
+                    })
+                }
+            }).catch((error) => {
+                console.log('Error creating SalesEvent: ', error)
+            })
     };
+
+    const reset = () => {
+        console.log('reseting...')
+        setSelectedEvent(null);
+        setSelectedTicketTypes([]);
+        setTicketTypeArray([]);
+        setInvoiceSubtotal(0);
+        setFinalPrice(0);
+        setNewTickets('');
+    }
+
+    const generatePdf = () => {
+        console.log('generating pdf...')
+    }
+
 
     return (
         <Container>
@@ -156,10 +184,7 @@ function Liput() {
                         <Typography
                             component={Link}
                             to="/"
-                            sx={{
-                                flexGrow: 1,
-                                textAlign: "center"
-                            }}
+                            sx={{ flexGrow: 1, textAlign: "center" }}
                             variant="h1">
                             TicketGuru
                         </Typography>
@@ -169,15 +194,13 @@ function Liput() {
                 <Typography
                     variant="h2"
                     sx={{ p: 2, flexGrow: 1, textAlign: "center" }}>
-                    Myy lippuja
+                    Lipunmyynti
                 </Typography>
             </Box>
 
             <Box>
                 <Box>
-                    {/* 
                     <Typography variant="h4">Valitse tapahtuma:</Typography>
-                    */}
                     <Select
                         value={selectedEvent
                             ? selectedEvent.eventrecord_id
@@ -194,13 +217,13 @@ function Liput() {
                     </Select>
 
                     {selectedEvent && (
-                        <div>
-                            <h4>{selectedEvent.eventrecord_name}</h4>
-                            <p><div>Sijainti: {selectedEvent.venue}, {selectedEvent.city}</div>
-                                <div>Alkaa: {dayjs(selectedEvent.event_starttime).format('DD.M.YYYY HH:mm')}</div>
-                                <div>Päättyy: {dayjs(selectedEvent.event_endtime).format('DD.M.YYYY HH:mm')}</div></p>
-                            <p>Lippuja myynnissä: {selectedEvent.ticketsmax}</p>
-                        </div>
+                        <Box>
+                            <Typography variant='h4'>{selectedEvent.eventrecord_name}</Typography>
+                            <Typography>Sijainti: {selectedEvent.venue}, {selectedEvent.city}</Typography>
+                            <Typography>Alkaa: {dayjs(selectedEvent.event_starttime).format('DD.M.YYYY HH:mm')}</Typography>
+                            <Typography>Päättyy: {dayjs(selectedEvent.event_endtime).format('DD.M.YYYY HH:mm')}</Typography>
+                            <Typography>Lippuja myynnissä: {selectedEvent.ticketsmax}</Typography>
+                        </Box>
                     )}
                 </Box>
 
@@ -209,18 +232,6 @@ function Liput() {
                     <Box component="span" sx={{
                         p: 2
                     }}>
-                        {/** 
-                        <Typography variant="h4">Valitse lipputyyppi:</Typography>
-                        
-                        <Select
-                            label='Lipputyyppi'
-                            value={selectedTicketType
-                                ? selectedTicketType.ticket_type_id
-                                : null}
-                            onChange={(e) => handleTicketTypeSelect(e.target.value)}
-                            sx={{ mt: '10px', width: '100%' }}
-                        >
-                        */}
                         <Typography variant="h4">Lipputyyppit:</Typography>
                         <List>
                             {ticketTypes.filter((tt) => tt.eventRecord.eventrecord_id === selectedEvent.eventrecord_id).map((tt) => (
@@ -234,48 +245,112 @@ function Liput() {
                                 </ListItem>
                             ))}
                         </List>
+
                         {/** Alla oleva lista on vain devausta varten, pois lopullisesta */}
-                        <Typography>array: {ticketTypeArray}</Typography>
-                        <Typography>Tähän lista lipuista hintoineen</Typography>
-                        <Typography>Tähän lipuista laskettu finalprice</Typography>
-                        <Button>Tähän nappi tms. jolla voi muokata finalpriceä</Button>
-                        <Button>Tähän nappi, jolla vahvistetaan myyntitapahtuma. Tämä käynnistää POST SalesEventin ja sitten looppaa yllä olevan id-arrayn ja POSTaa jokaisesta Ticketin</Button>
-                        <Button>Tähän peruuta nappi, jolla id-array yms. tyhjennetään.</Button>
-                        {/*
-                        </Select>
-                        * /}
+                        <Box hidden>
+                            <Typography>array: {ticketTypeArray}</Typography>
+                            <Typography>summa: {invoiceSubtotal}</Typography>
+                            <Typography>Tähän lista lipuista hintoineen</Typography>
+                        </Box>
 
-                        {/*
-                        {selectedTicketType && (
-                            <div>
-                                <Typography variant="h4">Valitse lippujen määrä:</Typography>
-                                <div>
-                                    <TextField
-                                        name='tickets'
-                                        label='Lippujen lukumäärä'
-                                        value={formData.tickets || ""}
-                                        onChange={e => handleInputChange(e)}
-                                        sx={{ mt: '10px' }}
-                                    />
-                                </div>
-                                <Button onClick={handleSubmit} type="submit" variant='contained' disabled={!formData.tickets}>Lisää ostoskoriin</Button>
-                                {errorMessage && <p className="error-message">{errorMessage}</p>}
-                            </div>
-                        )}
+                        <Box class='ticketlist'>
+                            <Typography variant="h4">Liput:</Typography>
+                            {selectedTicketTypes?.length ?
+                                <TableContainer component={Paper}>
+                                    <Table sx={{ minWidth: 400 }} aria-label='tickets to buy'>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Tapahtuma</TableCell>
+                                                <TableCell>Lippu</TableCell>
+                                                <TableCell>Hinta</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {selectedTicketTypes.map((tt) => (
+                                                (() => {
+                                                    return (
+                                                        <TableRow
+                                                            key={tt[0].ticket_type_id}
+                                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                        >
+                                                            <TableCell component='th' scope='row'>
+                                                                {JSON.stringify(tt[0].eventRecord.eventrecord_name).replace(/['"]+/g, '')}
+                                                            </TableCell>
+                                                            <TableCell align='left'>{tt[0].name}</TableCell>
+                                                            <TableCell align='left'>{tt[0].price} €</TableCell>
+                                                        </TableRow>
+                                                    );
+                                                })()
+                                            ))}
+                                        </TableBody>
+                                        <TableFooter>
+                                            <TableRow>
+                                                <TableCell colSpan={3}></TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell rowSpan={3} />
+                                                <TableCell>Yhteensä:</TableCell>
+                                                <TableCell>{invoiceSubtotal} €</TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>Lipunmyyntivero 10%:</TableCell>
+                                                <TableCell>{invoiceTaxes} €</TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>Kokokonaissumma:</TableCell>
+                                                <TableCell>{invoiceTotal} €</TableCell>
+                                            </TableRow>
+                                        </TableFooter>
+                                    </Table>
+                                </TableContainer>
+                                : <></>
+                            }
+                        </Box>
 
-                        {selectedTicketType && (
-                            <div>
-                                <h4>Valittu lipputyyppi:</h4>
-                                <p>{selectedTicketType.name}</p>
-                                <p>Hinta: {selectedTicketType.price}
-                                    €</p>
-                                <h4>Ostoskorissa:</h4>
-                                <p>Lopullinen hinta: {finalPrice}
-                                    €</p>
-                                <Button variant='contained' onClick={handleSubmit}>Myy</Button>
-                            </div>
+                        <Typography>Muuta lopullista hintaa: //ei toimi vielä</Typography>
+                        <TextField
+                            variant='outlined'
+                            sx={{ p: '2' }}
+                            value={Number(invoiceTotal)}
+                            type='number'
+                            onChange={v => setFinalPrice(v)} // kesken
+                        >
+                            Kokonaishinta
+                        </TextField>
+                        <Box>
+                            <Button
+                                variant='contained'
+                                onClick={() => handleSubmit({ selectedTicketTypes, finalPrice, selectedEvent, user })}
+                                sx={{ m: 1 }}
+                            >
+                                Vahvista myyntitapahtuma
+                            </Button>
+                            <Button
+                                color='error'
+                                variant='contained'
+                                onClick={reset}
+                                sx={{ m: 1 }}
+                            >
+                                Peruuta
+                            </Button>
+                        </Box>
+                        {newTickets && (
+                            <Box>
+                                <Typography>Tähän lista luoduista lipuista, klikkaamalla aukeaa Dialog-jossa yksi lippu.</Typography>
+                                <Box>
+                                    {Object.keys(newTickets).map((ticket) => (
+                                        <Typography>{ticket.code}</Typography>
+                                    ))}
+                                </Box>
+
+                                <Box>
+                                    <Button variant='contained' onClick={generatePdf}>
+                                        Generoi PDF
+                                    </Button>
+                                    <Typography>Napilla  voi generoida pdf:n, jossa kaikki generoidut liput:</Typography>
+                                </Box>
+                            </Box>
                         )}
-                */}
                     </Box>
                 )}
             </Box>
