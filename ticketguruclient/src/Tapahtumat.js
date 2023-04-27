@@ -53,7 +53,13 @@ function Tapahtumat({ props }) {
                 <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Tapahtumat</Typography>
             </Box>
             <Button component={Link} to="../tapahtumat" endIcon={<ArticleIcon />} variant='outlined' color='primary' >Tapahtumat</Button>
-            <Button component={Link} to="../tapahtumanlisays" endIcon={<AddIcon />}  >Lisää tapahtuma</Button>
+            {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
+                <>
+                    <Button component={Link} to="../tapahtumanlisays" endIcon={<AddIcon />} >Lisää tapahtuma</Button>
+                </>
+            ) : (
+                <></>
+            )}
             <Button component={Link} to='../lipputyypit' endIcon={<EditIcon />}  >Lipputyypit</Button>
             <Events events={events} />
         </Container >

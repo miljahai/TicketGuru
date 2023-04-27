@@ -58,6 +58,7 @@ public class AppUser implements UserDetails {
 	private String email;
 	
 	@NotNull
+	@JsonIgnore
 	private String password;
 	
 	@Builder.Default

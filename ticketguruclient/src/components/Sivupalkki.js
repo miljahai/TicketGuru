@@ -61,7 +61,7 @@ function Sivupalkki() {
             </ListItemButton>
           </ListItem>
           <Divider />
-          {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
+          {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
             <>
               <ListItem component={Link} to="../raportit">
                 <ListItemButton>
@@ -74,8 +74,8 @@ function Sivupalkki() {
           ) : (
             <></>
           )}
-         {roles && roles.filter((role) => role === "ADMIN").length > 0 ? (
-            <> 
+          {roles && roles.filter((role) => role === "ADMIN").length > 0 ? (
+            <>
               <ListItem component={Link} to="../signup">
                 <ListItemButton>
                   <ListItemIcon><PersonAddIcon /></ListItemIcon>

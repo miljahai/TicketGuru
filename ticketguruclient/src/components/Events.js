@@ -50,7 +50,7 @@ function Events(props) {
                                 <Typography>Lopetusaika: {(new Date(event.event_endtime)).toLocaleString()}</Typography>
                                 <Typography>Lippujen enimmäismäärä: {event.ticketsmax}</Typography>
                             </CardContent>
-                            {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
+                            {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
                                 <Box>
                                     <Button variant="contained" startIcon={<CreateIcon />}>Muokkaa tapahtumaa</Button>
                                     <Button onClick={(e) => deleteEvent(e, event.eventrecord_id)} color="secondary" variant="contained" startIcon={<DeleteIcon />}>Poista tapahtuma</Button>
