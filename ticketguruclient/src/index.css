@@ -26,3 +26,9 @@ a:hover {
   color: #383838;
   text-decoration: none;
 }
+
+@media print {
+  .hide-on-print {
+    display: none !important;
+  }
+}

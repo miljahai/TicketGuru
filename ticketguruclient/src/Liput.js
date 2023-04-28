@@ -1,6 +1,9 @@
 import { Box, Typography, AppBar, Toolbar, Container, Select, MenuItem, Button, TextField, List, ListItem, ListItemText, ListItemButton } from "@mui/material";
-import { Add, Remove } from '@mui/icons-material';
+import { ArticleOutlined, Cancel, AddCircleOutlineOutlined, RemoveCircleOutlineOutlined } from '@mui/icons-material';
 import Sivupalkki from "./components/Sivupalkki";
+import ShowTicket from "./components/ShowTicket"
+import SoldTickets from "./components/SoldTickets";
+import CreateTickets from "./components/CreateTickets"
 import { Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useUser } from './UserProvider';
@@ -19,19 +22,19 @@ function Liput() {
     const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [ticketTypes, setTicketTypes] = useState(null);
+    const [tickets, setTickets] = useState(null);
     const [selectedTicketTypes, setSelectedTicketTypes] = useState([]);
     const [ticketTypeArray, setTicketTypeArray] = useState([]);
     const [invoiceSubtotal, setInvoiceSubtotal] = useState(0);
     const [finalPrice, setFinalPrice] = useState(0);
-    const [newTickets, setNewTickets] = useState();
-    const [viesti, setViesti] = useState('')
+    const [newTickets, setNewTickets] = useState([]);
     const user = useUser();
     const dayjs = require('dayjs')
 
     // Constants for Ticket table
     // Calculate tax for selected tickets
     const TAX_RATE = 0.1;
-    const SERVICE_PAYMENT = 5;
+    const SERVICE_PAYMENT = invoiceSubtotal == 0 ? 0 : 5;
     const SERVICE_TAX = SERVICE_PAYMENT * 0.24;
     const SERVICE_PAYMENT_WO_TAX = 5 - SERVICE_TAX;
     const invoiceTaxes = TAX_RATE * invoiceSubtotal;
@@ -42,7 +45,7 @@ function Liput() {
     useEffect(() => {
         // Fetch events and tickettypes from server
         // Tickettypes with eventRecord == null are filtered to avoid fatal errors
-        // Todo: filter events with enddate in the past
+        // TODO: filter events with enddate in the past
         console.log('Fetching events and tickettypes...');
         Promise.all([
             axios.get('http://localhost:8080/events', {
@@ -66,24 +69,33 @@ function Liput() {
     }, [user.jwt]);
 
 
-    function handleAddTicket(id) {
-        // Add a chosen ticket_type_id to the ticketTypeArray, which will add it to the Ticket cart
-        setTicketTypeArray([...ticketTypeArray, id])
-        const addTtById = ticketTypes.filter((tt) => tt.ticket_type_id === id)
-        setSelectedTicketTypes([...selectedTicketTypes, addTtById])
-        setInvoiceSubtotal(invoiceSubtotal + Number(addTtById[0].price))
+    const handleSelect = (value) => {
+        // Select Event for salesevent from dropdown
+        const selected = events.find((event) => event.eventrecord_id === parseInt(value));
+        setSelectedEvent(selected);
     };
 
 
+    function handleAddTicket(id) {
+        // Handle situations where a tickettype is added to the salesevent
+        // Add a chosen ticket_type_id to the ticketTypeArray, which will add it to the Tickettype list counters
+        setTicketTypeArray([...ticketTypeArray, id])
+        // Add a chosen TicketType to the selectedTicketTypes array, which will add it to TicketTypes list
+        const addTtById = ticketTypes.filter((tt) => tt.ticket_type_id === id)
+        setSelectedTicketTypes([...selectedTicketTypes, addTtById])
+        // Add price of added ticket to invoice subtotal
+        setInvoiceSubtotal(invoiceSubtotal + Number(addTtById[0].price))
+    };
+
     function handleRemoveTicket(id) {
-        // Remove chosen ticket_type_id from ticketTypeArray, which will remove it from Ticket cart
+        // Handle situations where a tickettype is removed from the salesevent
+        // Remove chosen ticket_type_id from ticketTypeArray, which will remove it from Tickettype list counters
         const index = ticketTypeArray.lastIndexOf(Number(id));
         if (index !== -1) {
             const newIdArray = [...ticketTypeArray];
             newIdArray.splice(index, 1);
             setTicketTypeArray(newIdArray);
         };
-
         // remove last occurrence of ticket type with matching ID from selectedTicketTypes
         let subtract = 0;
         const lastIndex = selectedTicketTypes.findLastIndex((tt) => {
@@ -95,106 +107,48 @@ function Liput() {
             newSelectedTicketTypes.splice(lastIndex, 1);
             setSelectedTicketTypes(newSelectedTicketTypes);
         }
+        // Subtract price of removed tickettype from invoice subtotal
+        // TODO: Check that selected ticket_type_id is in the array to avoid subtracting missing tickettypes 
         const checkSubTotal = (invoiceSubtotal - Number(subtract)) < 0 ? 0 : (invoiceSubtotal - Number(subtract));
         setInvoiceSubtotal(checkSubTotal);
     };
 
-    const handleSelect = (value) => {
-        // Select Event
-        const selected = events.find((event) => event.eventrecord_id === parseInt(value));
-        setSelectedEvent(selected);
-    };
-
-    const handleSubmit = (props) => {
-        // Create a Salesevent and then create Tickets by looping selectedTicketTypes
-
-        // Build body for SalesEvent call
-        // Todo: user id and user role -> props.
-        //console.log(props.user)
-        let promises = [];
-        //setFinalPrice(invoiceTotal);
-        const saleseventbody = {
-            sale_date: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-            deleted: false,
-            final_price: invoiceTotal,
-            appUser: { appuser_id: 1, userrole: "ADMIN" }
-        };
-
-        // Call POST /salesevents to create SalesEvent
-        // After creating Salesevent, start looping TicketTypes and creating Tickets:
-        //      Build body for Ticket call
-        //      Create Tickets by calling POST /tickets
-        axios.post(`http://localhost:8080/salesevents`, saleseventbody,
-            {
-                headers: {
-                    'Authorization': `Bearer ${user.jwt}`
-                }
-            }).then((response) => {
-                console.log('SalesEvent created: ', response.data);
-                const selectedSalesEvent = response.data.salesevent_id
-                {
-                    promises = selectedTicketTypes.map((tt) => {
-
-                        const ticketbody = {
-                            ticketType: { ticket_type_id: tt[0].ticket_type_id },
-                            salesEvent: { salesevent_id: selectedSalesEvent }
-                        };
-                        return axios.post(`http://localhost:8080/tickets`, ticketbody,
-                            {
-                                headers: {
-                                    'Authorization': `Bearer ${user.jwt}`
-                                }
-                            }).then((response) => {
-                                console.log('Ticket created: ', response.data);
-                                return response;
-                            }).catch((error) => {
-                                console.log('Error creating Ticket: ', error)
-                            })
-                    })
-                }
-                setViesti('Myyntitapahtuma suoritettu')
-            }).catch((error) => {
-                console.log('Error creating SalesEvent: ', error)
-                setViesti('Myyntitapahtuma epäonnistui')
-            })
-
-        //console.log('ticketpromises:', promises);
-        // Tämän pitäisi asettaa luodut Ticketit const newTicketsiin, mutta ei toimi
-        // jostain syystä ticketpromises palaa tyhjänä
-        Promise.all(promises)
-            .then(ticketresponses => {
-                //console.log('ticketresponses', ticketresponses)
-                setNewTickets(ticketresponses.map(ticketresponse => ticketresponse.data));
-                //console.log('new tickets: ', newTickets)
-            })
-            .catch(error => {
-                console.error(error)
-            });
-    };
 
     const handleFinalPriceChange = (event) => {
-        setFinalPrice({ ...finalPrice, [event.target.name]: event.target.value })
+        // Change final price when it changes in client
+        setFinalPrice(event.target.value);
     };
+    useEffect(() => {
+        // Set Finalprice to invoiceTotal
+        // Makes invoiceTotal the default value of final price field
+        setFinalPrice(invoiceTotal);
+    }, [invoiceTotal]);
+
 
     const reset = () => {
+        // Restart salesevent. Set constants to starting states
         console.log('reseting...')
         setSelectedEvent(null);
         setSelectedTicketTypes([]);
         setTicketTypeArray([]);
         setInvoiceSubtotal(0);
         setFinalPrice(0);
-        setNewTickets();
-        setViesti('')
+        setNewTickets([]);
+        setTickets(null)
     }
 
+
     const generatePdf = () => {
+        // TODO: create a pdf file of the completed salesevent. List all tickets. Use <ShowTicket>.
         console.log('generating pdf...')
     }
 
 
+
+
     return (
         <Container>
-            <Box component="span" sx={{ p: 2 }}>
+            <Box id='header' component="span" sx={{ p: 2 }}>
                 <AppBar
                     position="static"
                     sx={{ borderRadius: "15px 50px" }}>
@@ -217,17 +171,20 @@ function Liput() {
                 </Typography>
             </Box>
 
-            <Box>
-                <Container sx={{ display: 'flex', flexDirection: 'row' }}>
+
+
+            <Box id='ticketsales'>
+                <Container id='eventselect' sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', width: 600 }}>
                         <Typography variant="h4">Valitse tapahtuma:</Typography>
                         <Select
+                            label=""
+                            defaultValue='valitse tapahtuma'
                             value={selectedEvent
                                 ? selectedEvent.eventrecord_id
                                 : null}
                             onChange={(e) => handleSelect(e.target.value)}
-                            label="Tapahtuma"
-                            sx={{ mt: '10px', width: '50%' }}
+                            sx={{ mt: 2, width: '70%' }}
                         >
                             {events.map((event) => (
                                 <MenuItem key={event.eventrecord_id} value={event.eventrecord_id}>
@@ -239,7 +196,7 @@ function Liput() {
 
 
                     {selectedEvent && (
-                        <Box sx={{}}>
+                        <Box id='eventinfo' sx={{}}>
                             <Typography variant='h4'>{selectedEvent.eventrecord_name}</Typography>
                             <Typography>Sijainti: {selectedEvent.venue}, {selectedEvent.city}</Typography>
                             <Typography>Alkaa: {dayjs(selectedEvent.event_starttime).format('DD.M.YYYY HH:mm')}</Typography>
@@ -252,7 +209,7 @@ function Liput() {
 
                 {
                     selectedEvent && ticketTypes && (
-                        <Box component="span" sx={{
+                        <Box id='tickettypesselect' component="span" sx={{
                             p: 2
                         }}>
                             <Typography variant="h4">Lipputyyppit:</Typography>
@@ -265,23 +222,16 @@ function Liput() {
                                         <ListItemText sx={{ gridColumn: '3', colSpan: 2 }}>
                                             {tt.price.toFixed(2)} €
                                         </ListItemText>
-                                        <ListItemButton sx={{ gridColumn: '4', align: 'center' }} onClick={() => handleAddTicket(tt.ticket_type_id)} ><Add /></ListItemButton>
-                                        <ListItemText sx={{ gridColumn: '5', align: 'center' }}>{(ticketTypeArray.filter((counter) => counter === tt.ticket_type_id)).length}</ListItemText>
-                                        <ListItemButton sx={{ gridColumn: '6', align: 'center' }} onClick={() => handleRemoveTicket(tt.ticket_type_id)} ><Remove /></ListItemButton>
+                                        <ListItemButton alignItems='center' sx={{ gridColumn: '4' }} onClick={() => handleAddTicket(tt.ticket_type_id)} ><AddCircleOutlineOutlined /></ListItemButton>
+                                        <ListItemText alignItems='center' sx={{ gridColumn: '5' }}>{(ticketTypeArray.filter((counter) => counter === tt.ticket_type_id)).length}</ListItemText>
+                                        <ListItemButton alignItems='center' sx={{ gridColumn: '6' }} onClick={() => handleRemoveTicket(tt.ticket_type_id)} ><RemoveCircleOutlineOutlined /></ListItemButton>
                                     </ListItem>
                                 ))}
                             </List>
 
-                            {/** Alla oleva lista on vain devausta varten, pois lopullisesta */}
-                            <Box hidden>
-                                <Typography>Dev:</Typography>
-                                <Typography>array: {ticketTypeArray}</Typography>
-                                <Typography>summa: {invoiceSubtotal}</Typography>
-                                <Typography>newTickets: {newTickets}</Typography>
-                            </Box>
 
-                            <Box class='ticketlist'>
-                                <Typography variant="h4">Liput:</Typography>
+                            <Box id='invoice'>
+                                <Typography variant="h4" sx={{ pt: 4 }}>Liput:</Typography>
                                 {selectedTicketTypes?.length ?
                                     <TableContainer component={Paper}>
                                         <Table sx={{ minWidth: 400 }} aria-label='tickets to buy'>
@@ -343,57 +293,52 @@ function Liput() {
                                 }
                             </Box>
 
-                            <Typography>Muuta lopullista hintaa: //ei toimi vielä</Typography>
-                            <TextField
-                                sx={{ p: '2' }}
-                                name='finalprice'
-                                defaultValue={invoiceTotal}
-                                type='number'
-                                onChange={handleFinalPriceChange} // kesken
-                                variant='outlined'
-                                required
-                            >
-                                Kokonaishinta
-                            </TextField>
-                            <Box>
+                            <Box id='finishsale'>
+                                <TextField
+                                    label="Hinta"
+                                    type="number"
+                                    defaultValue={invoiceTotal}
+                                    value={finalPrice}
+                                    onChange={handleFinalPriceChange}
+                                    sx={{ mt: 3 }}
+                                    disabled={invoiceSubtotal == 0 || tickets}
+                                />
+                                <CreateTickets
+                                    invoiceTotal={finalPrice}
+                                    selectedTicketTypes={selectedTicketTypes}
+                                    selectedEvent={selectedEvent}
+                                    setTickets={setTickets}
+                                    setNewTickets={setNewTickets}
+                                />
                                 <Button
-                                    variant='contained'
-                                    onClick={() => handleSubmit({ selectedTicketTypes, finalPrice, selectedEvent, user })}
-                                    disabled={invoiceSubtotal == 0}
-                                    sx={{ m: 1 }}
-                                >
-                                    Vahvista myyntitapahtuma
-                                </Button>
-                                <Button
-                                    color='error'
+                                    color='secondary'
                                     variant='contained'
                                     onClick={reset}
                                     sx={{ m: 1 }}
                                 >
-                                    {newTickets ? 'Resetoi' : 'Peruuta'}
+                                    <Cancel /> <Typography sx={{ pl: 1 }}>{newTickets.length > 0 ? 'Uusi myyntitapahtuma' : 'Peruuta'}</Typography>
                                 </Button>
                             </Box>
-                            <Typography sx={{ background: '#eeeeee', p: 1, width: 1 / 4 }}>{viesti}</Typography>
-                            {newTickets && (
-                                <Box>
-                                    <Typography>Tähän pitäisi tulla lista luoduista lipuista, jossa riviä klikkaamalla aukeaa Dialog-jossa yksi lippu tietoineen ja qr-koodeineen.</Typography>
+
+                            {newTickets.length > 0 && (
+                                <Box if='finishedsale'>
+                                    <Typography variant='h4' sx={{ pt: 4 }}>Myydyt liput</Typography>
                                     <Box>
-                                        {Object.values({ newTickets }).map((ticket) => {
-                                            return <Typography>{ticket.id}</Typography>
-                                        }
-                                            // ongelma on handleSubmit-funktiossa, newTickets ei saa siellä arvoja
-                                        )}
+                                        <Typography>Kokonaishinta {Number(finalPrice).toFixed(2)} €</Typography>
+                                        <SoldTickets tickets={tickets}
+                                        />
+
                                     </Box>
 
-                                    <Box>
+                                    <Box sx={{}} hidden>
                                         <Button
                                             sx={{ p: '2' }}
                                             variant='contained'
+                                            color='info'
                                             onClick={generatePdf}
                                         >
-                                            Generoi PDF
+                                            <ArticleOutlined /> <Typography sx={{ pl: 1 }}>Luo PDF</Typography>
                                         </Button>
-                                        <Typography>Napilla  voi generoida pdf:n, jossa kaikki generoidut liput:</Typography>
                                     </Box>
                                 </Box>
                             )}
