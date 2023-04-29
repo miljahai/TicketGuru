@@ -12,7 +12,7 @@ import Raportit from "./Raportit";
 import Liput from "./Liput";
 import LipunTarkastus from "./LipunTarkastus";
 import Lipputyypit from "./Lipputyypit";
-import LisaaTapahtuma from "./LisaaTapahtuma";
+import LisaaTapahtuma from "./components/LisaaTapahtuma";
 import { cyan } from "@mui/material/colors";
 import { Box, Container } from "@mui/system";
 import { useUser } from './UserProvider';
