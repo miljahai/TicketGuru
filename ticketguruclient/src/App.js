@@ -14,6 +14,7 @@ import LipunTarkastus from "./LipunTarkastus";
 import Lipputyypit from "./Lipputyypit";
 import LisaaTapahtuma from "./components/LisaaTapahtuma";
 import Users from './Users';
+import Profile from './Profile';
 import { cyan } from "@mui/material/colors";
 import { Box, Container } from "@mui/system";
 import { useUser } from './UserProvider';
@@ -126,6 +127,10 @@ function App() {
                   )
                 }
               />
+              <Route path="profile" element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>} />
             </Routes>
           </BrowserRouter>
         </Box>

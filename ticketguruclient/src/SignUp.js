@@ -16,6 +16,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/;
 
   function createAndLoginUser(event) {
     event.preventDefault();
@@ -129,6 +130,8 @@ export default function SignUp() {
                   autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  error={!passwordRegex.test(password)}
+                  helperText={!passwordRegex.test(password) ? 'Password must contain at least 8 characters including at least one uppercase letter, one lowercase letter, one number, and one special character.' : ''}
                 />
               </Grid>
             </Grid>

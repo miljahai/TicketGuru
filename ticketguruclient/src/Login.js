@@ -43,6 +43,7 @@ const Login = () => {
       })
       .then(([body, headers]) => {
           user.setJwt(headers.get("Authorization"));
+          user.setUserInfo(body);
       })
       .catch((message) => {
         alert(message);

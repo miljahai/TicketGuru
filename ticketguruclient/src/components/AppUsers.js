@@ -46,7 +46,7 @@ function AppUser(props) {
             </CardContent>
             {roles && roles.filter((role) => role === "ADMIN").length > 0 ? (
             <Box>
-                {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
+                {roles && roles.filter((role) => role === "ADMIN").length > 0 ? (
               <>
                 <UpdateUser user={user}/>
               </>

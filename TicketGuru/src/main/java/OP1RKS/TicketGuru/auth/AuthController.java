@@ -3,6 +3,7 @@ package OP1RKS.TicketGuru.auth;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,10 +16,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import OP1RKS.TicketGuru.domain.AppUser;
+import OP1RKS.TicketGuru.domain.AppUserRepository;
 import OP1RKS.TicketGuru.service.AuthenticationService;
 import OP1RKS.TicketGuru.service.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -38,6 +41,10 @@ public class AuthController {
 	@Autowired
 	private final AuthenticationManager authenticationManager;
 	@Autowired JwtService jwtservice;
+	@Autowired
+	private AppUserRepository urepo;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
     
 	@PostMapping("/register")
@@ -91,6 +98,23 @@ public class AuthController {
 			return ResponseEntity.ok(false);
 		}
 		
+	}
+	
+	@PutMapping("/change-password")
+	public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+	    Optional<AppUser> user = urepo.findByEmail(changePasswordRequest.getEmail());
+	    
+	    if (user.isPresent() && passwordEncoder.matches(changePasswordRequest.getCurrentPassword() , user.get().getPassword())) {
+	        // The user exists and the old password matches the stored password
+	        // Update the password in the database and return a success response
+	        user.get().setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+	        urepo.save(user.get());
+	        return ResponseEntity.ok("Password updated successfully");
+	    } else {
+	        // The user does not exist or the old password does not match the stored password
+	        // Return an error response
+	        return ResponseEntity.badRequest().body("Invalid current password");
+	    }
 	}
 
 

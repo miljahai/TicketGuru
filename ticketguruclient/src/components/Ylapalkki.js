@@ -4,6 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import ArticleIcon from '@mui/icons-material/Article';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
+import PeopleIcon from '@mui/icons-material/People';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useUser } from '../UserProvider';
@@ -35,7 +36,8 @@ function Ylapalkki() {
                     </Toolbar>
                 </AppBar>
                 <Outlet />
-                <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Etusivu</Typography>
+                <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center'}}>Etusivu</Typography>
+                <Typography variant="h4" sx={{ flexGrow: 1, textAlign: 'center', marginY: 2, color: '#7B1FA2' }}>Tervetuloa {user.userInfo.firstname + " " + user.userInfo.lastname}!</Typography>
 
                 <List sx={{ display: 'flex', flexDirection: 'column' }} >
                     <List sx={{ display: 'flex', flexDirection: 'row' }} >
@@ -76,7 +78,7 @@ function Ylapalkki() {
                             <>
                                 <ListItem component={Link} to="../users">
                                     <ListItemButton>
-                                        <ListItemIcon><PersonIcon /></ListItemIcon>
+                                        <ListItemIcon><PeopleIcon /></ListItemIcon>
                                         <ListItemText primary="Käyttäjät" />
                                     </ListItemButton>
                                 </ListItem>
@@ -84,7 +86,12 @@ function Ylapalkki() {
                         ) : (
                             <></>
                         )}
-                        <ListItem></ListItem>
+                        <ListItem component={Link} to="../profile">
+                            <ListItemButton>
+                                <ListItemIcon><PersonIcon /></ListItemIcon>
+                                <ListItemText primary='Omat tiedot' />
+                            </ListItemButton>
+                        </ListItem>
                     </List>
                     <List sx={{ display: 'flex', flexDirection: 'row' }} >
                         <ListItem>

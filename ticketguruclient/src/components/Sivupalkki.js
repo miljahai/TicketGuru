@@ -8,6 +8,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import PersonIcon from '@mui/icons-material/Person';
+import PeopleIcon from '@mui/icons-material/People';
 import LogoutIcon from '@mui/icons-material/Logout';
 import jwt_decode from "jwt-decode";
 
@@ -78,7 +79,7 @@ function Sivupalkki() {
             <>
               <ListItem component={Link} to="../users">
                 <ListItemButton>
-                  <ListItemIcon><PersonIcon /></ListItemIcon>
+                  <ListItemIcon><PeopleIcon /></ListItemIcon>
                   <ListItemText primary="Käyttäjät" />
                 </ListItemButton>
               </ListItem>
@@ -87,6 +88,12 @@ function Sivupalkki() {
           ) : (
             <></>
           )}
+          <ListItem component={Link} to="../profile">
+            <ListItemButton>
+              <ListItemIcon><PersonIcon /></ListItemIcon>
+              <ListItemText primary='Omat tiedot' />
+            </ListItemButton>
+          </ListItem>
           <ListItem>
             <ListItemButton>
               <ListItemIcon><LogoutIcon /></ListItemIcon>
