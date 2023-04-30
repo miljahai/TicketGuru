@@ -13,11 +13,13 @@ import Liput from "./Liput";
 import LipunTarkastus from "./LipunTarkastus";
 import Lipputyypit from "./Lipputyypit";
 import LisaaTapahtuma from "./components/LisaaTapahtuma";
+import Users from './Users';
 import { cyan } from "@mui/material/colors";
 import { Box, Container } from "@mui/system";
 import { useUser } from './UserProvider';
 import AccessDenied from './AccessDenied';
 import jwt_decode from "jwt-decode";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const theme = createTheme({
   palette: {
@@ -43,13 +45,21 @@ const theme = createTheme({
 function App() {
   const user = useUser();
   const [roles, setRoles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (user && user.jwt) {
       const decodedJwt = jwt_decode(user.jwt);
       setRoles(decodedJwt.authorities);
+      setLoading(false); 
+    } else {
+      setLoading(false); 
     }
   }, [user, user.jwt]);
+
+  if (loading) { 
+    return <CircularProgress />;
+  }
 
   return (
     <Container>
@@ -104,6 +114,18 @@ function App() {
                 <PrivateRoute>
                   <LisaaTapahtuma />
                 </PrivateRoute>} />
+              <Route
+                path="users"
+                element={
+                  roles.find((role) => role === "ADMIN") ? (
+                    <PrivateRoute>
+                      <Users />
+                    </PrivateRoute>
+                  ) : (
+                    <AccessDenied></AccessDenied>
+                  )
+                }
+              />
             </Routes>
           </BrowserRouter>
         </Box>

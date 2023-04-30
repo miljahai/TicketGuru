@@ -1,4 +1,6 @@
-import { Box, Typography, AppBar, Toolbar, Container, Button } from "@mui/material";
+import { Box, Button, Card, CardContent, CardHeader, Typography, AppBar, Toolbar, Container } from "@mui/material";
+import CreateIcon from '@mui/icons-material/Create';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Sivupalkki from "./components/Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -9,12 +11,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import ArticleIcon from '@mui/icons-material/Article';
 import jwt_decode from "jwt-decode";
-import Reports from "./components/Reports";
+import AppUsers from "./components/AppUsers";
 
 
-
-function Tapahtumat({ props }) {
-    const [events, setEvents] = useState([]);
+function Users({ props }) {
+    const [users, setUsers] = useState([]);
     const user = useUser();
     const [roles, setRoles] = useState([]);
 
@@ -27,16 +28,16 @@ function Tapahtumat({ props }) {
 
     useEffect(() => {
         Promise.all([
-            axios.get('http://localhost:8080/events', {
+            axios.get('http://localhost:8080/users', {
                 headers: {
                     'Authorization': `Bearer ${user.jwt}`
                 }
             })
-        ]).then(([eventsResponse]) => {
-            console.log('Events fetched:', eventsResponse.data);
-            setEvents(eventsResponse.data);
+        ]).then(([usersResponse]) => {
+            console.log('Users fetched:', usersResponse.data);
+            setUsers(usersResponse.data);
         }).catch(error => {
-            console.log('Error fetching events: ', error);
+            console.log('Error fetching users: ', error);
         });
     }, [user.jwt]);
 
@@ -50,20 +51,18 @@ function Tapahtumat({ props }) {
                     </Toolbar>
                 </AppBar>
                 <Outlet />
-                <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Tapahtumat</Typography>
+                <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Käyttäjät</Typography>
             </Box>
-            <Button component={Link} to="../tapahtumat" endIcon={<ArticleIcon />} variant='outlined' color='primary' >Tapahtumat</Button>
-            {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
+            {roles && roles.filter((role) => role === "ADMIN").length > 0 ? (
                 <>
-                    <Button component={Link} to="../tapahtumanlisays" endIcon={<AddIcon />} >Lisää tapahtuma</Button>
+                  <Button component={Link} to="../signup" endIcon={<AddIcon />} >Lisää Käyttäjä</Button>
                 </>
             ) : (
                 <></>
             )}
-            <Button component={Link} to='../lipputyypit' endIcon={<EditIcon />}  >Lipputyypit</Button>
-            <Events events={events} />
+            <AppUsers users={users} />
         </Container >
     )
 }
 
-export default Tapahtumat;
+export default Users;

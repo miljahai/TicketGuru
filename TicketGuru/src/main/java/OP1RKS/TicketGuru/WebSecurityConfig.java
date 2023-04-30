@@ -68,6 +68,7 @@ public class WebSecurityConfig {
 			.requestMatchers("/users").hasAuthority("ADMIN")
 			.requestMatchers("/users/**").hasAuthority("ADMIN")
 			.requestMatchers("/auth/register").hasAuthority("ADMIN")
+			.requestMatchers("/roles").hasAnyAuthority("ADMIN")
 			.requestMatchers("/events").authenticated()
 			.requestMatchers("/events/**").authenticated()
 			.requestMatchers("/tickets").authenticated()

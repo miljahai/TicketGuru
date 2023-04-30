@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import ArticleIcon from '@mui/icons-material/Article';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useUser } from '../UserProvider';
 import { useNavigate, useLocation } from "react-router-dom";
@@ -74,10 +74,10 @@ function Ylapalkki() {
                         )}
                         {roles && roles.filter((role) => role === "ADMIN").length > 0 ? (
                             <>
-                                <ListItem component={Link} to="../signup">
+                                <ListItem component={Link} to="../users">
                                     <ListItemButton>
-                                        <ListItemIcon><PersonAddIcon /></ListItemIcon>
-                                        <ListItemText primary="Lisää käyttäjä" />
+                                        <ListItemIcon><PersonIcon /></ListItemIcon>
+                                        <ListItemText primary="Käyttäjät" />
                                     </ListItemButton>
                                 </ListItem>
                             </>

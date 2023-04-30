@@ -46,10 +46,7 @@ export default function SignUp() {
         }
       })
       .then(([body, headers]) => {
-        //console.log(body);
-        //user.setJwt(body.token);
-        navigate("/");
-        //Tästä ohjaus käyttäjät sivulle, kun sellainen luotu
+        navigate("/users");
       })
       .catch((message) => {
         alert(message);
