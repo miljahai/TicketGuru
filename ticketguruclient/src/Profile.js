@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LockIcon from '@mui/icons-material/Lock';
-import { Box, Container, Typography, AppBar, Toolbar, Avatar, Card, CardHeader, CardContent, Button, CardActions} from "@mui/material";
+import { Box, Container, Typography, AppBar, Toolbar, Avatar, Card, CardHeader, CardContent, CardActions} from "@mui/material";
 import { Link, Outlet } from "react-router-dom";
 import { useUser } from './UserProvider';
 import Sivupalkki from './components/Sivupalkki';

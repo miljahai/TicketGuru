@@ -1,15 +1,10 @@
-import { Box, Button, Card, CardContent, CardHeader, Typography, AppBar, Toolbar, Container } from "@mui/material";
-import CreateIcon from '@mui/icons-material/Create';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Button, Typography, AppBar, Toolbar, Container } from "@mui/material";
 import Sivupalkki from "./components/Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Events from "./components/Events";
 import { useUser } from './UserProvider';
-import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import ArticleIcon from '@mui/icons-material/Article';
 import jwt_decode from "jwt-decode";
 import AppUsers from "./components/AppUsers";
 

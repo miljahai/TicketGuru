@@ -1,6 +1,6 @@
-import { Button, Dialog, DialogTitle, DialogActions, DialogContent, TextField, Autocomplete } from '@mui/material'
+import { Button, Dialog, DialogTitle, DialogActions, DialogContent, TextField } from '@mui/material'
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUser } from '../UserProvider';
 import LockIcon from '@mui/icons-material/Lock';
 
