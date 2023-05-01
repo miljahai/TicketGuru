@@ -1,7 +1,9 @@
-import { useRef } from 'react';
+import { useRef, useCallback } from 'react';
 //import { useUser } from '../util/UserProvider';
 import { AgGridReact } from 'ag-grid-react';
 import { Box, Button } from "@mui/material";
+
+
 
 
 
@@ -14,40 +16,46 @@ export default function Reports(props) {
     const gridRef = useRef();
     const gridOptions = {
      columnDefs : [
-        { headerName: 'Id', field: 'ticket_id', sortable: true, filter: true },
-        { headerName: 'Price', field: 'price', sortable: true, filter: true, enableValue: true, aggFunc: 'sum'},
-        { headerName: 'Sales event', field: 'salesEvent.salesevent_id', sortable: true, filter: true },
-        { headerName: 'Sale date', field: 'salesEvent.sale_date', sortable: true, filter: 'agDateColumnFilter'},
-        { headerName: 'Event', field: 'ticketType.eventRecord.eventrecord_name', sortable: true, filter: true },
-        { headerName: 'Ticket type', field: 'ticketType.name', sortable: true, filter: true },
-        
+        { headerName: 'Id', field: 'ticket_id', sortable: true, filter: true, width: 100 },
+        { headerName: 'Price', field: 'price', sortable: true, filter: true, width: 100},
+        { headerName: 'Salesevent', field: 'salesEvent.salesevent_id', sortable: true, filter: true, width: 100},
+        { headerName: 'Sale date', field: 'salesEvent.sale_date', sortable: true, filter: 'agDateColumnFilter',
+            cellRenderer: (data) => {
+                return data.value ? (new Date(data.value)).toLocaleDateString() : '';
+         }}, 
+        { headerName: 'Event', field: 'ticketType.eventRecord.eventrecord_name', sortable: true, filter: true},
+        { headerName: 'Ticket type', field: 'ticketType.name', sortable: true, filter: true }, 
+        { headerName: 'Myyjä ID', field: 'salesEvent.appUser.appuser_id', sortable: true, filter: true}
     ],
 
-     defaultColDef : {
-        cellStyle: () => ({ display: 'flex', alignItems: 'left', justifyContent: 'left' })
-    },
 }
+    const defaultColDef = {
+        cellStyle: () => ({ display: 'flex', alignItems: 'left', justifyContent: 'left' })
+    }
 
-   // function onExport() {
-       // gridOptions.api.exportDataAsExcel();
-    //  }
+    const onBtExport = useCallback(() => {
+        gridRef.current.api.exportDataAsCsv();
+    }, []);
       
     return (
         <Box>
-            <div className="ag-theme-material" style={{height: '700px', width: '100%', margin: 'auto'}}>
+            <div>
+          <Button onClick={onBtExport}>Export AS CSV</Button>
+            </div>
+            <div className="ag-theme-alpine" style={{height: '900px',width: '100%', margin: 'auto'}}>
 
                 <AgGridReact
+                    //onGridReady={params => gridRef.current = params.api
                     gridOptions={gridOptions}
+                    defaultColDef={defaultColDef}
                     ref={gridRef}
-                    onGridReady={params => gridRef.current = params.api}
                     rowData={tickets}
                     animateRows={true}
                     pagination={true}
                     paginationAutoPageSize={true}
-                    groupIncludeTotalFooter={true}
                 ></AgGridReact>
-            </div>
-        
+            </div>        
         </Box>
     )
 }
+
