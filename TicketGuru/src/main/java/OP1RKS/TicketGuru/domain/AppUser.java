@@ -78,6 +78,17 @@ public class AppUser implements UserDetails {
 		this.userrole = userrole;
 	}
 	
+	public AppUser(@NotNull @Size(max = 100, message = "name is too long") String firstname,
+			@NotNull @Size(max = 100, message = "name is too long") String lastname, @NotNull @Email String email,
+			UserRole userrole) {
+		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.deleted = false;
+		this.userrole = userrole;
+	}
+	
 	// From UserDetails
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
