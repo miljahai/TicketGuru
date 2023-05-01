@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, CardHeader, Typography } from "@mui/mat
 import axios from "axios";
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useEffect, useState,  } from "react";
+import { useEffect, useState, } from "react";
 import { useUser } from '../util/UserProvider';
 import jwt_decode from "jwt-decode";
 import 'dayjs/locale/fi';
@@ -40,7 +40,7 @@ function Events(props) {
             });
     }
 
-    const [event, setEvent]= useState({
+    const [event, setEvent] = useState({
         eventrecord_name: '',
         venue: '',
         city: '',
@@ -72,9 +72,9 @@ function Events(props) {
                                 <Typography>Lippujen enimmäismäärä: {event.ticketsmax}</Typography>
                             </CardContent>
                             {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
-                                <Box>
-                                    <Button onClick={(e) => handleClick(e)} variant="contained" startIcon={<CreateIcon />}>Muokkaa tapahtumaa</Button>
-                                    <Button onClick={(e) => deleteEvent(e, event.eventrecord_id)} color="secondary" variant="contained" startIcon={<DeleteIcon />}>Poista tapahtuma</Button>
+                                <Box sx={{}}>
+                                    <MuokkaaTapahtuma eventrecord={event} />
+                                    <Button onClick={(e) => deleteEvent(e, event.eventrecord_id)} color="secondary" variant="contained" startIcon={<DeleteIcon />} sx={{ m: 1 }}>Poista tapahtuma</Button>
                                 </Box>
                             ) : (
                                 <></>
