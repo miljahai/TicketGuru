@@ -2,13 +2,17 @@ import { Box, Button, Card, CardContent, CardHeader, Typography } from "@mui/mat
 import axios from "axios";
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useEffect, useState } from "react";
-import { useUser } from '../UserProvider';
+import { useEffect, useState,  } from "react";
+import { useUser } from '../util/UserProvider';
 import jwt_decode from "jwt-decode";
+import 'dayjs/locale/fi';
+import MuokkaaTapahtuma from "./MuokkaaTapahtuma";
+
 
 function Events(props) {
     const user = useUser();
     const [roles, setRoles] = useState([]);
+
 
     useEffect(() => {
         if (user && user.jwt) {
@@ -36,6 +40,23 @@ function Events(props) {
             });
     }
 
+    const [event, setEvent]= useState({
+        eventrecord_name: '',
+        venue: '',
+        city: '',
+        event_starttime: '',
+        event_endtime: '',
+        ticketsmax: '',
+    });
+
+    const handleClick = (e) => {
+        setEvent({
+            ...event,
+            [e.target.name]: e.target.value
+        });
+        MuokkaaTapahtuma(event);
+
+    }
     return (
         <Box>
             {
@@ -50,9 +71,9 @@ function Events(props) {
                                 <Typography>Lopetusaika: {(new Date(event.event_endtime)).toLocaleString()}</Typography>
                                 <Typography>Lippujen enimmäismäärä: {event.ticketsmax}</Typography>
                             </CardContent>
-                            {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
+                            {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
                                 <Box>
-                                    <Button variant="contained" startIcon={<CreateIcon />}>Muokkaa tapahtumaa</Button>
+                                    <Button onClick={(e) => handleClick(e)} variant="contained" startIcon={<CreateIcon />}>Muokkaa tapahtumaa</Button>
                                     <Button onClick={(e) => deleteEvent(e, event.eventrecord_id)} color="secondary" variant="contained" startIcon={<DeleteIcon />}>Poista tapahtuma</Button>
                                 </Box>
                             ) : (
@@ -65,4 +86,5 @@ function Events(props) {
         </Box>
     )
 }
+
 export default Events;

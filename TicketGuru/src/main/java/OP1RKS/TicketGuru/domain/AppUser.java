@@ -9,6 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -54,6 +56,7 @@ public class AppUser implements UserDetails {
 	private String email;
 	
 	@NotNull
+	@JsonIgnore
 	private String password;
 	
 	@Builder.Default
@@ -61,7 +64,7 @@ public class AppUser implements UserDetails {
 	
 	@Enumerated(EnumType.STRING)
 	private UserRole userrole;
-	
+		
 
 	public AppUser(@NotNull @Size(max = 100, message = "name is too long") String firstname,
 			@NotNull @Size(max = 100, message = "name is too long") String lastname, @NotNull @Email String email,
@@ -71,6 +74,17 @@ public class AppUser implements UserDetails {
 		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
+		this.deleted = false;
+		this.userrole = userrole;
+	}
+	
+	public AppUser(@NotNull @Size(max = 100, message = "name is too long") String firstname,
+			@NotNull @Size(max = 100, message = "name is too long") String lastname, @NotNull @Email String email,
+			UserRole userrole) {
+		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
 		this.deleted = false;
 		this.userrole = userrole;
 	}

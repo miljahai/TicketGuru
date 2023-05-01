@@ -1,15 +1,17 @@
 import React, { createContext, useContext } from 'react';
-import { useLocalState } from './util/useLocalStorage';
+import { useLocalState } from './useLocalStorage';
 
 const UserContext = createContext();
 
+// UserProvider is a wrapper component that provides the user object to any child component that calls the useUser hook.
 const UserProvider = ({ children }) => {
   const [jwt, setJwt] = useLocalState("", "jwt");
   const [authorities, setAuthorities] = useLocalState([], "authorities");
-  const value = { jwt, setJwt, authorities, setAuthorities };
-  const roles = { authorities, setAuthorities };
+  const [userInfo, setUserInfo] = useLocalState({}, "userInfo");
+  const value = { jwt, setJwt, authorities, setAuthorities, userInfo, setUserInfo };
+  console.log(userInfo);
   return (
-    <UserContext.Provider value={value} roles={roles}>
+    <UserContext.Provider value={value}>
       {children}
     </UserContext.Provider>
   );

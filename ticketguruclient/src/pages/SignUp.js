@@ -3,10 +3,10 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Box, Typography, AppBar, Toolbar, Container, Grid } from "@mui/material";
-import Sivupalkki from "./components/Sivupalkki";
+import Sivupalkki from "../components/Sivupalkki";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useUser } from './UserProvider';
+import { useUser } from '../util/UserProvider';
 
 
 export default function SignUp() {
@@ -16,8 +16,11 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  // Password must be 8-30 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/;
 
-  function createAndLoginUser(event) {
+  // Create new user
+  function createUser(event) {
     event.preventDefault();
     const reqBody = {
       email: email,
@@ -38,18 +41,18 @@ export default function SignUp() {
         if (response.status === 200) {
           return Promise.all([response.json(), response.headers]);
         } else if (response.status === 400)  {
+          // Bad request
           return Promise.reject("Bad request");
         } else if (response.status === 409)  {
+          // User with this email already exists
           return Promise.reject("User with this email already exists");
         } else { 
           return Promise.reject("Something went wrong");
         }
       })
       .then(([body, headers]) => {
-        //console.log(body);
-        //user.setJwt(body.token);
-        navigate("/");
-        //Tästä ohjaus käyttäjät sivulle, kun sellainen luotu
+        // Navigate to users page
+        navigate("/users");
       })
       .catch((message) => {
         alert(message);
@@ -82,7 +85,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={createAndLoginUser} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={createUser} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -132,6 +135,8 @@ export default function SignUp() {
                   autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  error={!passwordRegex.test(password)}
+                  helperText={!passwordRegex.test(password) ? 'Password must contain at least 8 characters including at least one uppercase letter, one lowercase letter, one number, and one special character.' : ''}
                 />
               </Grid>
             </Grid>

@@ -1,17 +1,16 @@
 import { Box, IconButton, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState, useEffect } from "react";
-import { useUser } from '../UserProvider';
+import { useUser } from '../util/UserProvider';
 import { useNavigate, useLocation } from "react-router-dom";
+import MenuIcon from '@mui/icons-material/Menu';
 import EditIcon from '@mui/icons-material/Edit';
 import ArticleIcon from '@mui/icons-material/Article';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonIcon from '@mui/icons-material/Person';
+import PeopleIcon from '@mui/icons-material/People';
 import LogoutIcon from '@mui/icons-material/Logout';
 import jwt_decode from "jwt-decode";
-
-
 import { Link } from "react-router-dom";
 
 function Sivupalkki() {
@@ -27,6 +26,7 @@ function Sivupalkki() {
   const handleClose = () => {
     setOpen(false);
   }
+
   useEffect(() => {
     if (user && user.jwt) {
       const decodedJwt = jwt_decode(user.jwt);
@@ -40,13 +40,6 @@ function Sivupalkki() {
       <Drawer
         anchor="left" open={open} onClick={handleClose}>
         <List>
-          <ListItem component={Link} to="../tapahtumat">
-            <ListItemButton>
-              <ListItemIcon><EditIcon /></ListItemIcon>
-              <ListItemText primary='Tapahtumat' />
-            </ListItemButton>
-          </ListItem>
-          <Divider />
           <ListItem component={Link} to="../liput">
             <ListItemButton>
               <ListItemIcon><ShoppingBasketIcon /></ListItemIcon>
@@ -61,7 +54,14 @@ function Sivupalkki() {
             </ListItemButton>
           </ListItem>
           <Divider />
-          {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
+          <ListItem component={Link} to="../tapahtumat">
+            <ListItemButton>
+              <ListItemIcon><EditIcon /></ListItemIcon>
+              <ListItemText primary='Tapahtumat' />
+            </ListItemButton>
+          </ListItem>
+          <Divider />
+          {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
             <>
               <ListItem component={Link} to="../raportit">
                 <ListItemButton>
@@ -74,12 +74,12 @@ function Sivupalkki() {
           ) : (
             <></>
           )}
-         {roles && roles.filter((role) => role === "ADMIN").length > 0 ? (
-            <> 
-              <ListItem component={Link} to="../signup">
+          {roles && roles.filter((role) => role === "ADMIN").length > 0 ? (
+            <>
+              <ListItem component={Link} to="../users">
                 <ListItemButton>
-                  <ListItemIcon><PersonAddIcon /></ListItemIcon>
-                  <ListItemText primary="Lisää käyttäjä" />
+                  <ListItemIcon><PeopleIcon /></ListItemIcon>
+                  <ListItemText primary="Käyttäjät" />
                 </ListItemButton>
               </ListItem>
               <Divider />
@@ -87,6 +87,12 @@ function Sivupalkki() {
           ) : (
             <></>
           )}
+          <ListItem component={Link} to="../profile">
+            <ListItemButton>
+              <ListItemIcon><PersonIcon /></ListItemIcon>
+              <ListItemText primary='Omat tiedot' />
+            </ListItemButton>
+          </ListItem>
           <ListItem>
             <ListItemButton>
               <ListItemIcon><LogoutIcon /></ListItemIcon>
