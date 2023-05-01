@@ -86,14 +86,6 @@ export default function Lipputyypit() {
                 </AppBar>
 
                 <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Lipputyypit</Typography>
-                <Typography variant="caption" sx={{ flexGrow: 1, textAlign: 'left' }}>
-                    <div hidden>Todo:<ul>
-                        <li>Tapahtuman päivittäminen Gridissä (nyt päivittyy vain nimi, ei event_id)</li>
-                        <li>Dialogin päivittyminen</li>
-                        <li>Gridissä muokatun lipputyypin muokkaus PUTtaus</li>
-                        <li>id pois gridistä (vasta kun muuten valmis! näkyvillä devausapuna)</li>
-                    </ul></div></Typography>
-
                 <Button component={Link} to="../tapahtumat" endIcon={<ArticleIcon />} color='primary' >Tapahtumat</Button>
                 {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
                     <>
