@@ -7,10 +7,10 @@ import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import PeopleIcon from '@mui/icons-material/People';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useUser } from '../UserProvider';
+import { useUser } from '../util/UserProvider';
 import { useNavigate, useLocation } from "react-router-dom";
 import { Link, Outlet } from "react-router-dom";
-import Sivupalkki from "./Sivupalkki";
+import Sivupalkki from "../components/Sivupalkki";
 import jwt_decode from "jwt-decode";
 
 function Ylapalkki() {

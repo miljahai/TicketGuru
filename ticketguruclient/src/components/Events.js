@@ -1,15 +1,10 @@
-import { Paper, Box, Button, Card, CardContent, CardHeader, Typography, Container, AppBar, Toolbar, TextField } from "@mui/material";
+import { Box, Button, Card, CardContent, CardHeader, Typography } from "@mui/material";
 import axios from "axios";
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState,  } from "react";
-import { useUser } from '../UserProvider';
+import { useUser } from '../util/UserProvider';
 import jwt_decode from "jwt-decode";
-import Sivupalkki from "./Sivupalkki";
-
-import { DateTimePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from "@mui/x-date-pickers";
 import 'dayjs/locale/fi';
 import MuokkaaTapahtuma from "./MuokkaaTapahtuma";
 

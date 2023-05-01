@@ -1,8 +1,4 @@
-import { Box, Typography, AppBar, Toolbar, Container, Select, MenuItem, Button, TextField, List, ListItem, ListItemText, ListItemButton, IconButton } from "@mui/material";
-import { Add, Remove, ConfirmationNumber, ArticleOutlined, Cancel, LibraryAddOutlined, AddCircleOutlineOutlined, RemoveCircleOutlineOutlined } from '@mui/icons-material';
-import { useEffect, useState } from "react";
-import { useUser } from '../UserProvider';
-import axios from "axios";
+import { Box } from "@mui/material";
 import ShowTicket from "./ShowTicket";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';

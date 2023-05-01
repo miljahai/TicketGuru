@@ -1,10 +1,11 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Box, Container, Typography, AppBar, Toolbar, Avatar, Card, CardHeader, CardContent, CardActions} from "@mui/material";
 import { Link, Outlet } from "react-router-dom";
-import { useUser } from './UserProvider';
-import Sivupalkki from './components/Sivupalkki';
-import ChangePassword from './components/ChangePassword';
+import { useUser } from '../util/UserProvider';
+import Sivupalkki from '../components/Sivupalkki';
+import ChangePassword from '../components/ChangePassword';
 
+// Show info of the logged in user
 function Profile() {
 
   const user = useUser();

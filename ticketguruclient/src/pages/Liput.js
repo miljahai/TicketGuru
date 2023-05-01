@@ -1,12 +1,11 @@
 import { Box, Typography, AppBar, Toolbar, Container, Select, MenuItem, Button, TextField, List, ListItem, ListItemText, ListItemButton } from "@mui/material";
 import { ArticleOutlined, Cancel, AddCircleOutlineOutlined, RemoveCircleOutlineOutlined } from '@mui/icons-material';
-import Sivupalkki from "./components/Sivupalkki";
-import ShowTicket from "./components/ShowTicket"
-import SoldTickets from "./components/SoldTickets";
-import CreateTickets from "./components/CreateTickets"
+import Sivupalkki from "../components/Sivupalkki";
+import SoldTickets from "../components/SoldTickets";
+import CreateTickets from "../components/CreateTickets"
 import { Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useUser } from './UserProvider';
+import { useUser } from '../util/UserProvider';
 import axios from "axios";
 import Table from '@mui/material/Table';
 import Paper from '@mui/material/Paper';
@@ -34,7 +33,7 @@ function Liput() {
     // Constants for Ticket table
     // Calculate tax for selected tickets
     const TAX_RATE = 0.1;
-    const SERVICE_PAYMENT = invoiceSubtotal == 0 ? 0 : 5;
+    const SERVICE_PAYMENT = invoiceSubtotal === 0 ? 0 : 5;
     const SERVICE_TAX = SERVICE_PAYMENT * 0.24;
     const SERVICE_PAYMENT_WO_TAX = 5 - SERVICE_TAX;
     const invoiceTaxes = TAX_RATE * invoiceSubtotal;
@@ -301,7 +300,7 @@ function Liput() {
                                     value={finalPrice}
                                     onChange={handleFinalPriceChange}
                                     sx={{ mt: 3 }}
-                                    disabled={invoiceSubtotal == 0 || tickets}
+                                    disabled={invoiceSubtotal === 0 || tickets}
                                 />
                                 <CreateTickets
                                     invoiceTotal={finalPrice}

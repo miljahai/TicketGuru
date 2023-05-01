@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogTitle, DialogActions, DialogContent, TextField, Autocomplete } from '@mui/material'
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useUser } from '../UserProvider';
+import { useUser } from '../util/UserProvider';
 import EditIcon from '@mui/icons-material/Edit';
 
 function UpdateUser(props) {
@@ -16,14 +16,17 @@ function UpdateUser(props) {
     userrole: props.user.userrole
   });
 
+  // Open Dialog
   const handleClickOpen = () => {
     setOpen(true);
   };
+  // Close Dialog
   const handleClose = () => {
     setUpdatedUser({})
     setOpen(false);
   };
 
+  // Fetch user roles for Dialog userrole selection
   useEffect(() => {
     Promise.all([
         axios.get('http://localhost:8080/roles', {
@@ -38,14 +41,15 @@ function UpdateUser(props) {
     });
 }, [user.jwt]);
 
-  
+  // Handle input changes
   const handleInputChange = (e) => {
     setUpdatedUser({
       ...updatedUser,
       [e.target.name]: e.target.value
     });
   };
-      
+  
+  // Update user
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(updatedUser);
@@ -57,6 +61,7 @@ function UpdateUser(props) {
     .then(response => {
       console.log(response);
       alert('User updated successfully!');
+      //  refresh page
       window.location.reload();
       handleClose();
     })

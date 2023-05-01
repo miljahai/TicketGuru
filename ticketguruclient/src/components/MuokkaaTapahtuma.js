@@ -1,7 +1,7 @@
 import { Container, Box, AppBar, Toolbar, Typography, Paper, TextField, Button } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useUser } from '../UserProvider';
+import { useUser } from '../util/UserProvider';
 import jwt_decode from "jwt-decode";
 import Sivupalkki from "./Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
@@ -25,12 +25,6 @@ function MuokkaaTapahtuma({ props }) {
         const eventId = props.event.id;
 
         const [viesti, setViesti] = useState('');
-
-        const config = {
-            headers: {
-                'Authorization': `Bearer ${user.jwt}`
-            }
-        }
         
         useEffect(() => {
             if (user && user.jwt) {
@@ -41,14 +35,18 @@ function MuokkaaTapahtuma({ props }) {
 
 
         useEffect(() => {
-            axios.get(`http://localhost:8080/events/${eventId}`, config)
+            axios.get(`http://localhost:8080/events/${eventId}`, {
+                headers: {
+                    'Authorization': `Bearer ${user.jwt}`
+                }
+            })
             .then(response => {
                 console.log(response.data);
                 setEvent(response.data);
             }).catch(error => {
                 console.log('Error fetching event: ', error);
             });
-        }, [eventId, config]);
+        }, [eventId, user.jwt]);
 
 
         
@@ -76,7 +74,11 @@ function MuokkaaTapahtuma({ props }) {
             }
         
             try {
-                await axios.put(`http://localhost:8080/events/${eventId}`, formData, config);
+                await axios.put(`http://localhost:8080/events/${eventId}`, formData, {
+                    headers: {
+                        'Authorization': `Bearer ${user.jwt}`
+                    }
+                })
                 setEvent({
                     eventrecord_name: '',
                     venue: '',

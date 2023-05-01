@@ -1,7 +1,7 @@
-import { Box, Typography, AppBar, Toolbar, Container, Select, MenuItem, Button, TextField, List, ListItem, ListItemText, ListItemButton, IconButton } from "@mui/material";
-import { Add, Remove, ConfirmationNumber, ArticleOutlined, Cancel, LibraryAddOutlined, AddCircleOutlineOutlined, RemoveCircleOutlineOutlined } from '@mui/icons-material';
+import { Typography, Button } from "@mui/material";
+import { LibraryAddOutlined } from '@mui/icons-material';
 import { useEffect, useState } from "react";
-import { useUser } from '../UserProvider';
+import { useUser } from '../util/UserProvider';
 import axios from "axios";
 
 export default function CreateTickets(props) {
@@ -17,7 +17,6 @@ export default function CreateTickets(props) {
         // Create a Salesevent and then create Tickets by looping selectedTicketTypes
 
         // Build body for SalesEvent call
-        // Todo: user id and user role -> props.
         //console.log(props.user)
         //setFinalPrice(invoiceTotal);
         console.log('InvoiceTotal: ', props.invoiceTotal)
@@ -25,7 +24,7 @@ export default function CreateTickets(props) {
             sale_date: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
             deleted: false,
             final_price: props.invoiceTotal,
-            appUser: { appuser_id: 1, userrole: "ADMIN" }
+            appUser: { appuser_id: user.userInfo.appuser_id, userrole: user.userInfo.userrole }
         };
 
         // Start tracking the state of fetching tickets
@@ -43,26 +42,25 @@ export default function CreateTickets(props) {
             }).then((response) => {
                 console.log('SalesEvent created: ', response.data);
                 const selectedSalesEvent = response.data.salesevent_id
-                {
-                    props.selectedTicketTypes.map((tt) => {
-
-                        const ticketbody = {
-                            ticketType: { ticket_type_id: tt[0].ticket_type_id },
-                            salesEvent: { salesevent_id: selectedSalesEvent }
-                        };
-                        axios.post(`http://localhost:8080/tickets`, ticketbody,
-                            {
-                                headers: {
-                                    'Authorization': `Bearer ${user.jwt}`
-                                }
-                            }).then((response) => {
-                                console.log('Ticket created: ', response.data);
-                                setNewTickets((prevTickets) => [...prevTickets, response.data.ticket_id]);
-                            }).catch((error) => {
-                                console.log('Error creating Ticket: ', error)
-                            })
-                    })
-                }
+                
+                props.selectedTicketTypes.map((tt) => {
+                    const ticketbody = {
+                        ticketType: { ticket_type_id: tt[0].ticket_type_id },
+                        salesEvent: { salesevent_id: selectedSalesEvent }
+                    };
+                    return axios.post(`http://localhost:8080/tickets`, ticketbody,
+                        {
+                            headers: {
+                                'Authorization': `Bearer ${user.jwt}`
+                            }
+                        }).then((response) => {
+                            console.log('Ticket created: ', response.data);
+                            setNewTickets((prevTickets) => [...prevTickets, response.data.ticket_id]);
+                        }).catch((error) => {
+                            console.log('Error creating Ticket: ', error)
+                        });
+                });
+                
                 setViesti('Myyntitapahtuma suoritettu')
                 console.log(newTickets);
                 axios.get('http://localhost:8080/tickets', {
@@ -105,20 +103,20 @@ export default function CreateTickets(props) {
                     console.log('Error fetching tickets: ', error);
                 });
         }
-    }, [newTickets]);
+    }, [newTickets, fetchingTickets, tickets, props, user.jwt]);
 
     useEffect(() => {
         if (tickets.length && !fetchingTickets) {
             props.setTickets(tickets);
         }
-    }, [tickets])
+    }, [tickets, fetchingTickets, props])
 
     return (
         <div>
             <Button
                 variant='contained'
                 onClick={handleSubmit}
-                disabled={props.invoiceSubtotal == 0 || tickets.length}
+                disabled={props.invoiceSubtotal === 0 || tickets.length}
                 sx={{ m: 1 }}
             >
                 <LibraryAddOutlined />

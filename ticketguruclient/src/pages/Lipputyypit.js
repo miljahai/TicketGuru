@@ -1,15 +1,14 @@
 import { Box, Typography, AppBar, Toolbar, Container, Button } from "@mui/material";
-import Sivupalkki from "./components/Sivupalkki";
+import Sivupalkki from "../components/Sivupalkki";
 import { Link } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import TicketTypesGrid from "./components/TicketTypesGrid";
-import { useUser } from './UserProvider';
+import TicketTypesGrid from "../components/TicketTypesGrid";
+import { useUser } from '../util/UserProvider';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import ArticleIcon from '@mui/icons-material/Article';
-import { Delete } from '@mui/icons-material';
-import AddTicketTypes from './components/AddTicketTypes';
+import AddTicketTypes from '../components/AddTicketTypes';
 import jwt_decode from "jwt-decode";
 
 export default function Lipputyypit() {

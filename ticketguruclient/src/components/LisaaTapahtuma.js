@@ -3,7 +3,7 @@ import Sivupalkki from "./Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
-import { useUser } from "../UserProvider";
+import { useUser } from "../util/UserProvider";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from "@mui/x-date-pickers";

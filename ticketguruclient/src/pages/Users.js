@@ -1,26 +1,18 @@
 import { Box, Button, Typography, AppBar, Toolbar, Container } from "@mui/material";
-import Sivupalkki from "./components/Sivupalkki";
+import Sivupalkki from "../components/Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useUser } from './UserProvider';
+import { useUser } from '../util/UserProvider';
 import AddIcon from '@mui/icons-material/Add';
-import jwt_decode from "jwt-decode";
-import AppUsers from "./components/AppUsers";
+import AppUsers from "../components/AppUsers";
 
 
-function Users({ props }) {
+function Users() {
     const [users, setUsers] = useState([]);
     const user = useUser();
-    const [roles, setRoles] = useState([]);
 
-    useEffect(() => {
-        if (user && user.jwt) {
-            const decodedJwt = jwt_decode(user.jwt);
-            setRoles(decodedJwt.authorities);
-        }
-    }, [user, user.jwt]);
-
+    // Get all users
     useEffect(() => {
         Promise.all([
             axios.get('http://localhost:8080/users', {
@@ -48,13 +40,7 @@ function Users({ props }) {
                 <Outlet />
                 <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Käyttäjät</Typography>
             </Box>
-            {roles && roles.filter((role) => role === "ADMIN").length > 0 ? (
-                <>
-                  <Button component={Link} to="../signup" endIcon={<AddIcon />} >Lisää Käyttäjä</Button>
-                </>
-            ) : (
-                <></>
-            )}
+                <Button component={Link} to="../signup" endIcon={<AddIcon />} >Lisää Käyttäjä</Button>
             <AppUsers users={users} />
         </Container >
     )

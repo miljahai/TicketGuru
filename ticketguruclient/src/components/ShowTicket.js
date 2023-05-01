@@ -1,7 +1,7 @@
 import { Box, Typography, Container, Button, IconButton, Dialog, DialogTitle, DialogActions, DialogContent } from "@mui/material";
 import { ConfirmationNumber, } from '@mui/icons-material';
 import { useEffect, useState } from "react";
-import { useUser } from '../UserProvider';
+import { useUser } from '../util/UserProvider';
 
 export default function ShowTicket(props) {
     const [open, setOpen] = useState(false);
@@ -30,7 +30,7 @@ export default function ShowTicket(props) {
             setQRCode(url);
         }
         fetchQRCode();
-    }, []);
+    }, [code, user.jwt]);
 
     const printTicket = () => {
         const printHeader = document.getElementById("ticket-dialog-title").innerHTML;

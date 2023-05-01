@@ -1,10 +1,10 @@
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React, { useRef, useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
 import axios from "axios";
-import { useUser } from '../UserProvider';
+import { useUser } from '../util/UserProvider';
 import { Delete } from '@mui/icons-material';
 import jwt_decode from "jwt-decode";
 
@@ -43,9 +43,9 @@ export default function TicketTypesGrid(props) {
         });
     }
 
-    const refreshGrid = () => {
+    /*const refreshGrid = () => {
         gridRef.current.api.refreshCells();
-    }
+    }*/
 
     const deleteTickettype = () => {
         // Delete selected TicketType

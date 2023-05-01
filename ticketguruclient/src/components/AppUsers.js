@@ -2,15 +2,16 @@ import { Box, Button, Card, CardContent, CardHeader, Typography } from "@mui/mat
 import axios from "axios";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState,  } from "react";
-import { useUser } from '../UserProvider';
+import { useUser } from '../util/UserProvider';
 import jwt_decode from "jwt-decode";
 import UpdateUser from "./UpdateUser";
 
-
+// AppUsers component for listing and deleting users
 function AppUser(props) {
   const user = useUser();
   const [roles, setRoles] = useState([]);
 
+  // Get user roles from JWT
   useEffect(() => {
       if (user && user.jwt) {
           const decodedJwt = jwt_decode(user.jwt);
@@ -18,6 +19,7 @@ function AppUser(props) {
       }
   }, [user, user.jwt]);
 
+  // Delete user
   const deleteUser = (e, userId) => {
     e.preventDefault();
     axios.delete(`http://localhost:8080/users/${userId}`, {
@@ -27,6 +29,7 @@ function AppUser(props) {
     })
       .then(response => {
           console.log(response);
+          // Refresh page
           window.location.reload();
       })
       .catch(error => {

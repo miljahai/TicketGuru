@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Box, Typography, AppBar, Toolbar, Container } from "@mui/material";
-import Sivupalkki from "./components/Sivupalkki";
+import Sivupalkki from "../components/Sivupalkki";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useUser } from './UserProvider';
+import { useUser } from '../util/UserProvider';
 
 const Login = () => {
   const user = useUser();
@@ -14,17 +14,19 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Redirect to home page if user is already logged in
   useEffect(() => {
     if (user.jwt) navigate("/");
   }, [user, navigate]);
 
+  // Send login request
   const sendLoginRequest = (event) => {
     event.preventDefault();
     const reqBody = {
       email: email,
       password: password,
     };
-
+    // Get JWT token from server
     fetch("http://localhost:8080/auth/login", {
       headers: {
         "Content-Type": "application/json",
@@ -42,6 +44,7 @@ const Login = () => {
         }
       })
       .then(([body, headers]) => {
+          // Save JWT token and user info to context
           user.setJwt(headers.get("Authorization"));
           user.setUserInfo(body);
       })

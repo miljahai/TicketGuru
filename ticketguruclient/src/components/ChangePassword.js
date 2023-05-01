@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogTitle, DialogActions, DialogContent, TextField } from '@mui/material'
 import axios from "axios";
 import { useState } from "react";
-import { useUser } from '../UserProvider';
+import { useUser } from '../util/UserProvider';
 import LockIcon from '@mui/icons-material/Lock';
 
 function ChangePassword(props) {
@@ -11,6 +11,7 @@ function ChangePassword(props) {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  // Password must contain at least 8 characters including at least one uppercase letter, one lowercase letter, one number, and one special character.
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/;
 
   const handleClickOpen = () => {
@@ -22,10 +23,12 @@ function ChangePassword(props) {
       
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Validate password
     const isPasswordValid = validatePassword();
     if (!isPasswordValid) {
       return;
     }
+    // Password is valid, send request to backend
     axios.put(`http://localhost:8080/auth/change-password`, {
       email: email,
       currentPassword: currentPassword,
@@ -47,8 +50,10 @@ function ChangePassword(props) {
     });
   };
 
+  // Check if passwords match
   const validatePassword = () => {
     if (newPassword !== confirmPassword) {
+      // Passwords do not match, return false
       alert('Passwords do not match');
       return false;
     }

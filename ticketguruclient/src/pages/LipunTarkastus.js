@@ -1,8 +1,8 @@
 import { Box, Typography, AppBar, Toolbar, Container, TextField, Button } from "@mui/material";
-import Sivupalkki from "./components/Sivupalkki";
+import Sivupalkki from "../components/Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
 import { useState } from "react";
-import { useUser } from './UserProvider';
+import { useUser } from '../util/UserProvider';
 
 function LipunTarkastus() {
   const [code, setCode] = useState("");

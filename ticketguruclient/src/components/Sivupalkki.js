@@ -1,6 +1,6 @@
 import { Box, IconButton, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { useUser } from '../UserProvider';
+import { useUser } from '../util/UserProvider';
 import { useNavigate, useLocation } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import EditIcon from '@mui/icons-material/Edit';
@@ -11,8 +11,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import PeopleIcon from '@mui/icons-material/People';
 import LogoutIcon from '@mui/icons-material/Logout';
 import jwt_decode from "jwt-decode";
-
-
 import { Link } from "react-router-dom";
 
 function Sivupalkki() {
@@ -28,6 +26,7 @@ function Sivupalkki() {
   const handleClose = () => {
     setOpen(false);
   }
+
   useEffect(() => {
     if (user && user.jwt) {
       const decodedJwt = jwt_decode(user.jwt);
