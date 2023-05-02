@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.649a8b63.css",
-    "main.js": "/static/js/main.c4dadfe6.js",
-    "static/js/787.44133fcd.chunk.js": "/static/js/787.44133fcd.chunk.js",
-    "static/media/403error.png": "/static/media/403error.ce1635685095a5fc6fd4.png",
-    "index.html": "/index.html",
-    "main.649a8b63.css.map": "/static/css/main.649a8b63.css.map",
-    "main.c4dadfe6.js.map": "/static/js/main.c4dadfe6.js.map",
-    "787.44133fcd.chunk.js.map": "/static/js/787.44133fcd.chunk.js.map"
+    "main.css": "/TicketGuru/static/css/main.649a8b63.css",
+    "main.js": "/TicketGuru/static/js/main.95aa7164.js",
+    "static/js/787.44133fcd.chunk.js": "/TicketGuru/static/js/787.44133fcd.chunk.js",
+    "static/media/403error.png": "/TicketGuru/static/media/403error.ce1635685095a5fc6fd4.png",
+    "index.html": "/TicketGuru/index.html",
+    "main.649a8b63.css.map": "/TicketGuru/static/css/main.649a8b63.css.map",
+    "main.95aa7164.js.map": "/TicketGuru/static/js/main.95aa7164.js.map",
+    "787.44133fcd.chunk.js.map": "/TicketGuru/static/js/787.44133fcd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.649a8b63.css",
-    "static/js/main.c4dadfe6.js"
+    "static/js/main.95aa7164.js"
   ]
 }
