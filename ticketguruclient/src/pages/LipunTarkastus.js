@@ -1,8 +1,8 @@
 import { Box, Typography, AppBar, Toolbar, Container, TextField, Button } from "@mui/material";
-import Sivupalkki from "./components/Sivupalkki";
+import Sivupalkki from "../components/Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
 import { useState } from "react";
-import { useUser } from './UserProvider';
+import { useUser } from '../util/UserProvider';
 
 function LipunTarkastus() {
   const [code, setCode] = useState("");
@@ -48,8 +48,8 @@ function LipunTarkastus() {
       const response = await fetch(`http://localhost:8080/qrcode/${code}`, {
         headers: {
           'Authorization': `Bearer ${user.jwt}`
-          },
-        });
+        },
+      });
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       setQRCode(url);
@@ -90,7 +90,7 @@ function LipunTarkastus() {
         <Typography variant="h2" sx={{ p: 2, flexGrow: 1, textAlign: 'center' }}>Lipun tarkastus</Typography>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
           <TextField label="Lipun koodi" variant="outlined" value={code} onChange={handleCodeChange} sx={{ mb: 2 }} />
-          <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+          <Button variant="contained" onClick={handleSubmit}>Tarkasta</Button>
         </Box>
         {ticket && (
           <div>
@@ -102,7 +102,9 @@ function LipunTarkastus() {
             {used && <p>Käytetty: {new Date(used).toLocaleString()}</p>}
             {qrCode == null && <Button onClick={showQr}>Näytä QR-koodi</Button>}
             {qrCode && <img src={qrCode} alt="QR Code" />}
-            <Button variant="contained" color="primary" onClick={markAsUsed}>Merkitse lippu käytetyksi</Button>
+            <div>
+              <Button variant="contained" color="primary" onClick={markAsUsed}>Merkitse lippu käytetyksi</Button>
+            </div>
           </div>
         )}
         {error && <div>Error: {error}</div>}

@@ -24,20 +24,21 @@ export default function AddTicketTypes(props) {
         //console.log(tickettype)
     };
     const addTickettype = () => {
+        // Build tickettype to be send to server
+        // Close Dialog
+        // Clear Dialog fields
         const tickettypetosent = {
             name: tickettype.name,
             price: tickettype.price,
             eventRecord: { eventrecord_id: tickettype.eventrecord_id }
         }
-        console.log(tickettypetosent);
+        //console.log(tickettypetosent);
         props.saveTickettype(tickettypetosent);
         handleClose();
         setTickettype({ eventrecord_name: '', name: '', price: '', eventrecord_id: 0 })
     }
 
-    // Configuration for event selector
-    //
-    // get events:
+    // Fetch events for Dialog event selection:
     useEffect(() => {
         Promise.all([
             axios.get('http://localhost:8080/events', {
@@ -70,6 +71,7 @@ export default function AddTicketTypes(props) {
                         getOptionLabel={(option) => option.eventrecord_name || ''}
                         renderInput={(params) => <TextField {...params} label="Tapahtuma" />}
                         value={selectedEvent.eventrecord_name}
+                        defaultValue={null}
                         freeSolo={true}
                         name='eventrecord_name'
                         onChange={(event, value) => {

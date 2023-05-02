@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect} from 'react'
 import { Box, Typography, AppBar, Toolbar, Container } from "@mui/material";
-import Sivupalkki from "./components/Sivupalkki";
+import Sivupalkki from "../components/Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
-import { useUser } from './UserProvider'
+import { useUser } from '../util/UserProvider'
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import Reports from './components/Reports'
+import Reports from '../components/Reports'
+
+
 
 function Raportit() {
 
@@ -49,8 +51,9 @@ function Raportit() {
                 <Typography variant="h2" sx={{ p: 2, flexGrow: 1, textAlign: 'center' }}>Raportit</Typography>
                 {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
                     <Reports tickets={tickets} />
+                    
                 ) : (
-                    <></>
+                    <></>      
                 )}
             </Box>
         </Container>

@@ -1,20 +1,22 @@
 import { Box, Paper, TextField, Container, AppBar, Toolbar, Typography, Button } from "@mui/material";
-import Sivupalkki from "./components/Sivupalkki";
-import { Link, Outlet } from "react-router-dom";
-import axios from "axios";
-import { useState } from "react";
-import { useUser } from "./UserProvider";
-import { DateTimePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import 'dayjs/locale/fi';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import ArticleIcon from '@mui/icons-material/Article';
+import Sivupalkki from "./Sivupalkki";
+import { Link, Outlet } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useUser } from "../util/UserProvider";
+import { DateTimePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import jwt_decode from "jwt-decode";
+import 'dayjs/locale/fi';
 
 
 function LisaaTapahtuma() {
     const user = useUser();
+    const [roles, setRoles] = useState([]);
     const [event, setEvent] = useState({
         eventrecord_name: '',
         venue: '',
@@ -33,6 +35,14 @@ function LisaaTapahtuma() {
         });
         setViesti('');
     };
+
+
+    useEffect(() => {
+        if (user && user.jwt) {
+            const decodedJwt = jwt_decode(user.jwt);
+            setRoles(decodedJwt.authorities);
+        }
+    }, [user, user.jwt]);
 
     const [selectedStartDate, setSelectedStartDate] = useState(null);
     const [selectedEndDate, setSelectedEndDate] = useState(null);
@@ -89,13 +99,18 @@ function LisaaTapahtuma() {
                         <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
                     </Toolbar>
                 </AppBar>
-                <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Lisää tapahtuma</Typography>
                 <Outlet />
+                <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Lisää tapahtuma</Typography>
+                <Button component={Link} to="../tapahtumat" endIcon={<ArticleIcon />} color='primary' >Tapahtumat</Button>
+                {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
+                    <>
+                        <Button component={Link} to="../tapahtumanlisays" variant='outlined' endIcon={<AddIcon />} >Lisää tapahtuma</Button>
+                    </>
+                ) : (
+                    <></>
+                )}
             </Box>
-            <Button component={Link} to="../tapahtumat" endIcon={<ArticleIcon />} color='primary' >Tapahtumat</Button>
-            <Button component={Link} to="../tapahtumanlisays" endIcon={<AddIcon />} variant='outlined' >Lisää tapahtuma</Button>
             <Button component={Link} to='../lipputyypit' endIcon={<EditIcon />}  >Lipputyypit</Button>
-            <div></div>
             <Paper>
                 <Box
                     component='form'>
@@ -108,7 +123,7 @@ function LisaaTapahtuma() {
                     <TextField label='Tapahtumakaupunki' name="city" value={event.city}
                         onChange={(e) => muuta(e)} fullWidth />
 
-                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='fi'>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='fi' >
                         <DateTimePicker label='Alkamisaika' name="event_starttime" value={event.event_starttime}
                             onChange={(e) => setSelectedStartDate(e)} required fullWidth />
 

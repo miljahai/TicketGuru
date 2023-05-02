@@ -3,21 +3,24 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './Login';
-import SignUp from './SignUp';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 import PrivateRoute from './PrivateRoute';
-import Ylapalkki from "./components/Ylapalkki";
-import Tapahtumat from "./Tapahtumat";
-import Raportit from "./Raportit";
-import Liput from "./Liput";
-import LipunTarkastus from "./LipunTarkastus";
-import Lipputyypit from "./Lipputyypit";
-import LisaaTapahtuma from "./LisaaTapahtuma";
+import Ylapalkki from "./pages/Home";
+import Tapahtumat from "./pages/Tapahtumat";
+import Raportit from "./pages/Raportit";
+import Liput from "./pages/Liput";
+import LipunTarkastus from "./pages/LipunTarkastus";
+import Lipputyypit from './pages/Lipputyypit';
+import LisaaTapahtuma from "./components/LisaaTapahtuma";
+import Users from './pages/Users';
+import Profile from './pages/Profile';
 import { cyan } from "@mui/material/colors";
 import { Box, Container } from "@mui/system";
-import { useUser } from './UserProvider';
+import { useUser } from './util/UserProvider';
 import AccessDenied from './AccessDenied';
 import jwt_decode from "jwt-decode";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const theme = createTheme({
   palette: {
@@ -43,13 +46,22 @@ const theme = createTheme({
 function App() {
   const user = useUser();
   const [roles, setRoles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (user && user.jwt) {
       const decodedJwt = jwt_decode(user.jwt);
       setRoles(decodedJwt.authorities);
+      setLoading(false); 
+    } else {
+      setLoading(false); 
     }
   }, [user, user.jwt]);
+
+  // Show loading indicator while the user is being fetched
+  if (loading) { 
+    return <CircularProgress />;
+  }
 
   return (
     <Container>
@@ -62,12 +74,12 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="tapahtumat" element={
                 <PrivateRoute>
-                  <Tapahtumat roles={roles}/>
+                  <Tapahtumat roles={roles} />
                 </PrivateRoute>} />
               <Route
                 path="raportit"
                 element={
-                  roles.find((role) => role === "ADMIN" || role === "EVENT") ? (
+                  roles.find((role) => role === "ADMIN" || role === "EVENTS") ? (
                     <PrivateRoute>
                       <Raportit />
                     </PrivateRoute>
@@ -76,7 +88,7 @@ function App() {
                   )
                 }
               />
-               <Route
+              <Route
                 path="signup"
                 element={
                   roles.find((role) => role === "ADMIN") ? (
@@ -101,8 +113,24 @@ function App() {
                   <Lipputyypit />
                 </PrivateRoute>} />
               <Route path="tapahtumanlisays" element={
-              <PrivateRoute>
-                <LisaaTapahtuma />
+                <PrivateRoute>
+                  <LisaaTapahtuma />
+                </PrivateRoute>} />
+              <Route
+                path="users"
+                element={
+                  roles.find((role) => role === "ADMIN") ? (
+                    <PrivateRoute>
+                      <Users />
+                    </PrivateRoute>
+                  ) : (
+                    <AccessDenied></AccessDenied>
+                  )
+                }
+              />
+              <Route path="profile" element={
+                <PrivateRoute>
+                  <Profile />
                 </PrivateRoute>} />
             </Routes>
           </BrowserRouter>
