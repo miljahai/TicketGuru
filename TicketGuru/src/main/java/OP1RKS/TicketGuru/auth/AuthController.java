@@ -31,7 +31,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000/", "http://localhost:8080"}, allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:3000/", "http://localhost:8080", "https://cen-cenru4.azurewebsites.net", "https://miljahai.github.io"}, allowCredentials = "true")
 public class AuthController {
 	
 	protected final Log logger = LogFactory.getLog(getClass());
