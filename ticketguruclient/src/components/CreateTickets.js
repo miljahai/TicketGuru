@@ -46,6 +46,7 @@ export default function CreateTickets(props) {
                 props.selectedTicketTypes.map((tt) => {
                     const ticketbody = {
                         ticketType: { ticket_type_id: tt[0].ticket_type_id },
+                        price: tt[0].price,
                         salesEvent: { salesevent_id: selectedSalesEvent }
                     };
                     return axios.post(`http://localhost:8080/tickets`, ticketbody,
