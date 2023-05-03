@@ -42,7 +42,7 @@ export default function CreateTickets(props) {
             }).then((response) => {
                 console.log('SalesEvent created: ', response.data);
                 const selectedSalesEvent = response.data.salesevent_id
-                
+
                 props.selectedTicketTypes.map((tt) => {
                     const ticketbody = {
                         ticketType: { ticket_type_id: tt[0].ticket_type_id },
@@ -60,7 +60,7 @@ export default function CreateTickets(props) {
                             console.log('Error creating Ticket: ', error)
                         });
                 });
-                
+
                 setViesti('Myyntitapahtuma suoritettu')
                 console.log(newTickets);
                 axios.get('http://localhost:8080/tickets', {
@@ -89,27 +89,28 @@ export default function CreateTickets(props) {
                     },
                 })
                 .then((response) => {
-                    console.log('Tickets fetched: ', response.data);
-                    setTickets(
-                        response.data.filter((ticket) =>
-                            newTickets.includes(ticket.ticket_id)
-                        )
+                    console.log('Tickets fetched 2: ', response.data);
+                    const filteredTickets = response.data.filter((ticket) =>
+                        newTickets.includes(ticket.ticket_id)
                     );
-                    console.log('New Tickets: ', tickets);
+                    setTickets(filteredTickets);
+                    console.log('New Tickets: ', filteredTickets);
                     props.setNewTickets(newTickets);
-                    props.setTickets(tickets);
+                    props.setTickets(filteredTickets);
+                    setFetchingTickets(false);
                 })
                 .catch((error) => {
                     console.log('Error fetching tickets: ', error);
                 });
         }
-    }, [newTickets, fetchingTickets, tickets, props, user.jwt]);
+    }, [newTickets, fetchingTickets, user.jwt, props.setNewTickets, props.setTickets]);
+
 
     useEffect(() => {
         if (tickets.length && !fetchingTickets) {
             props.setTickets(tickets);
         }
-    }, [tickets, fetchingTickets, props])
+    }, [])
 
     return (
         <div>

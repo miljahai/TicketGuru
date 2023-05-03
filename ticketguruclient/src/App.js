@@ -68,7 +68,8 @@ function App() {
       <ThemeProvider theme={theme}>
         <Box component="span" sx={{ p: 2 }}>
           <CssBaseline />
-          <BrowserRouter basename={process.env.PUBLIC_URL}>
+          {/** <BrowserRouter basename={process.env.PUBLIC_URL}> */}
+          <BrowserRouter>
             <Routes>
               <Route path="/" element={<Ylapalkki />} />
               <Route path="/login" element={<Login />} />
