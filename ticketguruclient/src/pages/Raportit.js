@@ -1,4 +1,4 @@
-import { useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import { Box, Typography, AppBar, Toolbar, Container } from "@mui/material";
 import Sivupalkki from "../components/Sivupalkki";
 import { Link, Outlet } from "react-router-dom";
@@ -49,11 +49,11 @@ function Raportit() {
                 </AppBar>
                 <Outlet />
                 <Typography variant="h2" sx={{ p: 2, flexGrow: 1, textAlign: 'center' }}>Raportit</Typography>
-                {roles && roles.filter((role) => role === "ADMIN" || role === "EVENT").length > 0 ? (
+                {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
                     <Reports tickets={tickets} />
-                    
+
                 ) : (
-                    <></>      
+                    <></>
                 )}
             </Box>
         </Container>
