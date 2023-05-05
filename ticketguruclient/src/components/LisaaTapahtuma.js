@@ -12,6 +12,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import jwt_decode from "jwt-decode";
 import 'dayjs/locale/fi';
+import dayjs from "dayjs";
 
 
 function LisaaTapahtuma() {
@@ -122,18 +123,16 @@ function LisaaTapahtuma() {
 
                     <TextField label='Tapahtumakaupunki' name="city" value={event.city}
                         onChange={(e) => muuta(e)} fullWidth />
+                    
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='fi'>
+                    <DateTimePicker label='Alkamisaika' name="event_starttime" value={event.event_starttime}
+                        onChange={(e) => setSelectedStartDate(e)} required fullWidth format="DD.MM.YYYY HH:mm" />
 
-                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='fi' >
-                        <DateTimePicker label='Alkamisaika' name="event_starttime" value={event.event_starttime}
-                            onChange={(e) => setSelectedStartDate(e)} required fullWidth />
-
-                        <DateTimePicker label='Päättymisaika' name="event_endtime" value={event.event_endtime}
-                            onChange={(e) => setSelectedEndDate(e)} required fullWidth />
+                    <DateTimePicker label= 'Päättymisaika' name="event_endtime" value={event.event_endtime}
+                        onChange={(e) => setSelectedEndDate(e)} required fullWidth  format="DD.MM.YYYY HH:mm"/>
                     </LocalizationProvider>
-
-                    <TextField label="Lippujen enimmäismäärä" name="ticketsmax" value={event.ticketsmax}
-                        onChange={(e) => muuta(e)} fullWidth />
-
+                    
+                    <TextField label ="Lippujen enimmäismäärä" name="ticketsmax" value={event.ticketsmax} onChange={(e) => muuta(e)} fullWidth />
 
                     <Button onClick={(e) => lisaa(e)}>Tallenna</Button>
 
