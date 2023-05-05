@@ -12,7 +12,7 @@ import Raportit from "./pages/Raportit";
 import Liput from "./pages/Liput";
 import LipunTarkastus from "./pages/LipunTarkastus";
 import Lipputyypit from './pages/Lipputyypit';
-import LisaaTapahtuma from "./components/LisaaTapahtuma";
+import AddEvent from "./components/AddEvent";
 import Users from './pages/Users';
 import Profile from './pages/Profile';
 import { cyan } from "@mui/material/colors";
@@ -52,14 +52,14 @@ function App() {
     if (user && user.jwt) {
       const decodedJwt = jwt_decode(user.jwt);
       setRoles(decodedJwt.authorities);
-      setLoading(false); 
+      setLoading(false);
     } else {
-      setLoading(false); 
+      setLoading(false);
     }
   }, [user, user.jwt]);
 
   // Show loading indicator while the user is being fetched
-  if (loading) { 
+  if (loading) {
     return <CircularProgress />;
   }
 
@@ -68,6 +68,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Box component="span" sx={{ p: 2 }}>
           <CssBaseline />
+          {/** <BrowserRouter basename={process.env.PUBLIC_URL}> */}
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Ylapalkki />} />
@@ -114,7 +115,7 @@ function App() {
                 </PrivateRoute>} />
               <Route path="tapahtumanlisays" element={
                 <PrivateRoute>
-                  <LisaaTapahtuma />
+                  <AddEvent />
                 </PrivateRoute>} />
               <Route
                 path="users"

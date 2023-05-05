@@ -6,7 +6,7 @@ import { useEffect, useState, } from "react";
 import { useUser } from '../util/UserProvider';
 import jwt_decode from "jwt-decode";
 import 'dayjs/locale/fi';
-import MuokkaaTapahtuma from "./MuokkaaTapahtuma";
+import EditEvent from "./EditEvent";
 
 
 function Events(props) {
@@ -54,7 +54,7 @@ function Events(props) {
             ...event,
             [e.target.name]: e.target.value
         });
-        MuokkaaTapahtuma(event);
+        EditEvent(event);
 
     }
     return (
@@ -73,7 +73,7 @@ function Events(props) {
                             </CardContent>
                             {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
                                 <Box sx={{}}>
-                                    <MuokkaaTapahtuma eventrecord={event} />
+                                    <EditEvent eventrecord={event} />
                                     <Button onClick={(e) => deleteEvent(e, event.eventrecord_id)} color="secondary" variant="contained" startIcon={<DeleteIcon />} sx={{ m: 1 }}>Poista tapahtuma</Button>
                                 </Box>
                             ) : (
