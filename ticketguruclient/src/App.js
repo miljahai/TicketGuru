@@ -12,7 +12,7 @@ import Raportit from "./pages/Raportit";
 import Liput from "./pages/Liput";
 import LipunTarkastus from "./pages/LipunTarkastus";
 import Lipputyypit from './pages/Lipputyypit';
-import LisaaTapahtuma from "./components/LisaaTapahtuma";
+import AddEvent from "./components/AddEvent";
 import Users from './pages/Users';
 import Profile from './pages/Profile';
 import { cyan } from "@mui/material/colors";
@@ -115,7 +115,7 @@ function App() {
                 </PrivateRoute>} />
               <Route path="tapahtumanlisays" element={
                 <PrivateRoute>
-                  <LisaaTapahtuma />
+                  <AddEvent />
                 </PrivateRoute>} />
               <Route
                 path="users"
