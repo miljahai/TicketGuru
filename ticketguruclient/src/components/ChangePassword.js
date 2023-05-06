@@ -20,7 +20,7 @@ function ChangePassword(props) {
   const handleClose = () => {
     setOpen(false);
   };
-      
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Validate password
@@ -29,25 +29,25 @@ function ChangePassword(props) {
       return;
     }
     // Password is valid, send request to backend
-    axios.put(`http://localhost:8080/auth/change-password`, {
+    axios.put(`https://cen-cenru4.azurewebsites.net/auth/change-password`, {
       email: email,
       currentPassword: currentPassword,
       newPassword: newPassword,
       confirmPassword: confirmPassword
     }, {
-        headers: {
-            'Authorization': `Bearer ${user.jwt}`
-        }
+      headers: {
+        'Authorization': `Bearer ${user.jwt}`
+      }
     })
-    .then(response => {
-      console.log(response);
-      alert('Password changed successfully!');
-      handleClose();
-    })
-    .catch(error => {
-      console.error(error);
-      alert(error.response.data);
-    });
+      .then(response => {
+        console.log(response);
+        alert('Password changed successfully!');
+        handleClose();
+      })
+      .catch(error => {
+        console.error(error);
+        alert(error.response.data);
+      });
   };
 
   // Check if passwords match
@@ -70,39 +70,39 @@ function ChangePassword(props) {
         <DialogTitle >Change Password</DialogTitle>
         <DialogContent>
           <div>
-          <TextField
-            required
-            label="Current Password"
-            type="password"
-            value={currentPassword}
-            onChange={(event) => setCurrentPassword(event.target.value)}
-            sx={{ marginTop: 1 }}
-            error={currentPassword === ''}
-            helperText={currentPassword === '' ? 'This field is required' : ''}
-          />
+            <TextField
+              required
+              label="Current Password"
+              type="password"
+              value={currentPassword}
+              onChange={(event) => setCurrentPassword(event.target.value)}
+              sx={{ marginTop: 1 }}
+              error={currentPassword === ''}
+              helperText={currentPassword === '' ? 'This field is required' : ''}
+            />
           </div>
           <div>
-          <TextField
-            required
-            label="New Password"
-            type="password"
-            value={newPassword}
-            onChange={(event) => setNewPassword(event.target.value)}
-            sx={{ marginY: 1 }}
-            error={!passwordRegex.test(newPassword)}
-            helperText={!passwordRegex.test(newPassword) ? 'Password must contain at least 8 characters including at least one uppercase letter, one lowercase letter, one number, and one special character.' : ''}
-          />
+            <TextField
+              required
+              label="New Password"
+              type="password"
+              value={newPassword}
+              onChange={(event) => setNewPassword(event.target.value)}
+              sx={{ marginY: 1 }}
+              error={!passwordRegex.test(newPassword)}
+              helperText={!passwordRegex.test(newPassword) ? 'Password must contain at least 8 characters including at least one uppercase letter, one lowercase letter, one number, and one special character.' : ''}
+            />
           </div>
           <div>
-          <TextField
-            required
-            label="Confirm Password"
-            type="password"
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
-            error={confirmPassword !== newPassword}
-            helperText={confirmPassword !== newPassword ? 'Passwords do not match' : ''}
-          />
+            <TextField
+              required
+              label="Confirm Password"
+              type="password"
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+              error={confirmPassword !== newPassword}
+              helperText={confirmPassword !== newPassword ? 'Passwords do not match' : ''}
+            />
           </div>
         </DialogContent>
         <DialogActions>
@@ -112,6 +112,6 @@ function ChangePassword(props) {
       </Dialog>
     </span>
   );
-} 
+}
 
 export default ChangePassword;

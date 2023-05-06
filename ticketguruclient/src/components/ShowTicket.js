@@ -20,7 +20,7 @@ export default function ShowTicket(props) {
     useEffect(() => {
 
         async function fetchQRCode() {
-            const response = await fetch(`http://localhost:8080/qrcode/${code}`, {
+            const response = await fetch(`https://cen-cenru4.azurewebsites.net/qrcode/${code}`, {
                 headers: {
                     'Authorization': `Bearer ${user.jwt}`
                 },

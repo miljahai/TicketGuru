@@ -60,7 +60,7 @@ function MuokkaaTapahtuma(props) {
         }
 
         try {
-            await axios.put(`http://localhost:8080/events/${eventId}`, formData, {
+            await axios.put(`https://cen-cenru4.azurewebsites.net/events/${eventId}`, formData, {
                 headers: {
                     'Authorization': `Bearer ${user.jwt}`
                 }

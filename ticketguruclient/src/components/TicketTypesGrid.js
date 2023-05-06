@@ -22,7 +22,7 @@ export default function TicketTypesGrid(props) {
         // Edit Tickettype
         // Editing eventrecord_name is not allowed. 
         // Build link and body for value update call
-        const link = 'http://localhost:8080/tickettypes/' + value.data.ticket_type_id
+        const link = 'https://cen-cenru4.azurewebsites.net/tickettypes/' + value.data.ticket_type_id
         const body = JSON.stringify(value.data)
 
         // Call PUT to server
@@ -56,7 +56,7 @@ export default function TicketTypesGrid(props) {
             if (window.confirm("Vahvista lipputyyppin poisto?")) {
                 // Make a delete call to backend and set tickettype matching row deleted in database 
                 Promise.all([
-                    axios.delete(`http://localhost:8080/tickettypes/` + selected[0].data.ticket_type_id, {
+                    axios.delete(`https://cen-cenru4.azurewebsites.net/tickettypes/` + selected[0].data.ticket_type_id, {
                         headers: {
                             'Authorization': `Bearer ${props.user.jwt}`
                         }

@@ -41,7 +41,7 @@ export default function AddTicketTypes(props) {
     // Fetch events for Dialog event selection:
     useEffect(() => {
         Promise.all([
-            axios.get('http://localhost:8080/events', {
+            axios.get('https://cen-cenru4.azurewebsites.net/events', {
                 headers: {
                     'Authorization': `Bearer ${props.user.jwt}`
                 }

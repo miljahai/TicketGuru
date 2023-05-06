@@ -26,7 +26,7 @@ function Tapahtumat({ props }) {
 
     useEffect(() => {
         Promise.all([
-            axios.get('http://localhost:8080/events', {
+            axios.get('https://cen-cenru4.azurewebsites.net/events', {
                 headers: {
                     'Authorization': `Bearer ${user.jwt}`
                 }

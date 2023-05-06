@@ -26,7 +26,7 @@ export default function Lipputyypit() {
 
     useEffect(() => {
         Promise.all([
-            axios.get('http://localhost:8080/tickettypes', {
+            axios.get('https://cen-cenru4.azurewebsites.net/tickettypes', {
                 headers: {
                     'Authorization': `Bearer ${user.jwt}`
                 }
@@ -44,7 +44,7 @@ export default function Lipputyypit() {
         // Save a new tickettype
         Promise.all([
             axios.post(
-                `http://localhost:8080/tickettypes`,
+                `https://cen-cenru4.azurewebsites.net/tickettypes`,
                 tickettype,
                 {
                     headers: {
@@ -57,7 +57,7 @@ export default function Lipputyypit() {
             console.log('refreshing grid')
             // Get updated data from server
             // Refresh grid with new data
-            axios.get('http://localhost:8080/tickettypes', {
+            axios.get('https://cen-cenru4.azurewebsites.net/tickettypes', {
                 headers: {
                     'Authorization': `Bearer ${user.jwt}`
                 }

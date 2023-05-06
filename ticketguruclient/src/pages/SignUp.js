@@ -29,7 +29,7 @@ export default function SignUp() {
       lastname: lastname,
     };
 
-    fetch("http://localhost:8080/auth/register", {
+    fetch("https://cen-cenru4.azurewebsites.net/auth/register", {
       headers: {
         "Content-Type": "application/json",
         'Authorization': `Bearer ${user.jwt}`
@@ -40,13 +40,13 @@ export default function SignUp() {
       .then((response) => {
         if (response.status === 200) {
           return Promise.all([response.json(), response.headers]);
-        } else if (response.status === 400)  {
+        } else if (response.status === 400) {
           // Bad request
           return Promise.reject("Bad request");
-        } else if (response.status === 409)  {
+        } else if (response.status === 409) {
           // User with this email already exists
           return Promise.reject("User with this email already exists");
-        } else { 
+        } else {
           return Promise.reject("Something went wrong");
         }
       })
@@ -61,14 +61,14 @@ export default function SignUp() {
 
   return (
     <Container>
-      <Box component="span" sx={{p: 2}}>
-        <AppBar position='static' sx={{borderRadius: '15px 50px'}}>
-          <Toolbar>                 
-          {<Sivupalkki />}
-              <Typography component={Link} to="/" sx = { {flexGrow:1, textAlign:'center' } }variant="h1">TicketGuru</Typography>
+      <Box component="span" sx={{ p: 2 }}>
+        <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
+          <Toolbar>
+            {<Sivupalkki />}
+            <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
           </Toolbar>
         </AppBar>
-      <Outlet/>
+        <Outlet />
         <Box
           sx={{
             marginTop: 8,

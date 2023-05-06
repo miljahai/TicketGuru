@@ -11,7 +11,7 @@ const PrivateRoute = (props) => {
   const { children } = props;
 
   if (user) {
-    ajax(`http://localhost:8080/auth/validate?token=${user.jwt}`, "get", user.jwt).then((isValid) => {
+    ajax(`https://cen-cenru4.azurewebsites.net/auth/validate?token=${user.jwt}`, "get", user.jwt).then((isValid) => {
       setIsValid(isValid);
       setIsLoading(false);
     });

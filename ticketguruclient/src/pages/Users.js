@@ -15,7 +15,7 @@ function Users() {
     // Get all users
     useEffect(() => {
         Promise.all([
-            axios.get('http://localhost:8080/users', {
+            axios.get('https://cen-cenru4.azurewebsites.net/users', {
                 headers: {
                     'Authorization': `Bearer ${user.jwt}`
                 }
@@ -40,7 +40,7 @@ function Users() {
                 <Outlet />
                 <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Käyttäjät</Typography>
             </Box>
-                <Button component={Link} to="../signup" endIcon={<AddIcon />} >Lisää Käyttäjä</Button>
+            <Button component={Link} to="../signup" endIcon={<AddIcon />} >Lisää Käyttäjä</Button>
             <AppUsers users={users} />
         </Container >
     )

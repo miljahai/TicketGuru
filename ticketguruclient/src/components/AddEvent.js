@@ -67,7 +67,7 @@ function LisaaTapahtuma() {
         }
 
         try {
-            await axios.post('http://localhost:8080/events', formData, config);
+            await axios.post('https://cen-cenru4.azurewebsites.net/events', formData, config);
             setEvent({
                 eventrecord_name: '',
                 venue: '',
@@ -123,16 +123,16 @@ function LisaaTapahtuma() {
 
                     <TextField label='Tapahtumakaupunki' name="city" value={event.city}
                         onChange={(e) => muuta(e)} fullWidth />
-                    
-                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='fi'>
-                    <DateTimePicker label='Alkamisaika' name="event_starttime" value={event.event_starttime}
-                        onChange={(e) => setSelectedStartDate(e)} required fullWidth format="DD.MM.YYYY HH:mm" />
 
-                    <DateTimePicker label= 'Päättymisaika' name="event_endtime" value={event.event_endtime}
-                        onChange={(e) => setSelectedEndDate(e)} required fullWidth  format="DD.MM.YYYY HH:mm"/>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='fi'>
+                        <DateTimePicker label='Alkamisaika' name="event_starttime" value={event.event_starttime}
+                            onChange={(e) => setSelectedStartDate(e)} required fullWidth format="DD.MM.YYYY HH:mm" />
+
+                        <DateTimePicker label='Päättymisaika' name="event_endtime" value={event.event_endtime}
+                            onChange={(e) => setSelectedEndDate(e)} required fullWidth format="DD.MM.YYYY HH:mm" />
                     </LocalizationProvider>
-                    
-                    <TextField label ="Lippujen enimmäismäärä" name="ticketsmax" value={event.ticketsmax} onChange={(e) => muuta(e)} fullWidth />
+
+                    <TextField label="Lippujen enimmäismäärä" name="ticketsmax" value={event.ticketsmax} onChange={(e) => muuta(e)} fullWidth />
 
                     <Button onClick={(e) => lisaa(e)}>Tallenna</Button>
 
