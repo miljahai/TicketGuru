@@ -30,7 +30,7 @@ function Events(props) {
     const deleteEvent = (e, eventId) => {
         e.preventDefault();
 
-        axios.delete(`http://localhost:8080/events/${eventId}`, config)
+        axios.delete(`https://cen-cenru4.azurewebsites.net/events/${eventId}`, config)
             .then(response => {
                 console.log(response);
                 window.location.reload();

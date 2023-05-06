@@ -17,7 +17,7 @@ function Raportit() {
 
     useEffect(() => {
         Promise.all([
-            axios.get('http://localhost:8080/tickets', {
+            axios.get('https://cen-cenru4.azurewebsites.net/tickets', {
                 headers: {
                     'Authorization': `Bearer ${user.jwt}`
                 }

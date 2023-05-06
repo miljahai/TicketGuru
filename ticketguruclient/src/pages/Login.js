@@ -27,7 +27,7 @@ const Login = () => {
       password: password,
     };
     // Get JWT token from server
-    fetch("http://localhost:8080/auth/login", {
+    fetch("https://cen-cenru4.azurewebsites.net/auth/login", {
       headers: {
         "Content-Type": "application/json",
       },
@@ -35,35 +35,35 @@ const Login = () => {
       body: JSON.stringify(reqBody),
     })
       .then((response) => {
-        if (response.status === 200) 
+        if (response.status === 200)
           return Promise.all([response.json(), response.headers]);
         else if (response.status === 401 || response.status === 403) {
           return Promise.reject("Invalid email or password");
-        } else { 
+        } else {
           return Promise.reject("Something went wrong");
         }
       })
       .then(([body, headers]) => {
-          // Save JWT token and user info to context
-          user.setJwt(headers.get("Authorization"));
-          user.setUserInfo(body);
+        // Save JWT token and user info to context
+        user.setJwt(headers.get("Authorization"));
+        user.setUserInfo(body);
       })
       .catch((message) => {
         alert(message);
       });
   };
-  
+
   return (
     <Container>
-    <Box component="span" sx={{p: 2}}>
-      <AppBar position='static' sx={{borderRadius: '15px 50px'}}>
-        <Toolbar>                 
-        {<Sivupalkki />}
-            <Typography component={Link} to="/" sx = { {flexGrow:1, textAlign:'center' } }variant="h1">TicketGuru</Typography>
-        </Toolbar>
-      </AppBar>
-      <Outlet/>
-      <Box
+      <Box component="span" sx={{ p: 2 }}>
+        <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
+          <Toolbar>
+            {<Sivupalkki />}
+            <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
+          </Toolbar>
+        </AppBar>
+        <Outlet />
+        <Box
           sx={{
             marginTop: 8,
             display: 'flex',
@@ -114,8 +114,8 @@ const Login = () => {
             </Button>
           </Box>
         </Box>
-    </Box>
-  </Container>
+      </Box>
+    </Container>
   )
 }
 

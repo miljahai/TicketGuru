@@ -47,12 +47,12 @@ function Liput() {
         // TODO: filter events with enddate in the past
         console.log('Fetching events and tickettypes...');
         Promise.all([
-            axios.get('http://localhost:8080/events', {
+            axios.get('https://cen-cenru4.azurewebsites.net/events', {
                 headers: {
                     'Authorization': `Bearer ${user.jwt}`
                 }
             }),
-            axios.get('http://localhost:8080/tickettypes', {
+            axios.get('https://cen-cenru4.azurewebsites.net/tickettypes', {
                 headers: {
                     'Authorization': `Bearer ${user.jwt}`
                 }
