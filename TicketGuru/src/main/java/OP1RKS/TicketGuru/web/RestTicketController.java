@@ -37,7 +37,7 @@ import OP1RKS.TicketGuru.domain.TicketTypeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = {"http://localhost:8080","https://cen-cenru4.azurewebsites.net", "https://miljahai.github.io"}, maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:8080","http://localhost:3000","https://cen-cenru4.azurewebsites.net", "https://miljahai.github.io"}, maxAge = 3600)
 @RestController
 public class RestTicketController {
 

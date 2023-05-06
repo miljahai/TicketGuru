@@ -18,7 +18,7 @@ function LipunTarkastus() {
   };
 
   const handleSubmit = () => {
-    fetch(`http://localhost:8080/tickets?code=${code}`, {
+    fetch(`https://cen-cenru4.azurewebsites.net/tickets?code=${code}`, {
       headers: {
         'Authorization': `Bearer ${user.jwt}`
       },
@@ -45,7 +45,7 @@ function LipunTarkastus() {
   const showQr = () => {
 
     async function fetchQRCode() {
-      const response = await fetch(`http://localhost:8080/qrcode/${code}`, {
+      const response = await fetch(`https://cen-cenru4.azurewebsites.net/qrcode/${code}`, {
         headers: {
           'Authorization': `Bearer ${user.jwt}`
         },
@@ -58,7 +58,7 @@ function LipunTarkastus() {
   }
 
   const markAsUsed = () => {
-    fetch(`http://localhost:8080/tickets/${id}`, {
+    fetch(`https://cen-cenru4.azurewebsites.net/tickets/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
