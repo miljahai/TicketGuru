@@ -12,7 +12,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import jwt_decode from "jwt-decode";
 import 'dayjs/locale/fi';
-import dayjs from "dayjs";
 
 
 function LisaaTapahtuma() {

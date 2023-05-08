@@ -1,20 +1,16 @@
-import { Container, Box, AppBar, Toolbar, Typography, Paper, TextField, Button, Dialog, DialogTitle, DialogActions, DialogContent } from "@mui/material";
+import { Box, Typography, TextField, Button, Dialog, DialogTitle, DialogActions, DialogContent } from "@mui/material";
 import CreateIcon from '@mui/icons-material/Create';
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUser } from '../util/UserProvider';
-import jwt_decode from "jwt-decode";
-import Sivupalkki from "./Sivupalkki";
-import { Link, Outlet } from "react-router-dom";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import 'dayjs/locale/fi';
 
 function MuokkaaTapahtuma(props) {
     const user = useUser();
-    const [roles, setRoles] = useState([]);
     const [open, setOpen] = useState(false);
 
     const [event, setEvent] = useState({

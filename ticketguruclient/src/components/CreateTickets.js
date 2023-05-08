@@ -105,14 +105,14 @@ export default function CreateTickets(props) {
                     console.log('Error fetching tickets: ', error);
                 });
         }
-    }, [newTickets, fetchingTickets, user.jwt, props.setNewTickets, props.setTickets]);
+    }, [newTickets, fetchingTickets, user.jwt, props, props.setNewTickets, props.setTickets]);
 
 
     useEffect(() => {
         if (tickets.length && !fetchingTickets) {
             props.setTickets(tickets);
         }
-    }, [])
+    }, [fetchingTickets, props, tickets])
 
     return (
         <div>
