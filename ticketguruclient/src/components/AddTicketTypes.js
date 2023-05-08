@@ -61,7 +61,6 @@ export default function AddTicketTypes(props) {
             <Button variant="contained" sx={{ m: 1 }} onClick={handleClickOpen}>
                 <Add />Lisää lipputyyppi
             </Button>
-
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Lisää uusi lipputtyypi</DialogTitle>
                 <DialogContent>

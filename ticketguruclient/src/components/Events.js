@@ -36,21 +36,6 @@ function Events(props) {
               console.error(error);
           });
   }
-  /*const [event, setEvent] = useState({
-      eventrecord_name: '',
-      venue: '',
-      city: '',
-      event_starttime: '',
-      event_endtime: '',
-      ticketsmax: '',
-  });
-  const handleClick = (e) => {
-      setEvent({
-          ...event,
-          [e.target.name]: e.target.value
-      });
-      EditEvent(event);
-  }*/
 
   return (
     <Box>

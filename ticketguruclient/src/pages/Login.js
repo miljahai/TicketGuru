@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Box, Typography, AppBar, Toolbar, Container } from "@mui/material";
-import Sivupalkki from "../components/Sivupalkki";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Box, Typography, Container } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -56,13 +55,6 @@ const Login = () => {
   return (
     <Container>
     <Box component="span" sx={{p: 2}}>
-      <AppBar position='static' sx={{borderRadius: '15px 50px'}}>
-        <Toolbar>                 
-        {<Sivupalkki />}
-            <Typography component={Link} to="/" sx = { {flexGrow:1, textAlign:'center' } }variant="h1">TicketGuru</Typography>
-        </Toolbar>
-      </AppBar>
-      <Outlet/>
       <Box
           sx={{
             marginTop: 8,

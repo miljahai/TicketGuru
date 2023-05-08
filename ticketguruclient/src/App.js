@@ -7,20 +7,23 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import PrivateRoute from './PrivateRoute';
 import Ylapalkki from "./pages/Home";
-import Tapahtumat from "./pages/Tapahtumat";
-import Raportit from "./pages/Raportit";
-import Liput from "./pages/Liput";
-import LipunTarkastus from "./pages/LipunTarkastus";
-import Lipputyypit from './pages/Lipputyypit';
+import EventPage from "./pages/EventPage";
+import ReportsPage from "./pages/ReportsPage";
+import Tickets from "./pages/Tickets";
+import TicketCheck from "./pages/TicketCheck";
+import TicketTypes from "./pages/TicketTypes";
 import AddEvent from "./components/AddEvent";
 import Users from './pages/Users';
 import Profile from './pages/Profile';
 import { cyan } from "@mui/material/colors";
 import { Box, Container } from "@mui/system";
 import { useUser } from './util/UserProvider';
-import AccessDenied from './AccessDenied';
+import AccessDenied from './pages/AccessDenied';
 import jwt_decode from "jwt-decode";
 import CircularProgress from '@mui/material/CircularProgress';
+import { AppBar, Toolbar, Typography } from '@mui/material';
+import Sidebar from './components/Sidebar';
+import { Link, Outlet } from 'react-router-dom';
 
 const theme = createTheme({
   palette: {
@@ -70,19 +73,28 @@ function App() {
           <CssBaseline />
           {/** <BrowserRouter basename={process.env.PUBLIC_URL}> */}
           <BrowserRouter>
+          <Box component="span" sx={{ p: 2 }}>
+                <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
+                    <Toolbar>
+                        {<Sidebar />}
+                        <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
+                    </Toolbar>
+                </AppBar>
+                <Outlet />
+            </Box>
             <Routes>
               <Route path="/" element={<Ylapalkki />} />
               <Route path="/login" element={<Login />} />
               <Route path="tapahtumat" element={
                 <PrivateRoute>
-                  <Tapahtumat roles={roles} />
+                  <EventPage roles={roles} />
                 </PrivateRoute>} />
               <Route
                 path="raportit"
                 element={
                   roles.find((role) => role === "ADMIN" || role === "EVENTS") ? (
                     <PrivateRoute>
-                      <Raportit />
+                      <ReportsPage />
                     </PrivateRoute>
                   ) : (
                     <AccessDenied></AccessDenied>
@@ -103,15 +115,15 @@ function App() {
               />
               <Route path="liput" element={
                 <PrivateRoute>
-                  <Liput />
+                  <Tickets/>
                 </PrivateRoute>} />
               <Route path="lipuntarkastus" element={
                 <PrivateRoute>
-                  <LipunTarkastus />
+                  <TicketCheck />
                 </PrivateRoute>} />
               <Route path="lipputyypit" element={
                 <PrivateRoute>
-                  <Lipputyypit />
+                  <TicketTypes />
                 </PrivateRoute>} />
               <Route path="tapahtumanlisays" element={
                 <PrivateRoute>

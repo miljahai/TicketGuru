@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Box, Typography, AppBar, Toolbar, Container, Grid } from "@mui/material";
-import Sivupalkki from "../components/Sivupalkki";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Box, Typography, Container, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useUser } from '../util/UserProvider';
 
@@ -62,13 +61,6 @@ export default function SignUp() {
   return (
     <Container>
       <Box component="span" sx={{p: 2}}>
-        <AppBar position='static' sx={{borderRadius: '15px 50px'}}>
-          <Toolbar>                 
-          {<Sivupalkki />}
-              <Typography component={Link} to="/" sx = { {flexGrow:1, textAlign:'center' } }variant="h1">TicketGuru</Typography>
-          </Toolbar>
-        </AppBar>
-      <Outlet/>
         <Box
           sx={{
             marginTop: 8,

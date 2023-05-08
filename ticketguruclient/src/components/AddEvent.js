@@ -1,9 +1,8 @@
-import { Box, Paper, TextField, Container, AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { Box, Paper, TextField, Container, Typography, Button } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import ArticleIcon from '@mui/icons-material/Article';
-import Sivupalkki from "./Sivupalkki";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useUser } from "../util/UserProvider";
@@ -93,13 +92,6 @@ function LisaaTapahtuma() {
     return (
         <Container>
             <Box component="span" sx={{ p: 2 }}>
-                <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
-                    <Toolbar>
-                        {<Sivupalkki />}
-                        <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
-                    </Toolbar>
-                </AppBar>
-                <Outlet />
                 <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Lisää tapahtuma</Typography>
                 <Button component={Link} to="../tapahtumat" endIcon={<ArticleIcon />} color='primary' >Tapahtumat</Button>
                 {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
