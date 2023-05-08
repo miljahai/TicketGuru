@@ -44,12 +44,13 @@ export default function CreateTickets(props) {
                 const selectedSalesEvent = response.data.salesevent_id
 
                 props.selectedTicketTypes.map((tt) => {
+                    let amount = props.selectedTicketTypes.length;
                     const ticketbody = {
                         ticketType: { ticket_type_id: tt[0].ticket_type_id },
                         price: tt[0].price,
                         salesEvent: { salesevent_id: selectedSalesEvent }
                     };
-                    return axios.post(`http://localhost:8080/tickets`, ticketbody,
+                    return axios.post(`http://localhost:8080/tickets?amount=${amount}`, ticketbody,
                         {
                             headers: {
                                 'Authorization': `Bearer ${user.jwt}`

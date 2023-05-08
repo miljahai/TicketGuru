@@ -69,7 +69,7 @@ function Events(props) {
                                 <Typography>Kaupunki: {event.city}</Typography>
                                 <Typography>Aloitusaika: {(new Date(event.event_starttime)).toLocaleString()}</Typography>
                                 <Typography>Lopetusaika: {(new Date(event.event_endtime)).toLocaleString()}</Typography>
-                                <Typography>Lippujen enimmäismäärä: {event.ticketsmax}</Typography>
+                                <Typography>Lippuja jäljellä: {event.ticketsmax}</Typography>
                             </CardContent>
                             {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
                                 <Box sx={{}}>

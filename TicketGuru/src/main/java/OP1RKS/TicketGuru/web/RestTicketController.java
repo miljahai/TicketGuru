@@ -30,9 +30,12 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 
+import OP1RKS.TicketGuru.domain.EventRecord;
+import OP1RKS.TicketGuru.domain.EventRecordRepository;
 import OP1RKS.TicketGuru.domain.SalesEventRepository;
 import OP1RKS.TicketGuru.domain.Ticket;
 import OP1RKS.TicketGuru.domain.TicketRepository;
+import OP1RKS.TicketGuru.domain.TicketType;
 import OP1RKS.TicketGuru.domain.TicketTypeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -49,6 +52,9 @@ public class RestTicketController {
 	
 	@Autowired
 	private SalesEventRepository srepo;
+	
+	@Autowired
+	private EventRecordRepository erepo;
 	
 	// REST Ticket
 	// REST List all Tickets or find by Code
@@ -70,7 +76,8 @@ public class RestTicketController {
 	// REST Add Ticket
 	@PostMapping("/tickets")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Ticket newTicket (@Valid @RequestBody Ticket newTicket, BindingResult result) throws MethodArgumentNotValidException {
+	public Ticket newTicket (@Valid @RequestBody Ticket newTicket, BindingResult result,
+            @RequestParam(required = false) Integer amount) throws MethodArgumentNotValidException {
 		if(result.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, result);
 		} 
@@ -81,7 +88,23 @@ public class RestTicketController {
 		} else if (!srepo.existsById(salesevent_id)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "SalesEvent with id " + salesevent_id + " doesn't exist");
 		} 
-		return trepo.save(newTicket);
+		// Retrieve the TicketType object associated with the ticket_type_id
+		TicketType ticketType = ttrepo.findById(ticket_type_id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "TicketType with id " + ticket_type_id + " doesn't exist"));
+
+		// Retrieve the EventRecord object associated with the TicketType object
+		EventRecord eventRecord = ticketType.getEventRecord();
+
+		Ticket savedTicket = trepo.save(newTicket);
+
+		// Reduce the ticketmax value by 1 if the ticket was saved successfully
+		if(savedTicket != null && savedTicket.getTicket_id() != null) {
+	        eventRecord.setTicketsmax(eventRecord.getTicketsmax() - amount);
+
+		    // Save the updated EventRecord object
+		    erepo.save(eventRecord);
+		}
+
+		return savedTicket;
 	};
 	
 	// REST Update Ticket
