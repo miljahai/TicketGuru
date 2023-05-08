@@ -12,7 +12,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
-function Ylapalkki() {
+function Home() {
 
     const user = useUser();
     const [roles, setRoles] = useState([]);
@@ -116,5 +116,5 @@ function Ylapalkki() {
     );
 }
 
-export default Ylapalkki;
+export default Home;
 
