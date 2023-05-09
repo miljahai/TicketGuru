@@ -25,12 +25,33 @@ public class TicketGuruApplication {
 	// DEMO DATA
 	// Logger
 	private static final Logger Log = LoggerFactory.getLogger(TicketGuruApplication.class);
+
+	@Profile("azure")
+	@Bean
+	public CommandLineRunner setupAzure(AppUserRepository urepo) {
+		return (args) -> {
+			if(urepo.count() == 0) {
+				Log.info("create Default Admin User");
+				urepo.save(new AppUser("Test3","Admin3","test3.admin3@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.ADMIN));
+			};
+		};
+	};
+	
+	@Profile("mariadb")
+	@Bean
+	public CommandLineRunner setupMariaDb(AppUserRepository urepo) {
+		return (args) -> {
+			if(urepo.count() == 0) {
+				Log.info("create Default Admin User");
+				urepo.save(new AppUser("Test3","Admin3","test3.admin3@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.ADMIN));
+			};
+		};
+	};
 	
 	@Profile("h2")
 	@Bean
 	public CommandLineRunner demo(EventRecordRepository erepo, SalesEventRepository srepo, TicketRepository tickets, TicketTypeRepository ttrepo, AppUserRepository urepo) {
 		return (args) -> {
-			
 			
 			// Fake Data for H2
 			
