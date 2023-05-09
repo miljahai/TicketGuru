@@ -79,7 +79,6 @@ function AddEvent() {
       });
       setMessage('Tietojen lisääminen ei onnistunut');
     }
-<<<<<<< HEAD
 
     const lisaa = async (e) => {
         e.preventDefault();
@@ -168,7 +167,6 @@ function AddEvent() {
             </Paper>
         </Container>
     )
-=======
   };
   return (
     <Container>
@@ -208,7 +206,6 @@ function AddEvent() {
       </Paper>
     </Container>
   )
->>>>>>> develop
 }
 
 export default AddEvent;

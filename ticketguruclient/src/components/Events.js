@@ -25,7 +25,7 @@ function Events(props) {
       }
   }
 
-  const deleteEvent = (e, eventId) => {
+ /* const deleteEvent = (e, eventId) => {
       e.preventDefault();
       axios.delete(`http://localhost:8080/events/${eventId}`, config)
           .then(response => {
@@ -36,8 +36,7 @@ function Events(props) {
               console.error(error);
           });
   }
-
-<<<<<<< HEAD
+*/
     const deleteEvent = (e, eventId) => {
         e.preventDefault();
 
@@ -59,7 +58,7 @@ function Events(props) {
         event_endtime: '',
         ticketsmax: '',
     });
-
+/*
     const handleClick = (e) => {
         setEvent({
             ...event,
@@ -68,6 +67,7 @@ function Events(props) {
         EditEvent(event);
 
     }
+    */
     return (
         <Box>
             {
@@ -96,7 +96,6 @@ function Events(props) {
             }
         </Box>
     )
-=======
   return (
     <Box>
       {
@@ -125,7 +124,6 @@ function Events(props) {
       }
     </Box>
   )
->>>>>>> develop
 }
 
 export default Events;
