@@ -71,12 +71,8 @@ function App() {
       <ThemeProvider theme={theme}>
         <Box component="span" sx={{ p: 2 }}>
           <CssBaseline />
-<<<<<<< HEAD
           <BrowserRouter basename={process.env.PUBLIC_URL}>
             {/**<BrowserRouter>*/}
-=======
-          {/** <BrowserRouter basename={process.env.PUBLIC_URL}> */}
-          <BrowserRouter>
             <Box component="span" sx={{ p: 2 }}>
               <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
                 <Toolbar>
@@ -86,7 +82,6 @@ function App() {
               </AppBar>
               <Outlet />
             </Box>
->>>>>>> develop
             <Routes>
               <Route path="/" element={<Ylapalkki />} />
               <Route path="/login" element={<Login />} />
