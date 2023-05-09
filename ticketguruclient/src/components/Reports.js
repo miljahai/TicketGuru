@@ -1,15 +1,9 @@
 import { useRef, useCallback } from 'react';
-//import { useUser } from '../util/UserProvider';
 import { AgGridReact } from 'ag-grid-react';
 import { Box, Button } from "@mui/material";
 
-
-
-
-
 export default function Reports(props) {
 
-    //const user = useUser();
     const tickets = props.tickets;
 
     // Grid Configuration
@@ -43,7 +37,6 @@ export default function Reports(props) {
           <Button onClick={onBtExport}>Export AS CSV</Button>
             </div>
             <div className="ag-theme-alpine" style={{height: '900px',width: '100%', margin: 'auto'}}>
-
                 <AgGridReact
                     //onGridReady={params => gridRef.current = params.api
                     gridOptions={gridOptions}

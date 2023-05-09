@@ -1,8 +1,6 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Box, Container, Typography, AppBar, Toolbar, Avatar, Card, CardHeader, CardContent, CardActions} from "@mui/material";
-import { Link, Outlet } from "react-router-dom";
+import { Box, Container, Typography, Avatar, Card, CardHeader, CardContent, CardActions} from "@mui/material";
 import { useUser } from '../util/UserProvider';
-import Sivupalkki from '../components/Sivupalkki';
 import ChangePassword from '../components/ChangePassword';
 
 // Show info of the logged in user
@@ -13,13 +11,6 @@ function Profile() {
   return (
     <Container>
       <Box component="span" sx={{ p: 2 }}>
-        <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
-            <Toolbar>
-                {<Sivupalkki />}
-                <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
-            </Toolbar>
-        </AppBar>
-        <Outlet />
         <Typography variant="h2" sx={{ p: 2, flexGrow: 1, textAlign: 'center' }}>Omat tiedot</Typography>
         <Card key={user.userInfo.appuser_id} sx={{ width: 450, height: 350, marginTop: 2, marginX: 'auto', paddingLeft: 2}}>
           <CardHeader sx={{ marginX: 'auto' }}

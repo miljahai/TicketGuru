@@ -1,15 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Box, Typography, AppBar, Toolbar, Container } from "@mui/material";
-import Sivupalkki from "../components/Sivupalkki";
-import { Link, Outlet } from "react-router-dom";
+import { Box, Typography, Container } from "@mui/material";
 import { useUser } from '../util/UserProvider'
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import Reports from '../components/Reports'
 
 
-
-function Raportit() {
+function ReportsPage() {
 
     const [tickets, setTickets] = useState([])
     const user = useUser();
@@ -41,17 +38,9 @@ function Raportit() {
     return (
         <Container>
             <Box component="span" sx={{ p: 2 }}>
-                <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
-                    <Toolbar>
-                        {<Sivupalkki />}
-                        <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
-                    </Toolbar>
-                </AppBar>
-                <Outlet />
                 <Typography variant="h2" sx={{ p: 2, flexGrow: 1, textAlign: 'center' }}>Raportit</Typography>
                 {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
                     <Reports tickets={tickets} />
-
                 ) : (
                     <></>
                 )}
@@ -60,4 +49,4 @@ function Raportit() {
     )
 }
 
-export default Raportit;
+export default ReportsPage;

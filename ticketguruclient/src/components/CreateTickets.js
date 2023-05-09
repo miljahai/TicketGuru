@@ -28,6 +28,7 @@ export default function CreateTickets(props) {
         };
 
         // Start tracking the state of fetching tickets
+        //  UseEffect hooks will update data on parent page when this is set to false
         setFetchingTickets(true);
 
         // Call POST /salesevents to create SalesEvent
@@ -44,12 +45,17 @@ export default function CreateTickets(props) {
                 const selectedSalesEvent = response.data.salesevent_id
 
                 props.selectedTicketTypes.map((tt) => {
+                    let amount = props.selectedTicketTypes.length;
                     const ticketbody = {
                         ticketType: { ticket_type_id: tt[0].ticket_type_id },
                         price: tt[0].price,
                         salesEvent: { salesevent_id: selectedSalesEvent }
                     };
+<<<<<<< HEAD
                     return axios.post(`https://cen-cenru4.azurewebsites.net/tickets`, ticketbody,
+=======
+                    return axios.post(`http://localhost:8080/tickets?amount=${amount}`, ticketbody,
+>>>>>>> develop
                         {
                             headers: {
                                 'Authorization': `Bearer ${user.jwt}`
@@ -81,6 +87,8 @@ export default function CreateTickets(props) {
             }).finally(() => setFetchingTickets(false));
     };
 
+    // Update parent page newTickets after new Tickets have been created
+    //  This data is shown as new created tickets in the client
     useEffect(() => {
         if (newTickets.length && !fetchingTickets) {
             axios
@@ -90,7 +98,7 @@ export default function CreateTickets(props) {
                     },
                 })
                 .then((response) => {
-                    console.log('Tickets fetched 2: ', response.data);
+                    console.log('Tickets fetched: ', response.data);
                     const filteredTickets = response.data.filter((ticket) =>
                         newTickets.includes(ticket.ticket_id)
                     );
@@ -106,7 +114,7 @@ export default function CreateTickets(props) {
         }
     }, [newTickets, fetchingTickets, user.jwt, props.setNewTickets, props.setTickets]);
 
-
+    // Update parent page tickets after Tickets have been created 
     useEffect(() => {
         if (tickets.length && !fetchingTickets) {
             props.setTickets(tickets);

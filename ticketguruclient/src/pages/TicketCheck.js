@@ -1,10 +1,8 @@
-import { Box, Typography, AppBar, Toolbar, Container, TextField, Button } from "@mui/material";
-import Sivupalkki from "../components/Sivupalkki";
-import { Link, Outlet } from "react-router-dom";
+import { Box, Typography, Container, TextField, Button } from "@mui/material";
 import { useState } from "react";
 import { useUser } from '../util/UserProvider';
 
-function LipunTarkastus() {
+function TicketCheck() {
   const [code, setCode] = useState("");
   const [ticket, setTicket] = useState(null);
   const [error, setError] = useState(null);
@@ -80,13 +78,6 @@ function LipunTarkastus() {
   return (
     <Container>
       <Box component="span" sx={{ p: 2 }}>
-        <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
-          <Toolbar>
-            {<Sivupalkki />}
-            <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
-          </Toolbar>
-        </AppBar>
-        <Outlet />
         <Typography variant="h2" sx={{ p: 2, flexGrow: 1, textAlign: 'center' }}>Lipun tarkastus</Typography>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
           <TextField label="Lipun koodi" variant="outlined" value={code} onChange={handleCodeChange} sx={{ mb: 2 }} />
@@ -113,4 +104,4 @@ function LipunTarkastus() {
   )
 }
 
-export default LipunTarkastus;
+export default TicketCheck;

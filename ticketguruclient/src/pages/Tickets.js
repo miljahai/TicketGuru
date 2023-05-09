@@ -1,9 +1,7 @@
-import { Box, Typography, AppBar, Toolbar, Container, Select, MenuItem, Button, TextField, List, ListItem, ListItemText, ListItemButton } from "@mui/material";
+import { Box, Typography, Container, Select, MenuItem, Button, TextField, List, ListItem, ListItemText, ListItemButton } from "@mui/material";
 import { ArticleOutlined, Cancel, AddCircleOutlineOutlined, RemoveCircleOutlineOutlined } from '@mui/icons-material';
-import Sivupalkki from "../components/Sivupalkki";
 import SoldTickets from "../components/SoldTickets";
 import CreateTickets from "../components/CreateTickets"
-import { Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useUser } from '../util/UserProvider';
 import axios from "axios";
@@ -16,7 +14,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
 
-function Liput() {
+function Tickets() {
 
     const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
@@ -136,42 +134,20 @@ function Liput() {
         setTickets(null)
     }
 
-
     const generatePdf = () => {
         // TODO: create a pdf file of the completed salesevent. List all tickets. Use <ShowTicket>.
         console.log('generating pdf...')
     }
 
-
-
-
     return (
         <Container>
             <Box id='header' component="span" sx={{ p: 2 }}>
-                <AppBar
-                    position="static"
-                    sx={{ borderRadius: "15px 50px" }}>
-                    <Toolbar>
-                        {< Sivupalkki />}
-                        <Typography
-                            component={Link}
-                            to="/"
-                            sx={{ flexGrow: 1, textAlign: "center" }}
-                            variant="h1">
-                            TicketGuru
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <Outlet />
                 <Typography
                     variant="h2"
                     sx={{ p: 2, flexGrow: 1, textAlign: "center" }}>
                     Lipunmyynti
                 </Typography>
             </Box>
-
-
-
             <Box id='ticketsales'>
                 <Container id='eventselect' sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', width: 600 }}>
@@ -193,7 +169,6 @@ function Liput() {
                         </Select>
                     </Box>
 
-
                     {selectedEvent && (
                         <Box id='eventinfo' sx={{}}>
                             <Typography variant='h4'>{selectedEvent.eventrecord_name}</Typography>
@@ -204,8 +179,6 @@ function Liput() {
                         </Box>
                     )}
                 </Container>
-
-
                 {
                     selectedEvent && ticketTypes && (
                         <Box id='tickettypesselect' component="span" sx={{
@@ -227,8 +200,6 @@ function Liput() {
                                     </ListItem>
                                 ))}
                             </List>
-
-
                             <Box id='invoice'>
                                 <Typography variant="h4" sx={{ pt: 4 }}>Liput:</Typography>
                                 {selectedTicketTypes?.length ?
@@ -291,7 +262,6 @@ function Liput() {
                                     : <></>
                                 }
                             </Box>
-
                             <Box id='finishsale'>
                                 <TextField
                                     label="Hinta"
@@ -318,7 +288,6 @@ function Liput() {
                                     <Cancel /> <Typography sx={{ pl: 1 }}>{newTickets.length > 0 ? 'Uusi myyntitapahtuma' : 'Peruuta'}</Typography>
                                 </Button>
                             </Box>
-
                             {newTickets.length > 0 && (
                                 <Box if='finishedsale'>
                                     <Typography variant='h4' sx={{ pt: 4 }}>Myydyt liput</Typography>
@@ -349,4 +318,4 @@ function Liput() {
     );
 };
 
-export default Liput;
+export default Tickets;

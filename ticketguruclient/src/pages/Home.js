@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { AppBar, Box, Container, Toolbar, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Box, Container, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import ArticleIcon from '@mui/icons-material/Article';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
@@ -9,11 +9,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useUser } from '../util/UserProvider';
 import { useNavigate, useLocation } from "react-router-dom";
-import { Link, Outlet } from "react-router-dom";
-import Sivupalkki from "../components/Sivupalkki";
+import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
-function Ylapalkki() {
+function Home() {
 
     const user = useUser();
     const [roles, setRoles] = useState([]);
@@ -29,13 +28,6 @@ function Ylapalkki() {
     return (
         <Container>
             <Box component="span" sx={{ p: 2 }}>
-                <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
-                    <Toolbar>
-                        {<Sivupalkki />}
-                        <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
-                    </Toolbar>
-                </AppBar>
-                <Outlet />
                 <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center'}}>Etusivu</Typography>
                 <Typography variant="h4" sx={{ flexGrow: 1, textAlign: 'center', marginY: 2, color: '#7B1FA2' }}>Tervetuloa {user.userInfo.firstname + " " + user.userInfo.lastname}!</Typography>
 
@@ -124,5 +116,5 @@ function Ylapalkki() {
     );
 }
 
-export default Ylapalkki;
+export default Home;
 

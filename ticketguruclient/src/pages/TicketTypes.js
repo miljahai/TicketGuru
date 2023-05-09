@@ -1,5 +1,4 @@
-import { Box, Typography, AppBar, Toolbar, Container, Button } from "@mui/material";
-import Sivupalkki from "../components/Sivupalkki";
+import { Box, Typography, Container, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -11,7 +10,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import AddTicketTypes from '../components/AddTicketTypes';
 import jwt_decode from "jwt-decode";
 
-export default function Lipputyypit() {
+export default function TicketTypes() {
 
     const [tickettypes, setTickettypes] = useState([]);
     const user = useUser();
@@ -77,14 +76,6 @@ export default function Lipputyypit() {
     return (
         <Container>
             <Box component="span" sx={{ p: 2 }}>
-
-                <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
-                    <Toolbar>
-                        {<Sivupalkki />}
-                        <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
-                    </Toolbar>
-                </AppBar>
-
                 <Typography variant="h2" sx={{ flexGrow: 1, textAlign: 'center' }}>Lipputyypit</Typography>
                 <Button component={Link} to="../tapahtumat" endIcon={<ArticleIcon />} color='primary' >Tapahtumat</Button>
                 {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
@@ -108,7 +99,6 @@ export default function Lipputyypit() {
             <Box>
                 <TicketTypesGrid tickettypes={tickettypes} user={user} />
             </Box>
-
         </Container >
     )
 }

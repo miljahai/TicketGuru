@@ -13,7 +13,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import jwt_decode from "jwt-decode";
 import { Link } from "react-router-dom";
 
-function Sivupalkki() {
+function Sidebar() {
   const [open, setOpen] = useState(false);
   const user = useUser();
   const [roles, setRoles] = useState([]);
@@ -120,4 +120,4 @@ function Sivupalkki() {
   );
 }
 
-export default Sivupalkki;
+export default Sidebar;

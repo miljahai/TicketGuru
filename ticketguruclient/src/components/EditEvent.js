@@ -1,20 +1,16 @@
-import { Container, Box, AppBar, Toolbar, Typography, Paper, TextField, Button, Dialog, DialogTitle, DialogActions, DialogContent } from "@mui/material";
+import { Box, Typography, TextField, Button, Dialog, DialogTitle, DialogActions, DialogContent } from "@mui/material";
 import CreateIcon from '@mui/icons-material/Create';
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUser } from '../util/UserProvider';
-import jwt_decode from "jwt-decode";
-import Sivupalkki from "./Sivupalkki";
-import { Link, Outlet } from "react-router-dom";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import 'dayjs/locale/fi';
 
-function MuokkaaTapahtuma(props) {
+function EditEvent(props) {
     const user = useUser();
-    const [roles, setRoles] = useState([]);
     const [open, setOpen] = useState(false);
 
     const [event, setEvent] = useState({
@@ -26,7 +22,7 @@ function MuokkaaTapahtuma(props) {
         ticketsmax: props.eventrecord.ticketsmax,
     });
     const eventId = props.eventrecord.eventrecord_id;
-    const [viesti, setViesti] = useState('');
+    const [message, setMessage] = useState('');
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -35,13 +31,12 @@ function MuokkaaTapahtuma(props) {
         setOpen(false);
     };
 
-
-    const muuta = (e) => {
+    const change = (e) => {
         setEvent({
             ...event,
             [e.target.name]: e.target.value
         });
-        setViesti('');
+        setMessage('');
     };
 
     const [selectedStartDate, setSelectedStartDate] = useState(event.event_starttime);
@@ -66,7 +61,7 @@ function MuokkaaTapahtuma(props) {
                 }
             })
             setOpen(false);
-            setViesti('Tapahtuma päivitetty');
+            setMessage('Tapahtuma päivitetty');
             window.location.reload();
 
         } catch (error) {
@@ -78,10 +73,9 @@ function MuokkaaTapahtuma(props) {
                 event_endtime: dayjs(props.eventrecord.event_starttime),
                 ticketsmax: props.eventrecord.ticketsmax,
             });
-            setViesti('Tapahtuman päivittäminen ei onnistunut');
+            setMessage('Tapahtuman päivittäminen ei onnistunut');
         }
     }
-
 
     return (
         <Box component="span" sx={{ p: 1 }}>
@@ -92,13 +86,13 @@ function MuokkaaTapahtuma(props) {
                 <DialogTitle>Muokkaa tapahtumaa</DialogTitle>
                 <DialogContent>
                     <TextField label='Tapahtuman nimi' name="eventrecord_name" value={event.eventrecord_name}
-                        onChange={e => muuta(e)} required fullWidth sx={{ mt: 1, mb: 1 }} />
+                        onChange={e => change(e)} required fullWidth sx={{ mt: 1, mb: 1 }} />
 
                     <TextField label='Tapahtumapaikka' name="venue" value={event.venue}
-                        onChange={e => muuta(e)} fullWidth sx={{ mt: 1, mb: 1 }} />
+                        onChange={e => change(e)} fullWidth sx={{ mt: 1, mb: 1 }} />
 
                     <TextField label='Tapahtumakaupunki' name="city" value={event.city}
-                        onChange={e => muuta(e)} fullWidth sx={{ mt: 1, mb: 1 }} />
+                        onChange={e => change(e)} fullWidth sx={{ mt: 1, mb: 1 }} />
 
                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='fi' >
                         <DateTimePicker label='Alkamisaika' name="event_starttime" value={event.event_starttime}
@@ -109,16 +103,16 @@ function MuokkaaTapahtuma(props) {
                     </LocalizationProvider>
 
                     <TextField label="Lippujen enimmäismäärä" name="ticketsmax" value={event.ticketsmax}
-                        onChange={(e) => muuta(e)} fullWidth sx={{ mt: 1, mb: 1 }} />
+                        onChange={(e) => change(e)} fullWidth sx={{ mt: 1, mb: 1 }} />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => update(eventId)}>Tallenna</Button>
                     <Button onClick={handleClose}>Peruuta</Button>
                 </DialogActions>
-                <Typography sx={{ m: 2 }}>{viesti}</Typography>
+                <Typography sx={{ m: 2 }}>{message}</Typography>
             </Dialog>
         </Box>
     );
 }
 
-export default MuokkaaTapahtuma;
+export default EditEvent;
