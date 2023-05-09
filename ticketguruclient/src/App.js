@@ -73,14 +73,14 @@ function App() {
           <CssBaseline />
           {/** <BrowserRouter basename={process.env.PUBLIC_URL}> */}
           <BrowserRouter>
-          <Box component="span" sx={{ p: 2 }}>
-                <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
-                    <Toolbar>
-                        {<Sidebar />}
-                        <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
-                    </Toolbar>
-                </AppBar>
-                <Outlet />
+            <Box component="span" sx={{ p: 2 }}>
+              <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
+                <Toolbar>
+                  {<Sidebar />}
+                  <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
+                </Toolbar>
+              </AppBar>
+              <Outlet />
             </Box>
             <Routes>
               <Route path="/" element={<Ylapalkki />} />
@@ -115,7 +115,7 @@ function App() {
               />
               <Route path="liput" element={
                 <PrivateRoute>
-                  <Tickets/>
+                  <Tickets />
                 </PrivateRoute>} />
               <Route path="lipuntarkastus" element={
                 <PrivateRoute>

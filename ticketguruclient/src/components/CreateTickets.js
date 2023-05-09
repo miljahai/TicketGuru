@@ -28,6 +28,7 @@ export default function CreateTickets(props) {
         };
 
         // Start tracking the state of fetching tickets
+        //  UseEffect hooks will update data on parent page when this is set to false
         setFetchingTickets(true);
 
         // Call POST /salesevents to create SalesEvent
@@ -82,6 +83,8 @@ export default function CreateTickets(props) {
             }).finally(() => setFetchingTickets(false));
     };
 
+    // Update parent page newTickets after new Tickets have been created
+    //  This data is shown as new created tickets in the client
     useEffect(() => {
         if (newTickets.length && !fetchingTickets) {
             axios
@@ -91,7 +94,7 @@ export default function CreateTickets(props) {
                     },
                 })
                 .then((response) => {
-                    console.log('Tickets fetched 2: ', response.data);
+                    console.log('Tickets fetched: ', response.data);
                     const filteredTickets = response.data.filter((ticket) =>
                         newTickets.includes(ticket.ticket_id)
                     );
@@ -105,14 +108,14 @@ export default function CreateTickets(props) {
                     console.log('Error fetching tickets: ', error);
                 });
         }
-    }, [newTickets, fetchingTickets, user.jwt, props, props.setNewTickets, props.setTickets]);
+    }, [newTickets, fetchingTickets, user.jwt, props.setNewTickets, props.setTickets]);
 
-
+    // Update parent page tickets after Tickets have been created 
     useEffect(() => {
         if (tickets.length && !fetchingTickets) {
             props.setTickets(tickets);
         }
-    }, [fetchingTickets, props, tickets])
+    }, [])
 
     return (
         <div>
