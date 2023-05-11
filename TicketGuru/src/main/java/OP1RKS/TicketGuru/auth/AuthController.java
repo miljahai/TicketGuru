@@ -33,6 +33,7 @@ import jakarta.validation.Valid;
 @RequiredArgsConstructor
 @CrossOrigin(origins = {"http://localhost:3000/", "http://localhost:8080", "https://cen-cenru4.azurewebsites.net", "https://miljahai.github.io"}, allowCredentials = "true")
 public class AuthController {
+	// Controller for handling authentication requests and responses
 	
 	protected final Log logger = LogFactory.getLog(getClass());
 	
@@ -46,7 +47,9 @@ public class AuthController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-    
+	
+    // Create a new user
+	// Validates password
 	@PostMapping("/register")
 	public ResponseEntity<AuthenticationResponse> register(@Valid
 			@RequestBody RegisterRequest request

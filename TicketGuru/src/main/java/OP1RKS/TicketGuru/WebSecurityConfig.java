@@ -33,13 +33,16 @@ public class WebSecurityConfig {
 	private final JwtAuthenticationFilter jwtAuthFilter;
 	private final AuthenticationProvider authenticationProvider; 
 	
+	// error handlers:
 	@Autowired
 	CustomAccessDeniedHandler accessDeniedHandler;
 	@Autowired
 	CustomAuthenticationFailureHandler authenticationFailureHandler;
 	
-    
-	// TODO: tätä listaa pitää siivota
+	// Allow non-JWT calls in whitelisted endpoints
+	// By default all other calls require JWT.
+	// /auth and /login required to handle login attempts
+	// /h2-console for dev use only, is not loaded in prod
     private static final AntPathRequestMatcher[] WHITE_LIST_URLS = {
     		new AntPathRequestMatcher("/auth"),
     		new AntPathRequestMatcher("/auth/**"),
@@ -51,10 +54,8 @@ public class WebSecurityConfig {
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
-		// JWT-koodi
-		// kaikkien toimintojuen pitäisi edellyttää JWT:ta
-		// vaatii ehkä korjauksia
-		// kts. https://github.com/ali-bouali/spring-boot-3-jwt-security/blob/main/src/main/java/com/alibou/security/config/SecurityConfiguration.java
+		// By default all calls require JWT.
+		// For reference, see: https://github.com/ali-bouali/spring-boot-3-jwt-security/blob/main/src/main/java/com/alibou/security/config/SecurityConfiguration.java
 		http
 			.cors()
 			.and()
@@ -110,6 +111,7 @@ public class WebSecurityConfig {
 		
     }
 	
+	// CORS configuration
 	@Bean
 	CorsConfigurationSource corsConfigurationSource()
 	{

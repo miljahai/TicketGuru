@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationResponse {
+	// 	Entity for handling of outgoing JWT authentication responses
+	//	Uses lombok to autogenerate functions
 	
 	private String token;
     private AppUser user;

@@ -23,11 +23,14 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name= "tickettype")
-
+//SQLDelete and Where rows turn deletion to soft. 
+//SQLDelete changes delete to set 'deleted' value to true. 
+//Where filters items with deleted=true from queries.
 @SQLDelete(sql = "UPDATE tickettype SET deleted = true WHERE ticket_type_id=?")
 @Where(clause="deleted=false")
 public class TicketType {
 	
+	// Properties
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long ticket_type_id;
@@ -49,11 +52,11 @@ public class TicketType {
 	@JoinColumn (name = "eventrecord_id")
 	private EventRecord eventRecord;
 
-	public TicketType() {
-		super();
-	}
+	// Constructors
 	
+	public TicketType() { }
 	
+	// 
 	public TicketType(@NotNull @Size(max = 20, message = "name is too long") String name, @NotNull
 			@Min(value = 0, message="price cannot be negative") double price, boolean deleted,
 			EventRecord eventRecord) {
@@ -64,7 +67,7 @@ public class TicketType {
 		this.eventRecord = eventRecord;
 	}
 
-
+	// 
 	public TicketType(Long ticket_type_id, @NotNull @Size(max = 20, message = "name is too long") String name,
 			@NotNull @Min(value = 0, message="price cannot be negative") double price, boolean deleted, EventRecord eventRecord) {
 		super();
@@ -75,7 +78,7 @@ public class TicketType {
 		this.eventRecord = eventRecord;
 	}
 
-
+	// 
 	public TicketType(Long ticket_type_id, @NotNull @Size(max = 20, message = "name is too long") String name,
 			@NotNull @Min(value = 0, message="price cannot be negative") double price, boolean deleted, List<Ticket> tickets, EventRecord eventRecord) {
 		super();
@@ -87,7 +90,8 @@ public class TicketType {
 		this.eventRecord = eventRecord;
 	}
 	
-		public TicketType(@NotNull @Size(max = 20, message = "name is too long") String ticket_type_name,
+	// 
+	public TicketType(@NotNull @Size(max = 20, message = "name is too long") String ticket_type_name,
 			@NotNull @Min(value = 0, message = "price cannot be negative") double price, boolean deleted) {
 		super();
 		this.ticket_type_name = ticket_type_name;
@@ -95,7 +99,8 @@ public class TicketType {
 		this.deleted = false;
 	}
 
-
+	// 
+	
 	public TicketType(Long ticket_type_id) {
 		super();
 		this.ticket_type_id = ticket_type_id;

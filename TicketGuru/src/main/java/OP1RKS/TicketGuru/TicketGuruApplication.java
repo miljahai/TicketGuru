@@ -20,12 +20,13 @@ public class TicketGuruApplication {
 		SpringApplication.run(TicketGuruApplication.class, args);
 	}
 	
+	// Set dates to localized format
     DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");  
 	
-	// DEMO DATA
 	// Logger
 	private static final Logger Log = LoggerFactory.getLogger(TicketGuruApplication.class);
 
+	// Create default user for Azure profile if user repository is empty
 	@Profile("azure")
 	@Bean
 	public CommandLineRunner setupAzure(AppUserRepository urepo) {
@@ -37,6 +38,7 @@ public class TicketGuruApplication {
 		};
 	};
 	
+	// Create default user for local mariadb profile if user repository is empty
 	@Profile("mariadb")
 	@Bean
 	public CommandLineRunner setupMariaDb(AppUserRepository urepo) {
@@ -48,6 +50,7 @@ public class TicketGuruApplication {
 		};
 	};
 	
+	// Create data for local default h2 profile
 	@Profile("h2")
 	@Bean
 	public CommandLineRunner demo(EventRecordRepository erepo, SalesEventRepository srepo, TicketRepository tickets, TicketTypeRepository ttrepo, AppUserRepository urepo) {
@@ -129,32 +132,7 @@ public class TicketGuruApplication {
 				newTicket6.setPrice(50.70);
 				newTicket6.setTicketType(ttrepo.findById((long) 9).orElse(new TicketType()));
 				newTicket6.setSalesEvent(srepo.findById((long) 6).orElse(new SalesEvent()));
-			tickets.save(newTicket6);
-
-			
-			
-			
-			// Check Fake Data
-			// Tämä failaa, jos Eventrecordin toStringissä on tickettypes
-			/*
-			Log.info("fetch all eventrecords");
-			for (EventRecord eventrecord: erepo.findAll()) {
-				Log.info("Fetch eventrecord: " + eventrecord.toString());
-			}
-			Log.info("fetch all tickettypes");
-			for (TicketType tickettype: ttrepo.findAll()) {
-				Log.info("Fetch tickettype: " + tickettype.toString());
-			}
-			Log.info("fetch all salesevents");
-			for (SalesEvent salesevent: srepo.findAll()) {
-				Log.info("Fetch salesevent: " + salesevent.toString());
-			}
-			Log.info("fetch all tickets");
-			for (Ticket ticket: tickets.findAll()) {
-				Log.info("Fetch ticket: " + ticket.toString());
-			}
-			*/
-						
+			tickets.save(newTicket6);						
 		};
 	}
 	

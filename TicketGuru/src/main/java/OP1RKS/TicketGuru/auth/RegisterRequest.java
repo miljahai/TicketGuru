@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
+	// 	Entity for handling of incoming user registration requests
+	//	Uses lombok to autogenerate functions
 
 	@NotNull
 	@Size(max = 100, message="name is too long")

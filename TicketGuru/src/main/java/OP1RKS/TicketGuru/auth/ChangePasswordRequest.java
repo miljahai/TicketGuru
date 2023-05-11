@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChangePasswordRequest {
+	// 	Entity for handling of incoming user password change requests
+	//	Uses lombok to autogenerate functions
+	
 	private String email;
 	private String currentPassword;
     private String newPassword;

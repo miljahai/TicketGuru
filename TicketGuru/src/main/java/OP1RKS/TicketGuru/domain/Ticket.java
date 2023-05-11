@@ -24,11 +24,15 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Entity
+//Lombok annotations to autogenerate class functions:
 @Data
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name= "ticket")
+//SQLDelete and Where rows turn deletion to soft. 
+//SQLDelete changes delete to set 'deleted' value to true. 
+//Where filters items with deleted=true from queries.
 @SQLDelete(sql = "UPDATE ticket SET deleted = true WHERE ticket_id=?")
 @Where(clause="deleted=false")
 public class Ticket {

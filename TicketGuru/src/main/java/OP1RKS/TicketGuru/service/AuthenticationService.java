@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthenticationService {
 	
 	
-	// Palvelu autentikoi auth/register ja auth/authenticate -kutsut. Palauttaa JWT:n.
+	// This service authenticates auth/register and auth/authenticate calls and returns the JWT.
 	
 	private final AppUserRepository urepo;
 	private final PasswordEncoder passwordEncoder;
@@ -28,15 +28,15 @@ public class AuthenticationService {
 	
 	
 	/*
-	 * 	Rekisteröi = luo uuden käyttäjän. Tiedot kasataan POST-kutsun perusteella.
-	 *  Kutsun muoto:
+	 * 	Register = create a new user. User details are parsed from the POST call.
+	 *  Payload format:
 	 *  {
 	 *  	"firstname":"Test2",
 	 *  	"lastname":"Admin2",
 	 *  	"email":"test2.admin2@ticketguru.com",
 	 *  	"password":"sala1234"
 	 *  }
-	 * 	Palauttaa Tokenin
+	 * 	Returns the JWT or an error
 	 */
 	public AuthenticationResponse register(RegisterRequest request){
 		if (urepo.findByEmail(request.getEmail()).isPresent()) {
@@ -54,13 +54,13 @@ public class AuthenticationService {
 		return new AuthenticationResponse(jwtToken, user);
 	}
 	
-	/*	Tarkistaa onko POST-kutsussa oleva käyttäjä AppUserRepositoryssa.
-	 * 	Kutsun muoto:
+	/*	Validate if the user in the POST call exists in the AppUserRepositoryssa.
+	 * 	Payload format:
 	 * 	{
      *		"email":"test.admin@ticketguru.com",
      *		"password":"sala1234"
 	 *	}
-	 *	Palauttaa Tokenin
+	 *	Returns the JWT or an error
 	 */
 	public AuthenticationResponse authenticate(AuthenticationRequest request) {
 		authenticationManager.authenticate(

@@ -1,9 +1,6 @@
 package OP1RKS.TicketGuru.domain;
 
-
-
-// JWT-ratkaisussa tämä ei ole tarpeen(?)
-
+// Not needed -> delete?
 
 //public interface UserRoleRepository extends CrudRepository<UserRole, Long> {
 //	
