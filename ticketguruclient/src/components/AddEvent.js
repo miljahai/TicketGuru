@@ -7,11 +7,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useUser } from "../util/UserProvider";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import jwt_decode from "jwt-decode";
-import dayjs from 'dayjs';
-import 'dayjs/locale/fi';
 
 function AddEvent() {
   const user = useUser();
@@ -106,7 +104,7 @@ function AddEvent() {
           <TextField label='Tapahtumakaupunki' name="city" value={event.city}
               onChange={(e) => change(e)} fullWidth />
           
-          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='fi'>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
           <DateTimePicker label='Alkamisaika' name="event_starttime" value={event.event_starttime}
               onChange={(e) => setSelectedStartDate(e)} useTimeZone required fullWidth format="DD.MM.YYYY HH:mm" />
           <DateTimePicker label= 'Päättymisaika' name="event_endtime" value={event.event_endtime}
