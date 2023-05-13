@@ -15,6 +15,7 @@ export default function TicketTypes() {
     const [tickettypes, setTickettypes] = useState([]);
     const user = useUser();
     const [roles, setRoles] = useState([]);
+    const [message, setMessage] = useState('')
 
     useEffect(() => {
         if (user && user.jwt) {
@@ -64,11 +65,14 @@ export default function TicketTypes() {
                 console.log('TicketTypes fetched:', tickettypesResponse.data);
                 const ttdata = tickettypesResponse.data.filter(tt => tt.eventRecord != null)
                 setTickettypes(ttdata);
+                setMessage('Lipputyyppi ' + tickettype.eventRecord.eventrecord_id + ': ' + tickettype.name + ' lisätty');
             }).catch(error => {
                 console.log('Error fetching TicketTypes: ', error);
+                setMessage('Lipputyypin lisääminen epäonnistui: ' + error.code + ' ' + error.message + ': ' + JSON.stringify(error.response.data));
             });
         }).catch(error => {
             console.log('Error creating TicketType: ', error)
+            setMessage('Lipputyypin lisääminen epäonnistui: ' + error.code + ' ' + error.message + ': ' + JSON.stringify(error.response.data));
         });
     };
 
@@ -98,6 +102,9 @@ export default function TicketTypes() {
             </Typography>
             <Box>
                 <TicketTypesGrid tickettypes={tickettypes} user={user} />
+            </Box>
+            <Box component='div'>
+                {message}
             </Box>
         </Container >
     )

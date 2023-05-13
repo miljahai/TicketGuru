@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.context.annotation.Profile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -36,7 +37,7 @@ public class TicketType {
 	private Long ticket_type_id;
 	
 	@NotNull
-	@Size(max = 20, message = "name is too long")
+	@Size(min = 1, max = 20, message = "name is missing or is too long")
 	private String ticket_type_name;
 	
 	@NotNull
@@ -91,7 +92,7 @@ public class TicketType {
 	}
 	
 	// 
-	public TicketType(@NotNull @Size(max = 20, message = "name is too long") String ticket_type_name,
+	public TicketType(@NotNull @Size(min = 1, max = 20, message = "name is missing or is too long") String ticket_type_name,
 			@NotNull @Min(value = 0, message = "price cannot be negative") double price, boolean deleted) {
 		super();
 		this.ticket_type_name = ticket_type_name;
@@ -100,12 +101,14 @@ public class TicketType {
 	}
 
 	// 
-	
+	/*
 	public TicketType(Long ticket_type_id) {
 		super();
 		this.ticket_type_id = ticket_type_id;
 	}
-
+	*/
+	
+	// Getters and Setters
 	public Long getTicket_type_id() {
 		return ticket_type_id;
 	}

@@ -23,7 +23,7 @@ function AddEvent() {
     ticketsmax: '',
   });
   const [message, setMessage] = useState('');
-  
+
   const change = (e) => {
     setEvent({
       ...event,
@@ -31,14 +31,14 @@ function AddEvent() {
     });
     setMessage('');
   };
-  
+
   useEffect(() => {
     if (user && user.jwt) {
       const decodedJwt = jwt_decode(user.jwt);
       setRoles(decodedJwt.authorities);
     }
   }, [user, user.jwt]);
-  
+
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   const config = {
@@ -48,16 +48,15 @@ function AddEvent() {
   }
   const add = async (e) => {
     e.preventDefault();
-    const formData = {
-      eventrecord_name: event.eventrecord_name,
-      venue: event.venue,
-      city: event.city,
-      event_starttime: selectedStartDate.toISOString(),
-      event_endtime: selectedEndDate.toISOString(),
-      ticketsmax: event.ticketsmax,
-    }
-    console.log(selectedStartDate.toISOString());
     try {
+      const formData = {
+        eventrecord_name: event.eventrecord_name,
+        venue: event.venue,
+        city: event.city,
+        event_starttime: selectedStartDate.toISOString(),
+        event_endtime: selectedEndDate.toISOString(),
+        ticketsmax: event.ticketsmax,
+      }
       await axios.post('http://localhost:8080/events', formData, config);
       setEvent({
         eventrecord_name: '',
@@ -77,7 +76,7 @@ function AddEvent() {
         event_endtime: '',
         ticketsmax: '',
       });
-      setMessage('Tietojen lisääminen ei onnistunut');
+      setMessage('Tietojen lisääminen ei onnistunut: ' + error);
     }
   };
   return (
@@ -87,7 +86,7 @@ function AddEvent() {
         <Button component={Link} to="../tapahtumat" endIcon={<ArticleIcon />} color='primary' >Tapahtumat</Button>
         {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (
           <>
-              <Button component={Link} to="../tapahtumanlisays" variant='outlined' endIcon={<AddIcon />} >Lisää tapahtuma</Button>
+            <Button component={Link} to="../tapahtumanlisays" variant='outlined' endIcon={<AddIcon />} >Lisää tapahtuma</Button>
           </>
         ) : (
           <></>
@@ -98,20 +97,20 @@ function AddEvent() {
         <Box
           component='form'>
           <TextField label='Tapahtuman nimi' name="eventrecord_name" value={event.eventrecord_name}
-              onChange={(e) => change(e)} required fullWidth />
+            onChange={(e) => change(e)} required fullWidth />
           <TextField label='Tapahtumapaikka' name="venue" value={event.venue}
-              onChange={(e) => change(e)} fullWidth />
+            onChange={(e) => change(e)} fullWidth />
           <TextField label='Tapahtumakaupunki' name="city" value={event.city}
-              onChange={(e) => change(e)} fullWidth />
-          
+            onChange={(e) => change(e)} fullWidth />
+
           <LocalizationProvider dateAdapter={AdapterMoment}>
-          <DateTimePicker label='Alkamisaika' name="event_starttime" value={event.event_starttime}
+            <DateTimePicker label='Alkamisaika' name="event_starttime" value={event.event_starttime}
               onChange={(e) => setSelectedStartDate(e)} useTimeZone required fullWidth format="DD.MM.YYYY HH:mm" />
-          <DateTimePicker label= 'Päättymisaika' name="event_endtime" value={event.event_endtime}
-              onChange={(e) => setSelectedEndDate(e)} useTimeZone required fullWidth  format="DD.MM.YYYY HH:mm"/>
+            <DateTimePicker label='Päättymisaika' name="event_endtime" value={event.event_endtime}
+              onChange={(e) => setSelectedEndDate(e)} useTimeZone required fullWidth format="DD.MM.YYYY HH:mm" />
           </LocalizationProvider>
-          
-          <TextField label ="Lippujen enimmäismäärä" name="ticketsmax" value={event.ticketsmax} onChange={(e) => change(e)} fullWidth />
+
+          <TextField label="Lippujen enimmäismäärä" name="ticketsmax" value={event.ticketsmax} onChange={(e) => change(e)} fullWidth />
           <Button onClick={(e) => add(e)}>Tallenna</Button>
         </Box>
         <Typography>{message}</Typography>
