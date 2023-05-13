@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+// Handles authentication failure exceptions
 @Component("customAuthenticationFailureHandler")
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 	

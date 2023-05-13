@@ -9,7 +9,7 @@ import moment from 'moment-timezone';
 import 'moment/locale/fi';
 
 function SoldTickets(props) {
-
+  // Render a table of sold tickets
   return (
     <Box>
       <Table>

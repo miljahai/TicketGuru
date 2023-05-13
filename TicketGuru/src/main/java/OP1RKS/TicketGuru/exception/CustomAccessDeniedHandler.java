@@ -9,7 +9,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+// Handles access denied exceptions
 @Component("customAccessDeniedHandler")
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 	
