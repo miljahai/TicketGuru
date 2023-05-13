@@ -4,8 +4,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState, } from "react";
 import { useUser } from '../util/UserProvider';
 import jwt_decode from "jwt-decode";
-import 'dayjs/locale/fi';
 import EditEvent from "./EditEvent";
+import moment from 'moment-timezone';
+import 'moment/locale/fi';
 
 
 function Events(props) {
@@ -47,8 +48,8 @@ function Events(props) {
               <CardContent>
                 <Typography>Paikka: {event.venue}</Typography>
                 <Typography>Kaupunki: {event.city}</Typography>
-                <Typography>Aloitusaika: {(new Date(event.event_starttime)).toLocaleString()}</Typography>
-                <Typography>Lopetusaika: {(new Date(event.event_endtime)).toLocaleString()}</Typography>
+                <Typography>Aloitusaika: {moment.utc(event.event_starttime).local().format('DD.MM.YYYY, [klo] HH.mm')}</Typography>
+                <Typography>Lopetusaika: {moment.utc(event.event_endtime).local().format('DD.MM.YYYY, [klo] HH.mm')}</Typography>
                 <Typography>Lippuja jäljellä: {event.ticketsmax}</Typography>
               </CardContent>
               {roles && roles.filter((role) => role === "ADMIN" || role === "EVENTS").length > 0 ? (

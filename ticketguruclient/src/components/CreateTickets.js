@@ -11,7 +11,6 @@ export default function CreateTickets(props) {
     const [viesti, setViesti] = useState('')
     const [fetchingTickets, setFetchingTickets] = useState(false);
     const user = useUser();
-    const dayjs = require('dayjs')
 
     const handleSubmit = () => {
         // Create a Salesevent and then create Tickets by looping selectedTicketTypes
@@ -21,7 +20,7 @@ export default function CreateTickets(props) {
         //setFinalPrice(invoiceTotal);
         console.log('InvoiceTotal: ', props.invoiceTotal)
         const saleseventbody = {
-            sale_date: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+            sale_date: new Date().toISOString(),
             deleted: false,
             final_price: props.invoiceTotal,
             appUser: { appuser_id: user.userInfo.appuser_id, userrole: user.userInfo.userrole }

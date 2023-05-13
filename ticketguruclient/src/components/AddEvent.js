@@ -10,6 +10,7 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import jwt_decode from "jwt-decode";
+import dayjs from 'dayjs';
 import 'dayjs/locale/fi';
 
 function AddEvent() {
@@ -47,7 +48,7 @@ function AddEvent() {
       'Authorization': `Bearer ${user.jwt}`
     }
   }
-  const lisaa = async (e) => {
+  const add = async (e) => {
     e.preventDefault();
     const formData = {
       eventrecord_name: event.eventrecord_name,
@@ -57,6 +58,7 @@ function AddEvent() {
       event_endtime: selectedEndDate.toISOString(),
       ticketsmax: event.ticketsmax,
     }
+    console.log(selectedStartDate.toISOString());
     try {
       await axios.post('http://localhost:8080/events', formData, config);
       setEvent({
@@ -106,13 +108,13 @@ function AddEvent() {
           
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='fi'>
           <DateTimePicker label='Alkamisaika' name="event_starttime" value={event.event_starttime}
-              onChange={(e) => setSelectedStartDate(e)} required fullWidth format="DD.MM.YYYY HH:mm" />
+              onChange={(e) => setSelectedStartDate(e)} useTimeZone required fullWidth format="DD.MM.YYYY HH:mm" />
           <DateTimePicker label= 'Päättymisaika' name="event_endtime" value={event.event_endtime}
-              onChange={(e) => setSelectedEndDate(e)} required fullWidth  format="DD.MM.YYYY HH:mm"/>
+              onChange={(e) => setSelectedEndDate(e)} useTimeZone required fullWidth  format="DD.MM.YYYY HH:mm"/>
           </LocalizationProvider>
           
           <TextField label ="Lippujen enimmäismäärä" name="ticketsmax" value={event.ticketsmax} onChange={(e) => change(e)} fullWidth />
-          <Button onClick={(e) => lisaa(e)}>Tallenna</Button>
+          <Button onClick={(e) => add(e)}>Tallenna</Button>
         </Box>
         <Typography>{message}</Typography>
       </Paper>

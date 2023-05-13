@@ -13,6 +13,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
+import moment from 'moment-timezone';
+import 'moment/locale/fi';
 
 function Tickets() {
 
@@ -26,7 +28,6 @@ function Tickets() {
     const [finalPrice, setFinalPrice] = useState(0);
     const [newTickets, setNewTickets] = useState([]);
     const user = useUser();
-    const dayjs = require('dayjs')
 
     // Constants for Ticket table
     // Calculate tax for selected tickets
@@ -173,8 +174,8 @@ function Tickets() {
                         <Box id='eventinfo' sx={{}}>
                             <Typography variant='h4'>{selectedEvent.eventrecord_name}</Typography>
                             <Typography>Sijainti: {selectedEvent.venue}, {selectedEvent.city}</Typography>
-                            <Typography>Alkaa: {dayjs(selectedEvent.event_starttime).format('DD.M.YYYY HH:mm')}</Typography>
-                            <Typography>Päättyy: {dayjs(selectedEvent.event_endtime).format('DD.M.YYYY HH:mm')}</Typography>
+                            <Typography>Alkaa: {moment.utc(selectedEvent.event_starttime).local().format('DD.MM.YYYY, [klo] HH.mm')}</Typography>
+                            <Typography>Päättyy: {moment.utc(selectedEvent.event_endtime).local().format('DD.MM.YYYY, [klo] HH.mm')}</Typography>
                             <Typography>Lippuja myynnissä: {selectedEvent.ticketsmax}</Typography>
                         </Box>
                     )}
