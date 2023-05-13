@@ -60,6 +60,11 @@ public class UserRestController {
 	        if (result.hasErrors()) {
 	            throw new MethodArgumentNotValidException(null, result);
 	        }
+	        if (editUserDto.getFirstname() == null || editUserDto.getFirstname().isEmpty() ||
+	        	    editUserDto.getLastname() == null || editUserDto.getLastname().isEmpty() ||
+	        	    editUserDto.getEmail() == null || editUserDto.getEmail().isEmpty()) {
+	        		throw new MethodArgumentNotValidException(null, result);
+	        	}
 	        AppUser existingAppUser = appUser.get();
 
 	        // set user properties from the DTO
