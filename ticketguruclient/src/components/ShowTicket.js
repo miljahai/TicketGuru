@@ -19,7 +19,6 @@ export default function ShowTicket(props) {
     };
 
     useEffect(() => {
-
         async function fetchQRCode() {
             const response = await fetch(`http://localhost:8080/qrcode/${code}`, {
                 headers: {
