@@ -83,7 +83,7 @@ public class UserRestController {
 	        throw new EntityNotFoundException("User not found with id: " + id);
 	    }
 	};
-	
+
 	// REST Find by id
 	@GetMapping("/users/{id}")
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -105,5 +105,4 @@ public class UserRestController {
 		}
 		urepo.deleteById(id);
 	};
-	
 }
