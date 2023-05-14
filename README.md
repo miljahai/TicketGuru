@@ -198,14 +198,14 @@ userrole | varchar(50)/enum | Viittaus rooliin UserRole-taulussa
 > -   ohjelmiston pitää olla organisoitu komponentteihin niin, että turhalta toistolta
 >     vältytään
 > 
-> ## Testaus
-> 
-> Tässä kohdin selvitetään, miten ohjelmiston oikea toiminta varmistetaan
-> testaamalla projektin aikana: millaisia testauksia tehdään ja missä vaiheessa.
-> Testauksen tarkemmat sisällöt ja testisuoritusten tulosten raportit kirjataan
-> erillisiin dokumentteihin.
-> 
-> Tänne kirjataan myös lopuksi järjestelmän tunnetut ongelmat, joita ei ole korjattu.
+## Testaus
+Ohjelmistolle on suoritettu JUnit-testit & integraatiotestit ticket-luokalle, sekä end-to-end – testit lipun tarkastukselle
+
+### Dokumentaatio
+[JUnit-testit](./TEST_documentation/JUnittests.md)<br>
+[Integraatiotestit](./TEST_documentation/Integrationtests.md)<br>
+[End-to-end -testit](./TEST_documentation/Endtoendtests.md)<br>
+<br>
 > 
 > ## Asennustiedot
 > 
