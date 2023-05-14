@@ -69,10 +69,10 @@ Kenttä | Tyyppi | Kuvaus
 eventrecord_id | int PK | Tapahtuman id
 eventrecord_name | varchar(100) |  Tapahtuman nimi
 venue | varchar(100) | Tapahtumapaikan nimi 
-city | varchar(100) | Tapahtumapaikan kaupunki
+city | char(100) | Tapahtumapaikan kaupunki
 ticketsmax | int | Lippujen maksimimäärä
-eventrecord_starttime | LocalDateTime | Tapahtuman aloitusaika
-eventrecord_endtime | LocalDateTime | Tapahtuman päättymisaika
+eventrecord_starttime | DateTime | Tapahtuman aloitusaika
+eventrecord_endtime | DateTime | Tapahtuman päättymisaika
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 
 ### Ticket
@@ -94,7 +94,7 @@ TicketType-taulu sisältää lipputyypit. Sisältää OneToMany-viittauksen Tick
 Kenttä | Tyyppi | Kuvaus
 ----- | ----- | -----
 ticket_type_id | int PK | Lipputyypin id
-ticket_type_name | varchar(50) | Lipputyypin nimi
+ticket_type_name | varchar(20) | Lipputyypin nimi
 price | double | Lipputyypin hinta
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 eventrecord_id | int FK | Viittaus tapahtumaan EventRecord-taulussa
@@ -105,7 +105,7 @@ SalesEvent-taulu sisältää ostotapahtuman tiedot. SalesEventistä on OneToMany
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
 salesevent_id | int PK | Ostotapahtuman id
-sale_date | LocalDateTime |  Ostotapahtuman päivämäärä ja kellonaika
+sale_date | DateTime (timestamp) |  Ostotapahtuman päivämäärä ja kellonaika
 final_price | double | Ostotapahtuman kokonaissumma
 appuser_id | int FK | Ostotapahtuman myyjän käyttäjä id
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
