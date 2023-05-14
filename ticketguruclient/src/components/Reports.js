@@ -8,17 +8,20 @@ export default function Reports(props) {
 
     // Grid Configuration
     const gridRef = useRef();
+
     const gridOptions = {
      columnDefs : [
-        { headerName: 'Id', field: 'ticket_id', sortable: true, filter: true, width: 100 },
+        { headerName: 'Id', field: 'ticket_id', sortable: true, filter: true, width: 80 },
         { headerName: 'Price', field: 'price', sortable: true, filter: true, width: 100},
         { headerName: 'Salesevent', field: 'salesEvent.salesevent_id', sortable: true, filter: true, width: 100},
-        { headerName: 'Sale date', field: 'salesEvent.sale_date', sortable: true, filter: 'agDateColumnFilter',
+        { headerName: 'Date', field: 'salesEvent.sale_date', sortable: true, filter: 'agDateColumnFilter', width: 100,
             cellRenderer: (data) => {
                 return data.value ? (new Date(data.value)).toLocaleDateString() : '';
          }}, 
-        { headerName: 'Event', field: 'ticketType.eventRecord.eventrecord_name', sortable: true, filter: true},
-        { headerName: 'Ticket type', field: 'ticketType.name', sortable: true, filter: true }, 
+        { headerName: 'Final price', field: 'salesEvent.final_price', sortable: true, filter: true, width: 150},
+        { headerName: 'Event', field: 'ticketType.eventRecord.eventrecord_name', sortable: true, filter: true, width:150},
+        { headerName: 'Ticket type', field: 'ticketType.name', sortable: true, filter: true, width: 150}, 
+        { headerName: 'Myyjä nimi', field: 'salesEvent.appUser.firstname', sortable: true, filter: true, width:150},
         { headerName: 'Myyjä ID', field: 'salesEvent.appUser.appuser_id', sortable: true, filter: true}
     ],
 
@@ -36,7 +39,7 @@ export default function Reports(props) {
             <div>
           <Button onClick={onBtExport}>Export AS CSV</Button>
             </div>
-            <div className="ag-theme-alpine" style={{height: '900px',width: '100%', margin: 'auto'}}>
+            <div className="ag-theme-material" style={{height: '900px',width: '100%', margin: 'auto'}}>
                 <AgGridReact
                     //onGridReady={params => gridRef.current = params.api
                     gridOptions={gridOptions}
