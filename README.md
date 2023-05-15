@@ -1,8 +1,6 @@
 # TicketGuru
 
 Tiimi: De Lorme Heli, Haiko Milja, Koivisto Janina, Pulli Topi, Sirviö Jukka-Pekka
-> Kirjoittamisen avuksi, poistetaan tämä lopullisesta versiosta:
-> https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
 
 ## Johdanto
@@ -159,7 +157,7 @@ Järjestelmä on toteutettu palvelinpuolen osalta Javalla, Spring Boot -viitekeh
 ### Auth
 [POST /auth/authenticate](./API%20documentation/auth/post_authenticate.md)<br>
 [POST /auth/register](./API%20documentation/auth/post_register.md)<br>
-<br>
+
 
 ### Events
 [GET /events](./API%20documentation/events/get.md)<br>
@@ -167,7 +165,7 @@ Järjestelmä on toteutettu palvelinpuolen osalta Javalla, Spring Boot -viitekeh
 [POST /events](./API%20documentation/events/post.md)<br>
 [PUT /events/{id}](./API%20documentation/events/putbyid.md)<br>
 [DELETE /events/{id}](./API%20documentation/events/deletebyid.md)<br>
-<br>
+
 
 ### Salesevents
 [GET /salesevents](./API%20documentation/salesevents/get.md)<br>
@@ -175,7 +173,7 @@ Järjestelmä on toteutettu palvelinpuolen osalta Javalla, Spring Boot -viitekeh
 [POST /salesevents](./API%20documentation/salesevents/post.md)<br>
 [PUT /salesevents/{id}](./API%20documentation/salesevents/putbyid.md)<br>
 [DELETE /salesevents/{id}](./API%20documentation/salesevents/deletebyid.md)<br>
-<br>
+
 
 ### Tickets
 [GET /tickets](./API%20documentation/tickets/get.md)<br>
@@ -185,11 +183,10 @@ Järjestelmä on toteutettu palvelinpuolen osalta Javalla, Spring Boot -viitekeh
 [PATCH /tickets/{id}](./API%20documentation/tickets/patchbyid.md)<br>
 [DELETE /tickets/{id}](./API%20documentation/tickets/deletebyid.md)<br>
 
-<br>
 
 ### QR Code
 [GET /grcode/code](./API%20documentation/qrcode/getbycode.md)
-<br>
+
 
 ### Tickettypes
 [GET /tickettypes](./API%20documentation/tickettypes/get.md)<br>
@@ -197,7 +194,7 @@ Järjestelmä on toteutettu palvelinpuolen osalta Javalla, Spring Boot -viitekeh
 [POST /tickettypes](./API%20documentation/tickettypes/post.md)<br>
 [PUT /tickettypes/{id}](./API%20documentation/tickettypes/putbyid.md)<br>
 [DELETE /tickettypes/{id}](./API%20documentation/tickettypes/deletebyid.md)<br>
-<br>
+
 
 ### Users
 [GET /users](./API%20documentation/users/get.md)<br>
@@ -210,27 +207,7 @@ Projektista löytyy kontrollerit tapahtumille, lipuille, myyntitapahtumille, lip
 Resurssitiedostoista löytyy sovelluksen konfiguraatiota, kuten ‘application.properties’ tiedosto, joka määrittelee tietokantayhteyden ja muita asetuksia.
 
 <br>
-<br>
 
-> Teknisessä kuvauksessa esitetään järjestelmän toteutuksen suunnittelussa tehdyt tekniset
-> ratkaisut, esim.
-> 
-> -   Missä mikäkin järjestelmän komponentti ajetaan (tietokone, palvelinohjelma)
->     ja komponenttien väliset yhteydet (vaikkapa tähän tyyliin:
->     https://security.ufl.edu/it-workers/risk-assessment/creating-an-information-systemdata-flow-diagram/)
-> -   Palvelintoteutuksen yleiskuvaus: teknologiat, deployment-ratkaisut yms.
-> -   Keskeisten rajapintojen kuvaukset, esimerkit REST-rajapinta. Tarvittaessa voidaan rajapinnan käyttöä täsmentää
->     UML-sekvenssikaavioilla.
-> -   Toteutuksen yleisiä ratkaisuja, esim. turvallisuus.
-> 
-> Tämän lisäksi
-> 
-> -   ohjelmakoodin tulee olla kommentoitua
-> -   luokkien, metodien ja muuttujien tulee olla kuvaavasti nimettyjä ja noudattaa
->     johdonmukaisia nimeämiskäytäntöjä
-> -   ohjelmiston pitää olla organisoitu komponentteihin niin, että turhalta toistolta
->     vältytään
-> 
 ## Testaus
 Ohjelmistolle on suoritettu JUnit-testit & integraatiotestit ticket-luokalle, sekä end-to-end – testit lipun tarkastukselle
 
