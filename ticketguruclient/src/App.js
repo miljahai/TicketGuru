@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import './App.css';
-import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import PrivateRoute from './PrivateRoute';
@@ -70,17 +70,17 @@ function App() {
   if (loading) {
     return <CircularProgress />;
   }
-  
-  if(!authenticated) {
+
+  if (!authenticated) {
     return (
-    <Container>
-      <BrowserRouter>
-      <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/*' element={<Navigate to="/login" />} />
-      </Routes>
-      </BrowserRouter>
-    </Container>
+      <Container>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/login' element={<Login />} />
+            <Route path='/*' element={<Navigate to="/login" />} />
+          </Routes>
+        </BrowserRouter>
+      </Container>
     );
   }
   return (
@@ -98,7 +98,7 @@ function App() {
                 </Toolbar>
               </AppBar>
               <Outlet />
-            </Box>           
+            </Box>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
@@ -162,7 +162,7 @@ function App() {
                 <PrivateRoute>
                   <Profile />
                 </PrivateRoute>} />
-            </Routes>      
+            </Routes>
           </BrowserRouter>
         </Box>
       </ThemeProvider>
