@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import PrivateRoute from './PrivateRoute';
-import Ylapalkki from "./pages/Home";
+import Home from "./pages/Home";
 import EventPage from "./pages/EventPage";
 import ReportsPage from "./pages/ReportsPage";
 import Tickets from "./pages/Tickets";
@@ -50,6 +50,8 @@ function App() {
   const user = useUser();
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+
 
   useEffect(() => {
     console.log(user)
@@ -57,8 +59,10 @@ function App() {
       const decodedJwt = jwt_decode(user.jwt);
       setRoles(decodedJwt.authorities);
       setLoading(false);
+      setAuthenticated(true);
     } else {
       setLoading(false);
+      setAuthenticated(false);
     }
   }, [user, user.jwt]);
 
@@ -66,7 +70,19 @@ function App() {
   if (loading) {
     return <CircularProgress />;
   }
-
+  
+  if(!authenticated) {
+    return (
+    <Container>
+      <BrowserRouter>
+      <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/*' element={<Navigate to="/login" />} />
+      </Routes>
+      </BrowserRouter>
+    </Container>
+    );
+  }
   return (
     <Container>
       <ThemeProvider theme={theme}>
@@ -82,9 +98,9 @@ function App() {
                 </Toolbar>
               </AppBar>
               <Outlet />
-            </Box>
+            </Box>           
             <Routes>
-              <Route path="/" element={<Ylapalkki />} />
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="tapahtumat" element={
                 <PrivateRoute>
@@ -146,7 +162,7 @@ function App() {
                 <PrivateRoute>
                   <Profile />
                 </PrivateRoute>} />
-            </Routes>
+            </Routes>      
           </BrowserRouter>
         </Box>
       </ThemeProvider>
