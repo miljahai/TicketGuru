@@ -48,6 +48,11 @@ function AddEvent() {
   }
   const add = async (e) => {
     e.preventDefault();
+
+    if (!event.eventrecord_name) {
+      setMessage('Lisää tapahtumalle nimi.');
+      return;
+    }
     try {
       const formData = {
         eventrecord_name: event.eventrecord_name,
