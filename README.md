@@ -210,7 +210,8 @@ Ohjelmistolle on suoritettu JUnit-testit & integraatiotestit ticket-luokalle, se
 ## Asennustiedot
 
 ### Julkaisut
-Palvelin ja tietokanta: [Azure](https://cen-cenru4.azurewebsites.net/) 
+Palvelin ja tietokanta: [Azure](https://cen-cenru4.azurewebsites.net/)
+
 Käyttöliittymä: [github-pages](https://miljahai.github.io/TicketGuru/)
 
 ### Kehitysympäristön rakentaminen
@@ -220,6 +221,7 @@ Projektin jatkamiseksi on pyydettävä tämän Github-repositorion omistajalta c
 Server-toteutus vaatii Lombok-kirjaston asentamista omaan kehitysalustaan. Ohjeita Lombokin asentamisesta löytyvät [täältä](https://projectlombok.org/setup).
 
 Client käyttää seuraavia kirjastoja: jwt-decode, ag-grid-react, ag-grid-community, moment, moment-timezone, jotka on asennettava ticketguruclient-kansioon. 
+
 `npm install jwt-decode ag-grid-react ag-grid-community moment moment-timezone`
 
 ### Julkaiseminen
@@ -229,8 +231,11 @@ Sovelluksen server ja client toteutuksen lähdekoodit sijaitsevat molemmat täss
 Sovellus käyttää MariaDB-tietokantaa, jonka skeema on kuvattu projektin juuressa [tiedostossa](./kanta.md). Palvelin on konfiguroitu luomaan tietokanta automaattisesti, jos sellaista ei ole olemassa. Tietokantakonfiguraatio on asetettu käyttämään julkaisualustaan konfiguroituja ympäristömuuttujia käyttäjänimen ja salasanan osalta. Julkaiseminen on testattu vain Azure-palvelussa, joten muut palvelut voivat vaatia muutoksia serverin konfiguraatioon.
 
 Kun sovellus julkaistaan tyhjään tietokantaan, sovellus oletuksena luo yhden admin-tasoisen käyttäjätilin. Käyttäjätilin oletustunnukset ovat seuraavat:
+
 `testi3.admin3@ticketguru.com`
+
 `sala1234`
+
 Käyttäjätilin salasana suositellaan muutettavaksi välittömästi julkaisun jälkeen. 
 
 Kehitystyötä varten palvelimen lähdekoodi sisältää profiilit H2- ja lokaalin MariaDB-tietokannan käyttämiseen. Profiilia voi muuttaa muokkaamalla application.properties-tiedostoa. Julkaisemiseen master-haarassa tulee käyttää profiilia 'azure'. 
