@@ -237,7 +237,7 @@ Ohjelmistolle on suoritettu JUnit-testit & integraatiotestit ticket-luokalle, se
 ### Dokumentaatio
 [JUnit-testit](./TEST_documentation/JUnittests.md)<br>
 [Integraatiotestit](./TEST_documentation/Integrationtests.md)<br>
-[End-to-end -testit](./TEST_documentation/Endtoendtests.md)
+[End-to-end -testit](./TEST_documentation/Endtoendtests.md)<br>
 [API-dokumentaatio](https://github.com/miljahai/TicketGuru/tree/develop/API%20documentation)<br><br>
 
 ## Asennustiedot
