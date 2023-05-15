@@ -206,26 +206,31 @@ Ohjelmistolle on suoritettu JUnit-testit & integraatiotestit ticket-luokalle, se
 [Integraatiotestit](./TEST_documentation/Integrationtests.md)<br>
 [End-to-end -testit](./TEST_documentation/Endtoendtests.md)<br>
 <br>
-> 
-> ## Asennustiedot
-> 
-> Järjestelmän asennus on syytä dokumentoida kahdesta näkökulmasta:
-> 
-> -   järjestelmän kehitysympäristö: miten järjestelmän kehitysympäristön saisi
->     rakennettua johonkin toiseen koneeseen
-> 
-> -   järjestelmän asentaminen tuotantoympäristöön: miten järjestelmän saisi
->     asennettua johonkin uuteen ympäristöön.
-> 
-> Asennusohjeesta tulisi ainakin käydä ilmi, miten käytettävä tietokanta ja
-> käyttäjät tulee ohjelmistoa asentaessa määritellä (käytettävä tietokanta,
-> käyttäjätunnus, salasana, tietokannan luonti yms.).
-> 
-> ## Käynnistys- ja käyttöohje
-> 
-> Tyypillisesti tässä riittää kertoa ohjelman käynnistykseen tarvittava URL sekä
-> mahdolliset kirjautumiseen tarvittavat tunnukset. Jos järjestelmän
-> käynnistämiseen tai käyttöön liittyy joitain muita toimenpiteitä tai toimintajärjestykseen liittyviä asioita, nekin kerrotaan tässä yhteydessä.
-> 
-> Usko tai älä, tulet tarvitsemaan tätä itsekin, kun tauon jälkeen palaat
-> järjestelmän pariin !
+
+## Asennustiedot
+
+### Julkaisut
+Palvelin ja tietokanta: [Azure](https://cen-cenru4.azurewebsites.net/) 
+Käyttöliittymä: [github-pages](https://miljahai.github.io/TicketGuru/)
+
+### Kehitysympäristön rakentaminen
+
+Projektin jatkamiseksi on pyydettävä tämän Github-repositorion omistajalta contributor-oikeudet. Tämän jälkeen koodi on haettava omaan kehitysympäristöön.
+
+Server-toteutus vaatii Lombok-kirjaston asentamista omaan kehitysalustaan. Ohjeita Lombokin asentamisesta löytyvät [täältä](https://projectlombok.org/setup).
+
+Client käyttää seuraavia kirjastoja: jwt-decode, ag-grid-react, ag-grid-community, moment, moment-timezone, jotka on asennettava ticketguruclient-kansioon. 
+`npm install jwt-decode ag-grid-react ag-grid-community moment moment-timezone`
+
+### Julkaiseminen
+
+Sovelluksen server ja client toteutuksen lähdekoodit sijaitsevat molemmat tässä Github-repositoriossa. Spring Bootilla toteutetun serverin lähdekoodi on kansiossa [TicketGuru](./TicketGuru) ja React-clientin lähdekoodi on kansiossa [ticketguruclient](./ticketguruclient). Serverin julkaistava lähdekoodi on master-haarassa. Clientin julkaisun voi tehdä myös master haarasta, mutta projektissa on myös käytetty gh-pages -haaraa client-julkaisulle. gh-pages-haarassa on ainoastaan  ticketguruclientin kansion buildtatun sisällön.
+
+Sovellus käyttää MariaDB-tietokantaa, jonka skeema on kuvattu projektin juuressa [tiedostossa](./kanta.md). Palvelin on konfiguroitu luomaan tietokanta automaattisesti, jos sellaista ei ole olemassa. Tietokantakonfiguraatio on asetettu käyttämään julkaisualustaan konfiguroituja ympäristömuuttujia käyttäjänimen ja salasanan osalta. Julkaiseminen on testattu vain Azure-palvelussa, joten muut palvelut voivat vaatia muutoksia serverin konfiguraatioon.
+
+Kun sovellus julkaistaan tyhjään tietokantaan, sovellus oletuksena luo yhden admin-tasoisen käyttäjätilin. Käyttäjätilin oletustunnukset ovat seuraavat:
+`testi3.admin3@ticketguru.com`
+`sala1234`
+Käyttäjätilin salasana suositellaan muutettavaksi välittömästi julkaisun jälkeen. 
+
+Kehitystyötä varten palvelimen lähdekoodi sisältää profiilit H2- ja lokaalin MariaDB-tietokannan käyttämiseen. Profiilia voi muuttaa muokkaamalla application.properties-tiedostoa. Julkaisemiseen master-haarassa tulee käyttää profiilia 'azure'. 
