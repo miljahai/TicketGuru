@@ -54,7 +54,7 @@ function App() {
 
 
   useEffect(() => {
-    console.log(user)
+    //console.log(user)
     if (user && user.jwt) {
       const decodedJwt = jwt_decode(user.jwt);
       setRoles(decodedJwt.authorities);

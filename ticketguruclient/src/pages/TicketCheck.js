@@ -25,7 +25,7 @@ function TicketCheck() {
       .then(data => {
         if (data.length > 0) {
           setTicket(data[0]);
-          console.log(ticket);
+          //console.log(ticket);
           setId(parseInt(data[0].ticket_id));
           setError(null);
         } else {
@@ -66,7 +66,7 @@ function TicketCheck() {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        //console.log(data);
         setUsed(new Date().toISOString());
       })
       .catch(error => {

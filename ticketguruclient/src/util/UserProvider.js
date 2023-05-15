@@ -9,7 +9,7 @@ const UserProvider = ({ children }) => {
   const [authorities, setAuthorities] = useLocalState([], "authorities");
   const [userInfo, setUserInfo] = useLocalState({}, "userInfo");
   const value = { jwt, setJwt, authorities, setAuthorities, userInfo, setUserInfo };
-  console.log(userInfo);
+  //console.log(userInfo);
   return (
     <UserContext.Provider value={value}>
       {children}
@@ -25,4 +25,4 @@ function useUser() {
   return context;
 }
 
-export {  UserProvider, useUser };
+export { UserProvider, useUser };

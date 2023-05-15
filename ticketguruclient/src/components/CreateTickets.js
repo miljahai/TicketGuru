@@ -31,7 +31,7 @@ export default function CreateTickets(props) {
     // After creating Salesevent, start looping TicketTypes and creating Tickets:
     //      Build body for Ticket call
     //      Create Tickets by calling POST /tickets
-    axios.post(`https://cen-cenru4.azurewebsites.netsalesevents`, saleseventbody,
+    axios.post(`https://cen-cenru4.azurewebsites.net/salesevents`, saleseventbody,
       {
         headers: {
           'Authorization': `Bearer ${user.jwt}`
@@ -40,7 +40,7 @@ export default function CreateTickets(props) {
         console.log('SalesEvent created: ', response.data);
         const selectedSalesEvent = response.data.salesevent_id
         props.selectedTicketTypes.map((tt) => {
-          console.log(props.selectedTicketTypes);
+          //console.log(props.selectedTicketTypes);
           let amount = props.selectedTicketTypes.length;
           const ticketbody = {
             ticketType: { ticket_type_id: tt[0].ticket_type_id },
@@ -61,7 +61,7 @@ export default function CreateTickets(props) {
             });
         });
         setViesti('Myyntitapahtuma suoritettu')
-        console.log(newTickets);
+        //console.log(newTickets);
 
         axios.get('https://cen-cenru4.azurewebsites.net/tickets', {
           headers: {

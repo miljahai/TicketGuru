@@ -54,20 +54,8 @@ const Login = () => {
 
   return (
     <Container>
-<<<<<<< HEAD
       <Box component="span" sx={{ p: 2 }}>
-        <AppBar position='static' sx={{ borderRadius: '15px 50px' }}>
-          <Toolbar>
-            {<Sivupalkki />}
-            <Typography component={Link} to="/" sx={{ flexGrow: 1, textAlign: 'center' }} variant="h1">TicketGuru</Typography>
-          </Toolbar>
-        </AppBar>
-        <Outlet />
         <Box
-=======
-    <Box component="span" sx={{p: 2}}>
-      <Box
->>>>>>> develop
           sx={{
             marginTop: 8,
             display: 'flex',
