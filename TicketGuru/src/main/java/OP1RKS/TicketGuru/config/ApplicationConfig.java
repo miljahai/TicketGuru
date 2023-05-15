@@ -22,12 +22,13 @@ public class ApplicationConfig {
 	@Autowired
 	private final AppUserRepository urepo;
 	
+	// Returns an implementation of Spring Security's UserDetailsService interface that retrieves user details from the AppUserRepository
 	@Bean
 	public UserDetailsService userDetailsService() {
 		return username -> urepo.findByEmail(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 	}
-	
+	// Returns an implementation of Spring Security's AuthenticationProvider interface that uses the userDetailsService and passwordEncoder
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
 		
@@ -36,12 +37,12 @@ public class ApplicationConfig {
 		authProvider.setPasswordEncoder(passwordEncoder());
 		return authProvider;		
 	}
-
+	// Returns an instance of Spring Security's AuthenticationManager, which delegates to the authenticationProvider to perform authentication
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
 		return config.getAuthenticationManager();
 	}
-	
+	// Returns an instance of Spring Security's PasswordEncoder interface that uses the BCrypt algorithm to hash passwords
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

@@ -17,6 +17,7 @@ export default function SignUp() {
   const [lastname, setLastname] = useState("");
   // Password must be 8-30 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/;
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
   // Create new user
   function createUser(event) {
@@ -101,6 +102,7 @@ export default function SignUp() {
                   autoFocus
                   value={firstname}
                   onChange={(e) => setFirstname(e.target.value)}
+                  error={!firstname}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -113,6 +115,7 @@ export default function SignUp() {
                   autoComplete="family-name"
                   value={lastname}
                   onChange={(e) => setLastname(e.target.value)}
+                  error={!lastname}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -125,6 +128,8 @@ export default function SignUp() {
                   autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  error={!email || !emailRegex.test(email)}
+                  helperText={!email ? 'Email is required' : !emailRegex.test(email) ? 'Email is not valid' : ''}
                 />
               </Grid>
               <Grid item xs={12}>

@@ -15,6 +15,7 @@ function UpdateUser(props) {
     email: props.user.email,
     userrole: props.user.userrole
   });
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
   // Open Dialog
   const handleClickOpen = () => {
@@ -88,6 +89,7 @@ function UpdateUser(props) {
             fullWidth
             variant='standard'
             required
+            error={!updatedUser.firstname}
           />
           <TextField
             margin='dense'
@@ -98,6 +100,7 @@ function UpdateUser(props) {
             fullWidth
             variant='standard'
             required
+            error={!updatedUser.lastname}
           />
           <TextField
             margin='dense'
@@ -108,6 +111,8 @@ function UpdateUser(props) {
             fullWidth
             variant='standard'
             required
+            error={!updatedUser.email || !emailRegex.test(updatedUser.email)}
+            helperText={!updatedUser.email ? 'Email is required' : !emailRegex.test(updatedUser.email) ? 'Email is not valid' : ''}
           />
           <Autocomplete
             sx={{ margin: 'dense' }}
@@ -122,6 +127,8 @@ function UpdateUser(props) {
               setSelectedRole(value);
               setUpdatedUser({ ...updatedUser, userrole: value });
             }}
+            required
+            error={!updatedUser.userrole}
           />
         </DialogContent>
         <DialogActions>

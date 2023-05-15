@@ -18,10 +18,13 @@ import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+// TODO: set to use Lombok
 
 @Entity
 @Table(name = "eventrecord")
-// Alla olevat rivit varmistavat, että Delete-kutsu ei poista eventrecord-riviä kannasta vaan muuttaa deleted arvon trueksi. @Where tekee sen, että vain deleted=false rivit haetaan,
+// SQLDelete and Where rows turn deletion to soft. 
+// SQLDelete changes delete to set 'deleted' value to true. 
+// Where filters items with deleted=true from queries.
 @SQLDelete(sql = "UPDATE eventrecord SET deleted = true WHERE eventrecord_id=?")
 @Where(clause ="deleted=false")
 public class EventRecord {
@@ -56,7 +59,7 @@ public class EventRecord {
 	// Constructors
 	public EventRecord() {}
 
-	// without id
+	// without id for creating a new Event
 	public EventRecord(@NotNull @Size(max = 100, message = "name is too long") String eventrecord_name,
 			@Size(max = 100, message = "too long") String venue, @Size(max = 100, message = "too long") String city,
 			@Min(value = 0, message = "number of tickets cannot be negative") int ticketsmax,
@@ -70,7 +73,7 @@ public class EventRecord {
 		this.deleted = deleted;
 	}
 	
-	// with id
+	// with id for updating an existing Event
 	public EventRecord(Long eventrecord_id,
 			@NotNull @Size(max = 100, message = "name is too long") String eventrecord_name,
 			@Size(max = 100, message = "too long") String venue, @Size(max = 100, message = "too long") String city,

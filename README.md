@@ -15,7 +15,7 @@ Lippuja pitää voida myydä ja tulostaa sekä lippujen on sisällettävä helpo
 
 Myytyjen lippujen määrää voidaan seurata raporteilta tapahtumakohtaisesti.
 
-Järjestelmä toteutetaan palvelinpuolen osalta Javalla, Spring Boot -viitekehyksellä. Käyttöliittymä rakennetaan Reactilla. Tavoitteena on, että käyttöliittymä olisi käytettävissä kaikilla tavanomaisilla päätelaitteilla (puhelin, taulutietokone, tietokone).
+Tavoitteena on, että käyttöliittymä olisi käytettävissä kaikilla tavanomaisilla päätelaitteilla (puhelin, taulutietokone, tietokone).
 
 ## Järjestelmän määrittely
 
@@ -69,10 +69,10 @@ Kenttä | Tyyppi | Kuvaus
 eventrecord_id | int PK | Tapahtuman id
 eventrecord_name | varchar(100) |  Tapahtuman nimi
 venue | varchar(100) | Tapahtumapaikan nimi 
-city | varchar(100) | Tapahtumapaikan kaupunki
+city | char(100) | Tapahtumapaikan kaupunki
 ticketsmax | int | Lippujen maksimimäärä
-eventrecord_starttime | LocalDateTime | Tapahtuman aloitusaika
-eventrecord_endtime | LocalDateTime | Tapahtuman päättymisaika
+eventrecord_starttime | DateTime | Tapahtuman aloitusaika
+eventrecord_endtime | DateTime | Tapahtuman päättymisaika
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 
 ### Ticket
@@ -84,7 +84,7 @@ ticket_id | int PK | Lipun id
 ticket_code | varchar(50) | Tarkistuskoodi
 price | double | Lipun hinta
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
-used | LocalDateTime | Onko lippu käytetty. Oletuksena null. Kun lippu on tarkastettu, lisätään tarkastuksen ajankohta.
+used | DateTime | Onko lippu käytetty. Oletuksena null. Kun lippu on tarkastettu, lisätään tarkastuksen ajankohta.
 salesevent_id | int FK | Viittaus myyntitapahtumaan SalesEvent-taulussa
 ticket_type_id | int FK | Viittaus lipputyyppiin TicketType-taulussa
 
@@ -94,7 +94,7 @@ TicketType-taulu sisältää lipputyypit. Sisältää OneToMany-viittauksen Tick
 Kenttä | Tyyppi | Kuvaus
 ----- | ----- | -----
 ticket_type_id | int PK | Lipputyypin id
-ticket_type_name | varchar(50) | Lipputyypin nimi
+ticket_type_name | varchar(20) | Lipputyypin nimi
 price | double | Lipputyypin hinta
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
 eventrecord_id | int FK | Viittaus tapahtumaan EventRecord-taulussa
@@ -105,7 +105,7 @@ SalesEvent-taulu sisältää ostotapahtuman tiedot. SalesEventistä on OneToMany
 Kenttä | Tyyppi | Kuvaus
 ------ | ------ | ------
 salesevent_id | int PK | Ostotapahtuman id
-sale_date | LocalDateTime |  Ostotapahtuman päivämäärä ja kellonaika
+sale_date | DateTime (timestamp) |  Ostotapahtuman päivämäärä ja kellonaika
 final_price | double | Ostotapahtuman kokonaissumma
 appuser_id | int FK | Ostotapahtuman myyjän käyttäjä id
 deleted | boolean | Poistomerkintä. Oletuksena false. Jos tapahtuma poistetaan, muutetaan trueksi.
@@ -124,6 +124,35 @@ userrole | varchar(50)/enum | Viittaus rooliin UserRole-taulussa
 
 
 ## Tekninen kuvaus
+<br>
+Järjestelmä on toteutettu palvelinpuolen osalta Javalla, Spring Boot -viitekehyksellä. Käyttöliittymä on rakennettu Reactilla. Tavoitteena on, että käyttöliittymä olisi käytettävissä kaikilla tavanomaisilla päätelaitteilla (puhelin, taulutietokone, tietokone). Järjestelmän ohjelmointiin on käytetty Eclipse-ohjelmointiympäristöä ja sovellus käyttää MariaDB-tietokantaa. Lisäksi kehitystyötä varten projektin lähdekoodista löytyy H2-tietokanta ja lokaalisti MariaDB-tietokanta. Julkaisu on Azuren pilvipalvelussa.
+
+<br><br>
+
+## Turvallisuus
+<br>
+
+[WebSecurityConfig](https://github.com/miljahai/TicketGuru/blob/develop/TicketGuru/src/main/java/OP1RKS/TicketGuru/WebSecurityConfig.java) on projektissa Spring Securityn konfiguraatioluokka ja se määrittelee sovelluksen turvallisuusasetukset. Oletuksena kaikki pyynnöt tarvitsevat JWT-autentikoinnin. Luokassa on määritelty, mihin endpointteihin pääsee käsiksi ilman tunnistautumista. Tiedoston ‘corsConfigurationSource’ määrittelee CORS-asetukset (Cross-Origin Resource Sharing), jotka määrittävät minkälaisia pyyntöjä ohjelmasta voidaan tehdä. Järjestelmässä on sallittu seuraavat metodit: “GET”, “POST”, “PUT”, “DELETE”, “PATCH”, riippuen käyttäjän roolista.
+
+<br>
+
+## JWT
+
+
+### JwtService-luokka
+
+[JwtService-luokka](https://github.com/miljahai/TicketGuru/blob/develop/TicketGuru/src/main/java/OP1RKS/TicketGuru/service/JwtService.java) mahdollistaa JWT-tunnisteiden luomisen, tarkistamisen ja purkamisen. Luokka validoi JWT-tunnisteen tarkastamalla, ettei se ole vanhentunut ja että käyttäjätiedot vastaavat tunnistetta. JWT mahdollistaa turvallisen ja luotettavan tunnistautumisen sovelluksessa.
+<br><br>
+
+### AuthenticationService-luokka
+
+[AuthenticationService-luokka](https://github.com/miljahai/TicketGuru/blob/develop/TicketGuru/src/main/java/OP1RKS/TicketGuru/service/AuthenticationService.java) sisältää kaksi päämetodia rekisteröitymiseen ja autentikointiin. Rekisteröinti luo uuden käyttäjän tietokantaan syötettyjen tietojen avulla. Se myös tarkistaa, ettei sähköpostiosoitetta ole jo olemassa. Luokka myös muodostaa JWT-tunnisteen ‘JwtService’-luokan avulla ja palauttaa tunnsiteen.
+<br><br>
+
+### JwtAuthenticationFilter-luokka
+
+[JwtAuthenticationFilter](https://github.com/miljahai/TicketGuru/blob/develop/TicketGuru/src/main/java/OP1RKS/TicketGuru/config/JwtAuthenticationFilter.java) mahdollistaa JWT-tunnistuksen toteutuksen ja käyttäjän autentikoinnin tarkistamalla tunnisteen ja asettaa käyttäjän autentikoiduksi, jolloin käyttäjä pääsee käyttämään sovellusta.
+<br><br>
 
 ### REST-rajapinta
 
@@ -174,10 +203,14 @@ userrole | varchar(50)/enum | Viittaus rooliin UserRole-taulussa
 [GET /users](./API%20documentation/users/get.md)<br>
 [GET /users/{id}](./API%20documentation/users/getbyid.md)<br>
 [PUT /users/{id}](./API%20documentation/users/putbyid.md)<br>
-[DELETE /users/{id}](./API%20documentation/users/deletebyid.md)<br>
+[DELETE /users/{id}](./API%20documentation/users/deletebyid.md)<br><br>
+
+## Muuta
+Projektista löytyy kontrollerit tapahtumille, lipuille, myyntitapahtumille, lipputyypeille ja käyttäjille, sekä vastaavat tietokantaluokat ja model-luokat. Projektissa on myös autentikaatioluokat, resurssitiedostot ja testiluokat.
+Resurssitiedostoista löytyy sovelluksen konfiguraatiota, kuten ‘application.properties’ tiedosto, joka määrittelee tietokantayhteyden ja muita asetuksia.
 
 <br>
-
+<br>
 
 > Teknisessä kuvauksessa esitetään järjestelmän toteutuksen suunnittelussa tehdyt tekniset
 > ratkaisut, esim.
@@ -198,34 +231,44 @@ userrole | varchar(50)/enum | Viittaus rooliin UserRole-taulussa
 > -   ohjelmiston pitää olla organisoitu komponentteihin niin, että turhalta toistolta
 >     vältytään
 > 
-> ## Testaus
-> 
-> Tässä kohdin selvitetään, miten ohjelmiston oikea toiminta varmistetaan
-> testaamalla projektin aikana: millaisia testauksia tehdään ja missä vaiheessa.
-> Testauksen tarkemmat sisällöt ja testisuoritusten tulosten raportit kirjataan
-> erillisiin dokumentteihin.
-> 
-> Tänne kirjataan myös lopuksi järjestelmän tunnetut ongelmat, joita ei ole korjattu.
-> 
-> ## Asennustiedot
-> 
-> Järjestelmän asennus on syytä dokumentoida kahdesta näkökulmasta:
-> 
-> -   järjestelmän kehitysympäristö: miten järjestelmän kehitysympäristön saisi
->     rakennettua johonkin toiseen koneeseen
-> 
-> -   järjestelmän asentaminen tuotantoympäristöön: miten järjestelmän saisi
->     asennettua johonkin uuteen ympäristöön.
-> 
-> Asennusohjeesta tulisi ainakin käydä ilmi, miten käytettävä tietokanta ja
-> käyttäjät tulee ohjelmistoa asentaessa määritellä (käytettävä tietokanta,
-> käyttäjätunnus, salasana, tietokannan luonti yms.).
-> 
-> ## Käynnistys- ja käyttöohje
-> 
-> Tyypillisesti tässä riittää kertoa ohjelman käynnistykseen tarvittava URL sekä
-> mahdolliset kirjautumiseen tarvittavat tunnukset. Jos järjestelmän
-> käynnistämiseen tai käyttöön liittyy joitain muita toimenpiteitä tai toimintajärjestykseen liittyviä asioita, nekin kerrotaan tässä yhteydessä.
-> 
-> Usko tai älä, tulet tarvitsemaan tätä itsekin, kun tauon jälkeen palaat
-> järjestelmän pariin !
+## Testaus
+Ohjelmistolle on suoritettu JUnit-testit & integraatiotestit ticket-luokalle, sekä end-to-end – testit lipun tarkastukselle
+
+### Dokumentaatio
+[JUnit-testit](./TEST_documentation/JUnittests.md)<br>
+[Integraatiotestit](./TEST_documentation/Integrationtests.md)<br>
+[End-to-end -testit](./TEST_documentation/Endtoendtests.md)<br>
+[API-dokumentaatio](https://github.com/miljahai/TicketGuru/tree/develop/API%20documentation)<br><br>
+
+## Asennustiedot
+
+### Julkaisut
+Palvelin ja tietokanta: [Azure](https://cen-cenru4.azurewebsites.net/)
+
+Käyttöliittymä: [github-pages](https://miljahai.github.io/TicketGuru/)
+
+### Kehitysympäristön rakentaminen
+
+Projektin jatkamiseksi on pyydettävä tämän Github-repositorion omistajalta contributor-oikeudet. Tämän jälkeen koodi on haettava omaan kehitysympäristöön.
+
+Server-toteutus vaatii Lombok-kirjaston asentamista omaan kehitysalustaan. Ohjeita Lombokin asentamisesta löytyvät [täältä](https://projectlombok.org/setup).
+
+Client käyttää seuraavia kirjastoja: jwt-decode, ag-grid-react, ag-grid-community, moment, moment-timezone, jotka on asennettava ticketguruclient-kansioon. 
+
+`npm install jwt-decode ag-grid-react ag-grid-community moment moment-timezone`
+
+### Julkaiseminen
+
+Sovelluksen server ja client toteutuksen lähdekoodit sijaitsevat molemmat tässä Github-repositoriossa. Spring Bootilla toteutetun serverin lähdekoodi on kansiossa [TicketGuru](./TicketGuru) ja React-clientin lähdekoodi on kansiossa [ticketguruclient](./ticketguruclient). Serverin julkaistava lähdekoodi on master-haarassa. Clientin julkaisun voi tehdä myös master haarasta, mutta projektissa on myös käytetty gh-pages -haaraa client-julkaisulle. gh-pages-haarassa on ainoastaan  ticketguruclientin kansion buildtatun sisällön.
+
+Sovellus käyttää MariaDB-tietokantaa, jonka skeema on kuvattu projektin juuressa [tiedostossa](./kanta.md). Palvelin on konfiguroitu luomaan tietokanta automaattisesti, jos sellaista ei ole olemassa. Tietokantakonfiguraatio on asetettu käyttämään julkaisualustaan konfiguroituja ympäristömuuttujia käyttäjänimen ja salasanan osalta. Julkaiseminen on testattu vain Azure-palvelussa, joten muut palvelut voivat vaatia muutoksia serverin konfiguraatioon.
+
+Kun sovellus julkaistaan tyhjään tietokantaan, sovellus oletuksena luo yhden admin-tasoisen käyttäjätilin. Käyttäjätilin oletustunnukset ovat seuraavat:
+
+`testi3.admin3@ticketguru.com`
+
+`sala1234`
+
+Käyttäjätilin salasana suositellaan muutettavaksi välittömästi julkaisun jälkeen. 
+
+Kehitystyötä varten palvelimen lähdekoodi sisältää profiilit H2- ja lokaalin MariaDB-tietokannan käyttämiseen. Profiilia voi muuttaa muokkaamalla application.properties-tiedostoa. Julkaisemiseen master-haarassa tulee käyttää profiilia 'azure'. 

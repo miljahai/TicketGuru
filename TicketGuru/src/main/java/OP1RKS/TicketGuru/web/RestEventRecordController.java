@@ -30,13 +30,18 @@ public class RestEventRecordController {
 	private EventRecordRepository erepo;
 	
 	// REST EventRecord
+	// No userrole requirements, but JWT is required by default
 	// REST List all EventRecords
+	// Note! In the EventRecord Entity items with value 'deleted' set to true are filtered.
 	@GetMapping("/events")
 	public Iterable<EventRecord> getEventRecords() {
 		return erepo.findAll();
 	};
 	
 	// REST Add
+	// Create a new EventRecord
+	// User must have userrole ADMIN or EVENTS
+	// return the created EventRecord
 	@PostMapping("/events")
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'EVENTS')")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -48,6 +53,9 @@ public class RestEventRecordController {
 	};
 	
 	// REST Update
+	// Update a new EventRecord
+	// User must have userrole ADMIN or EVENTS
+	// return the updated EventRecord
 	@PutMapping("/events/{id}")
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'EVENTS')")
     public EventRecord editEventRecord(@Valid @RequestBody EventRecord editEventRecord, @PathVariable Long id, BindingResult result) throws MethodArgumentNotValidException {
@@ -73,6 +81,9 @@ public class RestEventRecordController {
 	};
 	
 	// REST Find by id
+	// No userrole requirements, but JWT is required by default
+	// return EventRecord by queried id
+	// Note! In the EventRecord Entity items with value 'deleted' set to true are filtered.
 	@GetMapping("/events/{id}")
 	public EventRecord getEventRecord(@PathVariable Long id) {
 		Optional<EventRecord> event = erepo.findById(id);
@@ -84,6 +95,9 @@ public class RestEventRecordController {
 	};
 	
 	// REST Delete
+	// User must have userrole ADMIN or EVENTS
+	// Delete EventRecord by queried id
+	// Note! Deletion is soft. In the Entity value 'deleted' is set to true.
 	@DeleteMapping("/events/{id}")
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'EVENTS')")
 	public void deleteEventRecord(@PathVariable Long id) {

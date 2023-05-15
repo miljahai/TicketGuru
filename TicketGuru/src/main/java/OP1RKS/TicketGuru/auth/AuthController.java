@@ -33,6 +33,7 @@ import jakarta.validation.Valid;
 @RequiredArgsConstructor
 @CrossOrigin(origins = {"http://localhost:3000/", "http://localhost:8080", "https://cen-cenru4.azurewebsites.net", "https://miljahai.github.io"}, allowCredentials = "true")
 public class AuthController {
+	// Controller for handling authentication requests and responses
 	
 	protected final Log logger = LogFactory.getLog(getClass());
 	
@@ -46,22 +47,25 @@ public class AuthController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-    
+	
+	// Create a new user
+    // Validates password using a regular expression
 	@PostMapping("/register")
 	public ResponseEntity<AuthenticationResponse> register(@Valid
 			@RequestBody RegisterRequest request
 	) {
 		String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$@!%&*?])[A-Za-z\\d#$@!%&*?]{8,30}$";
         String password = request.getPassword();
-
+        
         if (!password.matches(passwordRegex)) {
         	throw new ResponseStatusException(HttpStatus.BAD_REQUEST, 
         			"{\"message\":\"The password must be between 8 and 30 characters long and include at least one uppercase letter, one lowercase letter, one special character, and one number.\"}");
         }
+     // Calls the register method of the AuthenticationService and returns the result as a ResponseEntity object
 		return ResponseEntity.ok(aservice.register(request));
 	}
 	
-	
+	// Authenticate a user
 	@PostMapping("/authenticate")
 	public ResponseEntity<AuthenticationResponse> register(
 			@RequestBody AuthenticationRequest request
@@ -69,29 +73,32 @@ public class AuthController {
 			return ResponseEntity.ok(aservice.authenticate(request));
 	}
 	
+	// Log in a user and return a JWT token in the Authorization header
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody AuthenticationRequest request) {
         try {
+        	// Authenticates the user using the AuthenticationManager
             Authentication authenticate = authenticationManager
                     .authenticate(
                             new UsernamePasswordAuthenticationToken(
-                                    request.getEmail(), request.getPassword()));
+                                    request.getEmail(), request.getPassword())); 
 
             AppUser user = (AppUser) authenticate.getPrincipal();
-
+            // Generates a JWT token and adds it to the Authorization header of the response
             return ResponseEntity.ok()
                     .header(HttpHeaders.AUTHORIZATION, jwtservice.generateToken(user))
-                    .body(user);
+                    .body(user);  // Returns the user object in the response body
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Collections.singletonMap("error", "Invalid email or password"));
         }
     }
-
+	// Validate a JWT token
 	// /auth/validate?token={jwt-token}
 	@GetMapping("/validate")
 	public ResponseEntity<?> validateToken (@RequestParam String token, @AuthenticationPrincipal AppUser user) {
 		try {
+			// Checks if the token is valid using the JwtService
 			Boolean isTokenValid = jwtservice.isTokenValid(token, user);
 			return ResponseEntity.ok(isTokenValid);
 		} catch (ExpiredJwtException e) {
@@ -100,6 +107,7 @@ public class AuthController {
 		
 	}
 	
+	// Changes password
 	@PutMapping("/change-password")
 	public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
 	    Optional<AppUser> user = urepo.findByEmail(changePasswordRequest.getEmail());

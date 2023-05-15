@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationRequest {
-
+	// 	Entity for handling of incoming JWT authentication requests
+	//	Uses lombok to autogenerate functions
+	
 	private String email;
 	private String password;
 	

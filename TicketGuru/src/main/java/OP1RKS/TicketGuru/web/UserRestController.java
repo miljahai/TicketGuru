@@ -62,6 +62,11 @@ public class UserRestController {
 	        if (result.hasErrors()) {
 	            throw new MethodArgumentNotValidException(null, result);
 	        }
+	        if (editUserDto.getFirstname() == null || editUserDto.getFirstname().isEmpty() ||
+	        	    editUserDto.getLastname() == null || editUserDto.getLastname().isEmpty() ||
+	        	    editUserDto.getEmail() == null || editUserDto.getEmail().isEmpty()) {
+	        		throw new MethodArgumentNotValidException(null, result);
+	        	}
 	        AppUser existingAppUser = appUser.get();
 
 	        // set user properties from the DTO
@@ -80,7 +85,7 @@ public class UserRestController {
 	        throw new EntityNotFoundException("User not found with id: " + id);
 	    }
 	};
-	
+
 	// REST Find by id
 	@GetMapping("/users/{id}")
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -102,5 +107,4 @@ public class UserRestController {
 		}
 		urepo.deleteById(id);
 	};
-	
 }

@@ -75,6 +75,36 @@ function TicketCheck() {
       });
   }
 
+  if (ticket && !ticket.used) {
+    return (
+      <Container>
+        <Box component="span" sx={{ p: 2 }}>
+          <Typography variant="h2" sx={{ p: 2, flexGrow: 1, textAlign: 'center' }}>Lipun tarkastus</Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+            <TextField label="Lipun koodi" variant="outlined" value={code} onChange={handleCodeChange} sx={{ mb: 2 }} />
+            <Button variant="contained" onClick={handleSubmit}>Tarkasta</Button>
+          </Box>
+          {ticket && (
+            <div>
+              <h2>Lipun tiedot</h2>
+              <p>Tapahtuma: {ticket.ticketType.eventRecord.eventrecord_name}</p>
+              <p>Lipputyyppi: {ticket.ticketType.name}</p>
+              <p>Hinta: {(ticket.ticketType.price).toFixed(2)} €</p>
+              <p>Koodi: {ticket.code}</p>
+              {used && <p>Käytetty: {new Date(used).toLocaleString()}</p>}
+              {qrCode == null && <Button onClick={showQr}>Näytä QR-koodi</Button>}
+              {qrCode && <img src={qrCode} alt="QR Code" />}
+              <div>
+                <Button variant="contained" color="primary" onClick={markAsUsed}>Merkitse lippu käytetyksi</Button>
+              </div>
+            </div>
+          )}
+          {error && <div>Error: {error}</div>}
+        </Box>
+      </Container>
+    )
+  }
+
   return (
     <Container>
       <Box component="span" sx={{ p: 2 }}>
@@ -90,12 +120,7 @@ function TicketCheck() {
             <p>Lipputyyppi: {ticket.ticketType.name}</p>
             <p>Hinta: {(ticket.ticketType.price).toFixed(2)} €</p>
             <p>Koodi: {ticket.code}</p>
-            {used && <p>Käytetty: {new Date(used).toLocaleString()}</p>}
-            {qrCode == null && <Button onClick={showQr}>Näytä QR-koodi</Button>}
-            {qrCode && <img src={qrCode} alt="QR Code" />}
-            <div>
-              <Button variant="contained" color="primary" onClick={markAsUsed}>Merkitse lippu käytetyksi</Button>
-            </div>
+            <p>Lippu käytetty: {new Date(ticket.used).toLocaleString()}</p>
           </div>
         )}
         {error && <div>Error: {error}</div>}

@@ -24,16 +24,20 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "salesevent")
+//SQLDelete and Where rows turn deletion to soft. 
+//SQLDelete changes delete to set 'deleted' value to true. 
+//Where filters items with deleted=true from queries.
 @SQLDelete(sql = "UPDATE salesevent SET deleted = true WHERE salesevent_id=?")
 @Where(clause ="deleted=false")
 
 public class SalesEvent {
+	
+	// Properties
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "salesevent_id")
 	private Long salesevent_id;
 	
-		
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "appuser_id")
 	private AppUser appuser;
@@ -51,7 +55,9 @@ public class SalesEvent {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "salesEvent")
 	private List<Ticket> tickets;	
 	
+	// Constructors
 	
+	// constructor to create salesevent without user or tickets
 	public SalesEvent(@NotNull LocalDateTime sale_date, @Min(value = 0, message="price cannot be negative") double final_price, @NotNull boolean deleted) {
 		super();
 		this.sale_date = sale_date;
@@ -59,6 +65,7 @@ public class SalesEvent {
 		this.deleted = deleted;
 	}
 
+	// constructor to create salesevent with user but without tickets
 	public SalesEvent(AppUser appuser, @NotNull LocalDateTime sale_date, @Min(value = 0, message="price cannot be negative") double final_price, @NotNull boolean deleted) {
 		this.appuser = appuser;
 		this.sale_date = sale_date;
@@ -66,7 +73,7 @@ public class SalesEvent {
 		this.deleted = deleted;
 	}
 	
-	
+	// constructor to create salesevent with tickets but without user
 	public SalesEvent(LocalDateTime sale_date, @Min(value = 0, message="price cannot be negative") double final_price, @NotNull boolean deleted, List<Ticket> tickets) {
 		super();
 		this.sale_date = sale_date;
@@ -75,18 +82,16 @@ public class SalesEvent {
 		this.tickets = tickets;
 	}
 
+	// with only id to create and empty salesevent
 	public SalesEvent(Long salesevent_id) {
 		super();
 		this.salesevent_id = salesevent_id;
 	}
 
-	public SalesEvent() {
-		super();
-		
-	}
+	public SalesEvent() { }
 
+	// MITÄ TÄMÄ TEKEE?
 	public SalesEvent(LocalDateTime of, double d, boolean b, Ticket orElse) {
-		// TODO Auto-generated constructor stub
 	}
 
 	public AppUser getAppUser() {

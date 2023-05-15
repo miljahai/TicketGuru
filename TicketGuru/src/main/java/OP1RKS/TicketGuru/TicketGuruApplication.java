@@ -20,41 +20,41 @@ public class TicketGuruApplication {
 		SpringApplication.run(TicketGuruApplication.class, args);
 	}
 	
+	// Set dates to localized format
     DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");  
 	
-	// DEMO DATA
 	// Logger
 	private static final Logger Log = LoggerFactory.getLogger(TicketGuruApplication.class);
-	
+
+	// Create default user for Azure profile if user repository is empty
 	@Profile("azure")
 	@Bean
 	public CommandLineRunner setupAzure(AppUserRepository urepo) {
 		return (args) -> {
 			if(urepo.count() == 0) {
-				// Jos kannassa ei ole käyttäjiä, lisätään oletuskäyttäjä
 				Log.info("create Default Admin User");
 				urepo.save(new AppUser("Test3","Admin3","test3.admin3@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.ADMIN));
 			};
 		};
 	};
 	
+	// Create default user for local mariadb profile if user repository is empty
 	@Profile("mariadb")
 	@Bean
 	public CommandLineRunner setupMariaDb(AppUserRepository urepo) {
 		return (args) -> {
 			if(urepo.count() == 0) {
-				// Jos kannassa ei ole käyttäjiä, lisätään oletuskäyttäjä
 				Log.info("create Default Admin User");
 				urepo.save(new AppUser("Test3","Admin3","test3.admin3@ticketguru.com","$2a$12$jpxS0q2pDMc9He9ntgpTqOX2EUYJoDHzLkAczYap5Zqcsm1NFh5ZS",UserRole.ADMIN));
 			};
 		};
 	};
 	
+	// Create data for local default h2 profile
 	@Profile("h2")
 	@Bean
 	public CommandLineRunner demo(EventRecordRepository erepo, SalesEventRepository srepo, TicketRepository tickets, TicketTypeRepository ttrepo, AppUserRepository urepo) {
 		return (args) -> {
-			
 			
 			// Fake Data for H2
 			
@@ -100,64 +100,39 @@ public class TicketGuruApplication {
 			Ticket newTicket1 = new Ticket();
 				newTicket1.setDeleted(false);
 				newTicket1.setPrice(200.0);
-				newTicket1.setTicketType(ttrepo.findById((long) 1).orElse(new TicketType()));
+				newTicket1.setTicketType(ttrepo.findById((long) 1).orElse(new TicketType("test",100,false)));
 				newTicket1.setSalesEvent(srepo.findById((long) 1).orElse(new SalesEvent()));
 			tickets.save(newTicket1);
 			Ticket newTicket2 = new Ticket();
 				newTicket2.setDeleted(false);
 				newTicket2.setPrice(250.0);
-				newTicket2.setTicketType(ttrepo.findById((long) 2).orElse(new TicketType()));
+				newTicket2.setTicketType(ttrepo.findById((long) 2).orElse(new TicketType("test",100,false)));
 				newTicket2.setSalesEvent(srepo.findById((long) 2).orElse(new SalesEvent()));
 			tickets.save(newTicket2);
 			Ticket newTicket3 = new Ticket();
 				newTicket3.setDeleted(false);
 				newTicket3.setPrice(200.0);
-				newTicket3.setTicketType(ttrepo.findById((long) 1).orElse(new TicketType()));
+				newTicket3.setTicketType(ttrepo.findById((long) 1).orElse(new TicketType("test",100,false)));
 				newTicket3.setSalesEvent(srepo.findById((long) 3).orElse(new SalesEvent()));
 			tickets.save(newTicket3);
 			Ticket newTicket4 = new Ticket();
 				newTicket4.setDeleted(false);
 				newTicket4.setPrice(50.70);
-				newTicket4.setTicketType(ttrepo.findById((long) 6).orElse(new TicketType()));
+				newTicket4.setTicketType(ttrepo.findById((long) 6).orElse(new TicketType("test",100,false)));
 				newTicket4.setSalesEvent(srepo.findById((long) 4).orElse(new SalesEvent()));
 			tickets.save(newTicket4);
 			Ticket newTicket5 = new Ticket();
 				newTicket5.setDeleted(false);
 				newTicket5.setPrice(50.70);
-				newTicket5.setTicketType(ttrepo.findById((long) 4).orElse(new TicketType()));
+				newTicket5.setTicketType(ttrepo.findById((long) 4).orElse(new TicketType("test",100,false)));
 				newTicket5.setSalesEvent(srepo.findById((long) 5).orElse(new SalesEvent()));
 			tickets.save(newTicket5);
 			Ticket newTicket6 = new Ticket();
 				newTicket6.setDeleted(false);
 				newTicket6.setPrice(50.70);
-				newTicket6.setTicketType(ttrepo.findById((long) 9).orElse(new TicketType()));
+				newTicket6.setTicketType(ttrepo.findById((long) 9).orElse(new TicketType("test",100,false)));
 				newTicket6.setSalesEvent(srepo.findById((long) 6).orElse(new SalesEvent()));
-			tickets.save(newTicket6);
-
-			
-			
-			
-			// Check Fake Data
-			// Tämä failaa, jos Eventrecordin toStringissä on tickettypes
-			/*
-			Log.info("fetch all eventrecords");
-			for (EventRecord eventrecord: erepo.findAll()) {
-				Log.info("Fetch eventrecord: " + eventrecord.toString());
-			}
-			Log.info("fetch all tickettypes");
-			for (TicketType tickettype: ttrepo.findAll()) {
-				Log.info("Fetch tickettype: " + tickettype.toString());
-			}
-			Log.info("fetch all salesevents");
-			for (SalesEvent salesevent: srepo.findAll()) {
-				Log.info("Fetch salesevent: " + salesevent.toString());
-			}
-			Log.info("fetch all tickets");
-			for (Ticket ticket: tickets.findAll()) {
-				Log.info("Fetch ticket: " + ticket.toString());
-			}
-			*/
-						
+			tickets.save(newTicket6);						
 		};
 	}
 	
