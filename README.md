@@ -15,7 +15,7 @@ Lippuja pitää voida myydä ja tulostaa sekä lippujen on sisällettävä helpo
 
 Myytyjen lippujen määrää voidaan seurata raporteilta tapahtumakohtaisesti.
 
-Järjestelmä toteutetaan palvelinpuolen osalta Javalla, Spring Boot -viitekehyksellä. Käyttöliittymä rakennetaan Reactilla. Tavoitteena on, että käyttöliittymä olisi käytettävissä kaikilla tavanomaisilla päätelaitteilla (puhelin, taulutietokone, tietokone).
+Tavoitteena on, että käyttöliittymä olisi käytettävissä kaikilla tavanomaisilla päätelaitteilla (puhelin, taulutietokone, tietokone).
 
 ## Järjestelmän määrittely
 
@@ -124,6 +124,35 @@ userrole | varchar(50)/enum | Viittaus rooliin UserRole-taulussa
 
 
 ## Tekninen kuvaus
+<br>
+Järjestelmä on toteutettu palvelinpuolen osalta Javalla, Spring Boot -viitekehyksellä. Käyttöliittymä on rakennettu Reactilla. Tavoitteena on, että käyttöliittymä olisi käytettävissä kaikilla tavanomaisilla päätelaitteilla (puhelin, taulutietokone, tietokone). Järjestelmän ohjelmointiin on käytetty Eclipse-ohjelmointiympäristöä ja sovellus käyttää MariaDB-tietokantaa. Lisäksi kehitystyötä varten projektin lähdekoodista löytyy H2-tietokanta ja lokaalisti MariaDB-tietokanta. Julkaisu on Azuren pilvipalvelussa.
+
+<br><br>
+
+## Turvallisuus
+<br>
+
+[WebSecurityConfig](https://github.com/miljahai/TicketGuru/blob/develop/TicketGuru/src/main/java/OP1RKS/TicketGuru/WebSecurityConfig.java) on projektissa Spring Securityn konfiguraatioluokka ja se määrittelee sovelluksen turvallisuusasetukset. Oletuksena kaikki pyynnöt tarvitsevat JWT-autentikoinnin. Luokassa on määritelty, mihin endpointteihin pääsee käsiksi ilman tunnistautumista. Tiedoston ‘corsConfigurationSource’ määrittelee CORS-asetukset (Cross-Origin Resource Sharing), jotka määrittävät minkälaisia pyyntöjä ohjelmasta voidaan tehdä. Järjestelmässä on sallittu seuraavat metodit: “GET”, “POST”, “PUT”, “DELETE”, “PATCH”, riippuen käyttäjän roolista.
+
+<br>
+
+## JWT
+
+
+### JwtService-luokka
+
+[JwtService-luokka](https://github.com/miljahai/TicketGuru/blob/develop/TicketGuru/src/main/java/OP1RKS/TicketGuru/service/JwtService.java) mahdollistaa JWT-tunnisteiden luomisen, tarkistamisen ja purkamisen. Luokka validoi JWT-tunnisteen tarkastamalla, ettei se ole vanhentunut ja että käyttäjätiedot vastaavat tunnistetta. JWT mahdollistaa turvallisen ja luotettavan tunnistautumisen sovelluksessa.
+<br><br>
+
+### AuthenticationService-luokka
+
+[AuthenticationService-luokka](https://github.com/miljahai/TicketGuru/blob/develop/TicketGuru/src/main/java/OP1RKS/TicketGuru/service/AuthenticationService.java) sisältää kaksi päämetodia rekisteröitymiseen ja autentikointiin. Rekisteröinti luo uuden käyttäjän tietokantaan syötettyjen tietojen avulla. Se myös tarkistaa, ettei sähköpostiosoitetta ole jo olemassa. Luokka myös muodostaa JWT-tunnisteen ‘JwtService’-luokan avulla ja palauttaa tunnsiteen.
+<br><br>
+
+### JwtAuthenticationFilter-luokka
+
+[JwtAuthenticationFilter](https://github.com/miljahai/TicketGuru/blob/develop/TicketGuru/src/main/java/OP1RKS/TicketGuru/config/JwtAuthenticationFilter.java) mahdollistaa JWT-tunnistuksen toteutuksen ja käyttäjän autentikoinnin tarkistamalla tunnisteen ja asettaa käyttäjän autentikoiduksi, jolloin käyttäjä pääsee käyttämään sovellusta.
+<br><br>
 
 ### REST-rajapinta
 
@@ -174,10 +203,14 @@ userrole | varchar(50)/enum | Viittaus rooliin UserRole-taulussa
 [GET /users](./API%20documentation/users/get.md)<br>
 [GET /users/{id}](./API%20documentation/users/getbyid.md)<br>
 [PUT /users/{id}](./API%20documentation/users/putbyid.md)<br>
-[DELETE /users/{id}](./API%20documentation/users/deletebyid.md)<br>
+[DELETE /users/{id}](./API%20documentation/users/deletebyid.md)<br><br>
+
+## Muuta
+Projektista löytyy kontrollerit tapahtumille, lipuille, myyntitapahtumille, lipputyypeille ja käyttäjille, sekä vastaavat tietokantaluokat ja model-luokat. Projektissa on myös autentikaatioluokat, resurssitiedostot ja testiluokat.
+Resurssitiedostoista löytyy sovelluksen konfiguraatiota, kuten ‘application.properties’ tiedosto, joka määrittelee tietokantayhteyden ja muita asetuksia.
 
 <br>
-
+<br>
 
 > Teknisessä kuvauksessa esitetään järjestelmän toteutuksen suunnittelussa tehdyt tekniset
 > ratkaisut, esim.
@@ -204,8 +237,8 @@ Ohjelmistolle on suoritettu JUnit-testit & integraatiotestit ticket-luokalle, se
 ### Dokumentaatio
 [JUnit-testit](./TEST_documentation/JUnittests.md)<br>
 [Integraatiotestit](./TEST_documentation/Integrationtests.md)<br>
-[End-to-end -testit](./TEST_documentation/Endtoendtests.md)<br>
-<br>
+[End-to-end -testit](./TEST_documentation/Endtoendtests.md)
+[API-dokumentaatio](https://github.com/miljahai/TicketGuru/tree/develop/API%20documentation)<br><br>
 
 ## Asennustiedot
 
