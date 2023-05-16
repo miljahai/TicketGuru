@@ -17,7 +17,7 @@ Tavoitteena on, että käyttöliittymä olisi käytettävissä kaikilla tavanoma
 
 ## Järjestelmän määrittely
 
-TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käyttötapauskaavioin ja käyttötapauksin. Määrittelyjä on tehty myös käyttäjätarinoina, jotka löytyvät Githubin Projectista. linkki? 
+TicketGuru-sovelluksen määrittely on kuvattu alla käyttäjäryhminä, käyttötapauskaavioin ja käyttötapauksin. Määrittelyjä on tehty myös käyttäjätarinoina, jotka löytyvät Githubin [projektitaululta](https://github.com/users/miljahai/projects/1/views/1). 
 
 ### Käyttäjäryhmät ja -roolit
 
